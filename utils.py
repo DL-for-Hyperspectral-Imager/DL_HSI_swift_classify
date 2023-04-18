@@ -1,14 +1,16 @@
 from scipy import io
 import numpy as np
 import sklearn
-
-
+import os
+current_dir = os.getcwd()
 def load_dataset(dataset_name):
-    folder = "./Datasets/"
+    folder = "Datasets"
     if dataset_name == "IndianPines":
+        img_path = os.path.join(current_dir, folder, dataset_name, "Indian_pines_corrected.mat")
+        gt_path = os.path.join(current_dir, folder, dataset_name, "Indian_pines_gt.mat")
         # uint16
-        img = io.loadmat(folder + dataset_name + "/Indian_pines_corrected.mat")["indian_pines_corrected"]
-        gt = io.loadmat(folder + dataset_name + "/Indian_pines_gt.mat")["indian_pines_gt"]
+        img = io.loadmat(img_path)["indian_pines_corrected"]
+        gt = io.loadmat(gt_path)["indian_pines_gt"]
         label_values = ["Undefined", "Water", "Trees", "Asphalt",
                         "Self-Blocking Bricks", "Bitumen", "Tiles", "Shadows",
                         "Meadows", "Bare Soil"]
