@@ -1,8 +1,9 @@
 
 import numpy as np
 
-# from sklearn.decomposition import PCA
 from sklearn.decomposition import PCA
+from sklearn.decomposition import FastICA
+
 def pca_numpy(img, k):
     # img: (H, W, C)
     # k: 降维后的维度
@@ -40,6 +41,15 @@ def pca_sklearn(data, k):
     return data_pca_reshape
 
 
-# def run(n_runs):
-#     for i in range(n_runs):
-#
+def ica_sklearn(img, k):
+    # 将三维图像数据reshape成N*(height*width*channel)的矩阵
+    X = np.reshape(img, (-1, img.shape[2]))
+
+    # ICA降维，保留前k个独立成分
+    ica = FastICA(n_components=k)
+    X_ica = ica.fit_transform(X)
+
+    # 将降维后的数据reshape回原来的三维图像形状
+    img_ica = np.reshape(X_ica, (img.shape[0], img.shape[1], k))
+
+    return img_ica
