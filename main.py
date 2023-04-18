@@ -9,12 +9,14 @@ parser.add_argument('--n_runs', type=int, default=1, help='number of runs')
 parser.add_argument('--dataset', type=str, default='IndianPines', help='dataset name')
 parser.add_argument('--preprocess', type=str, default=None, help='preprocess name')
 parser.add_argument('--model', type=str, default='SVM', help='model name')
+parser.add_argument('--sample_rate', type=float, default=0.7, help='sample rate')
 args = parser.parse_args()
 # 获得全局变量信息
 n_runs = args.n_runs
 dataset_name = args.dataset
 preprocess_name = args.preprocess
 model_name = args.model
+sample_rate = args.sample_rate
 # 加载原始数据集
 img, gt, label_values = load_dataset(dataset_name)
 
@@ -30,7 +32,7 @@ n_bands = img.shape[-1]
 
 # 划分训练集和测试集
 # XX_gt: 145*145，存有坐标处像素的真值，为0代表未选择该像素
-train_gt, test_gt = split_train_test(gt, 0.7)
+train_gt, test_gt = split_train_test(gt, sample_rate)
 # 依据train_gt构建训练集
 X_train, y_train = build_set(img, train_gt)
 X_test, y_test = build_set(img, test_gt)
@@ -39,7 +41,6 @@ svm_classifier = sklearn.svm.SVC(kernel='rbf', C=10, gamma=0.001)
 svm_classifier.fit(X_train, y_train)
 # 预测测试集
 y_pred = svm_classifier.predict(X_test)
-
 # 输出分类报告和准确率
 report = classification_report(y_test, y_pred, zero_division=1)
 accuracy = accuracy_score(y_test, y_pred)
