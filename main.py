@@ -2,7 +2,6 @@ from utils import *
 from preprocess import *
 from sklearn.metrics import classification_report, accuracy_score
 # 全局变量信息
-
 n_runs = 1
 dataset_name = "IndianPines"
 # 加载原始数据集
