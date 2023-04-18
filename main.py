@@ -1,9 +1,20 @@
 from utils import *
 from preprocess import *
 from sklearn.metrics import classification_report, accuracy_score
-# 全局变量信息
-n_runs = 1
-dataset_name = "IndianPines"
+import argparse
+
+# 解析命令行参数
+parser = argparse.ArgumentParser()
+parser.add_argument('--n_runs', type=int, default=1, help='number of runs')
+parser.add_argument('--dataset', type=str, default='IndianPines', help='dataset name')
+parser.add_argument('--preprocess', type=str, default=None, help='preprocess name')
+parser.add_argument('--model', type=str, default='SVM', help='model name')
+args = parser.parse_args()
+# 获得全局变量信息
+n_runs = args.n_runs
+dataset_name = args.dataset
+preprocess_name = args.preprocess
+model_name = args.model
 # 加载原始数据集
 img, gt, label_values = load_dataset(dataset_name)
 
@@ -11,9 +22,8 @@ img, gt, label_values = load_dataset(dataset_name)
 # 数据归一化
 img = np.asarray(img, dtype=np.float32)
 img = (img - np.min(img)) / (np.max(img) - np.min(img))
-
-# PCA降维-波段数减少
-img = pca_sklearn(img, 50)
+# 根据预处理方法进行预处理
+img = preprocess(img, preprocess_name)
 
 n_classes = len(label_values)
 n_bands = img.shape[-1]
@@ -31,30 +41,13 @@ svm_classifier.fit(X_train, y_train)
 y_pred = svm_classifier.predict(X_test)
 
 # 输出分类报告和准确率
-print("Classification Report:\n", classification_report(y_test, y_pred))
-print("Accuracy: ", accuracy_score(y_test, y_pred))
-
-#
-
-
-print("hello")
+report = classification_report(y_test, y_pred, zero_division=1)
+accuracy = accuracy_score(y_test, y_pred)
+print("Classification Report:\n", report)
+print("Accuracy: ", accuracy)
 
 
 
 
 
 
-
-
-#
-# # 比较测试结果与真值
-# run_results = metrics(prediction, test_gt, ignored_labels=hyperparams['ignored_labels'], n_classes=N_CLASSES)
-#
-# prediction[mask] = 0
-#
-# display_predictions(color_prediction, viz, gt=convert_to_color(
-#     test_gt), caption="Prediction vs. test ground truth")
-#
-# results.append(run_results)
-# # show_results(run_results, viz, label_values=LABEL_VALUES)
-# show_results_save(run_results, viz, label_values=LABEL_VALUES, output_filename=res_filename)

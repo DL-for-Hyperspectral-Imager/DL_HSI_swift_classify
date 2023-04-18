@@ -4,6 +4,14 @@ import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.decomposition import FastICA
 
+def preprocess(img, preprocess_name):
+    if preprocess_name == 'PCA':
+        img = pca_sklearn(img, 50)
+    elif preprocess_name == 'ICA':
+        img = ica_sklearn(img, 50)
+    return img
+
+
 def pca_numpy(img, k):
     # img: (H, W, C)
     # k: 降维后的维度
@@ -46,7 +54,7 @@ def ica_sklearn(img, k):
     X = np.reshape(img, (-1, img.shape[2]))
 
     # ICA降维，保留前k个独立成分
-    ica = FastICA(n_components=k)
+    ica = FastICA(n_components=k, random_state=0, whiten='unit-variance')
     X_ica = ica.fit_transform(X)
 
     # 将降维后的数据reshape回原来的三维图像形状
