@@ -58,10 +58,11 @@ class Layort_neural_model(nn.Module):
 def train(name, **kwargs):
     """
     用于训练的函数
-    :param :name the name of model
+    :param :name the name of model, converted to lower
     :param :kwargs other args in form of dict
     :return y_pred the predict result of X_test
     """
+    name = name.lower()
     X_train = kwargs['X_train']
     y_train = kwargs['y_train']
     X_test  = kwargs['X_test']
