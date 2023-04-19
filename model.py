@@ -10,6 +10,9 @@ from tqdm import tqdm
 from torch.utils.data.dataloader import DataLoader
 from torch.nn import init
 
+#added by mangp, to solve a bug of sklearn
+from sklearn import neighbors
+
 #不同平台相对路径加载方式不同
 if('win' in sys.platform):
     from datasets import layort_datasets
@@ -115,4 +118,16 @@ def train(name, **kwargs):
         #训练完后放入test进行测试
         
         y_pred  = net(torch.Tensor(X_test))
+        return y_pred
+    
+    #added by Mangp, to implement KNN/nearest model
+    elif(name == 'nearest'):
+        #加载knn分类器
+        knn_classifier = sklearn.neighbors.KNeighborsClassifier()
+        knn_classifier = sklearn.model_selection.GridSearchCV(
+            knn_classifier, {"n_neighbors": [1, 3, 5, 10, 20]}, verbose=5, n_jobs=4
+        )
+        knn_classifier.fit(X_train, y_train)
+        #预测测试集
+        y_pred = knn_classifier.predict(X_test)
         return y_pred
