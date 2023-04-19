@@ -1,4 +1,3 @@
-
 import numpy as np
 
 from sklearn.decomposition import PCA
@@ -37,11 +36,12 @@ def pca_numpy(img, k):
     img = np.reshape(img, (img.shape[0], img.shape[1], 1))
     return img
 
+
 def pca_sklearn(data, k):
     # 原始数据的形状
     m, n, p = data.shape
     # 将数据reshape成(m*n,p)的形式
-    data_reshape = np.reshape(data, (m*n, p))
+    data_reshape = np.reshape(data, (m * n, p))
     # 创建PCA对象
     pca = PCA(n_components=k)
     # pca = PCA(0.95)
@@ -71,10 +71,10 @@ def lda_sklearn(img, gt):
     # 原始数据的形状
     m, n, p = img.shape
     # 将数据reshape成(m*n,p)的形式
-    X = np.reshape(img, (m*n, p))
+    X = np.reshape(img, (m * n, p))
     y = gt.reshape(m * n)
-    #创建lda对象,该算法要求 n_components不能大于原始数据维度和类别数
-    #经测试发现在kvm分类器下取13为最优
+    # 创建lda对象,该算法要求 n_components不能大于原始数据维度和类别数
+    # 经测试发现在kvm分类器下取13为最优
     lda = LinearDiscriminantAnalysis(n_components=13)
     # 对数据进行降维
     lda.fit(X, y)
