@@ -6,7 +6,7 @@ from sklearn.decomposition import FastICA
 
 def preprocess(img, preprocess_name):
     if preprocess_name == 'PCA':
-        img = pca_sklearn(img, 50)
+        img = pca_sklearn(img, 200)
     elif preprocess_name == 'ICA':
         img = ica_sklearn(img, 50)
     return img

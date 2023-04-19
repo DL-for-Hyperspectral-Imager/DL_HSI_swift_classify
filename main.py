@@ -11,6 +11,7 @@ def args_init():
     parser.add_argument('--dataset', type=str, default='IndianPines', help='dataset name')
     parser.add_argument('--preprocess', type=str, default=None, help='preprocess name')
     parser.add_argument('--model', type=str, default='SVM', help='model name')
+    parser.add_argument('--sample_rate', type=float, default=0.7, help='sample rate')
     return parser.parse_args()
 
 #这里定义一个main函数作为整个项目的入口，只有作为脚本时这个文件才会运行
