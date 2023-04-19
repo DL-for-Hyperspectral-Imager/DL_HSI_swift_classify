@@ -66,7 +66,7 @@ pip install -r requirements.txt
 
 你可以使用以下命令来运行程序：
 
-
+SVM模型
 
 ```python
 python main.py --n_runs 3 --dataset IndianPines --preprocess ICA --model SVM
@@ -74,11 +74,19 @@ python main.py --n_runs 3 --dataset IndianPines --preprocess ICA --model SVM
 
 在上面的示例中，我们将 `--n_runs` 参数设置为 3，`--dataset` 参数设置为 'IndianPines'，`--preprocess` 参数设置为 'ICA'，`--model` 参数设置为 'SVM'。你可以根据需要调整这些参数的值。
 
+neural network 模型
+```
+python main.py --model nn --n_runs 1000
+```
+
+这里我们使用n_runs来控制神经网络迭代的次数，目前神经网络架构方面的参数还在代码里面定义，命令行暂时无法定义,需要在代码文件里进行修改
+
 在程序中，使用 `argparse` 模块来解析命令行参数，并将其存储在相应的变量中。你可以使用这些变量来控制程序的行为。例如，使用 `n_runs` 变量来指定程序的运行次数，使用 `dataset_name` 变量来指定数据集名称等等。
 
 运行结束后，将输出分类报告与准确率。
 
 如：
+SVM报告
 ```text
 Classification Report:
                precision    recall  f1-score   support
@@ -105,4 +113,33 @@ Classification Report:
 weighted avg       0.78      0.77      0.77      3075
 
 Accuracy:  0.7746341463414634
+```
+
+nn的报告
+```
+Classification Report:
+               precision    recall  f1-score   support
+
+           1       0.73      0.79      0.76        14
+           2       0.77      0.67      0.72       428
+           3       0.77      0.65      0.70       249
+           4       0.56      0.80      0.66        71
+           5       0.77      0.84      0.81       145
+           6       0.83      0.91      0.87       219
+           7       0.75      0.75      0.75         8
+           8       0.97      0.97      0.97       143
+           9       0.38      0.50      0.43         6
+          10       0.73      0.79      0.76       292
+          11       0.77      0.82      0.80       737
+          12       0.63      0.69      0.66       178
+          13       0.94      0.97      0.95        61
+          14       0.90      0.93      0.91       380
+          15       0.68      0.35      0.47       116
+          16       1.00      0.00      0.00        28
+
+    accuracy                           0.78      3075
+   macro avg       0.76      0.72      0.70      3075
+weighted avg       0.78      0.78      0.77      3075
+
+Accuracy:  0.7817886178861788
 ```

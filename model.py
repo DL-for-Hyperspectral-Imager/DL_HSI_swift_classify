@@ -78,17 +78,17 @@ def train(name, **kwargs):
         return y_pred
     elif(name == 'nn'):
         #初始化神经模型
-        net = neural_network_model(n_bands,n_classes,dropout= True, p = 0.2).cuda()
-        bsz = 50 #batch_size
+        net = neural_network_model(n_bands,n_classes,dropout= True, p = 0.5).cuda()
+        bsz = 1000 #batch_size
         print("X_train.shape",X_train.shape)
         print("y_train.shape",y_train.shape)
         print("n_classes",n_classes)
         #加载数据集,这里定义了张量tensor
         datasets = Mydatasets(X_train,y_train,bsz)
         #放入dataloader
-        batch_loader = DataLoader(datasets,batch_size= bsz)
+        batch_loader = DataLoader(datasets,batch_size= bsz,shuffle=True)
         #定义优化器
-        optimizer = optim.AdamW(net.parameters(),lr = 0.01,weight_decay= 0.1)
+        optimizer = optim.AdamW(net.parameters(),lr = 0.001,weight_decay=0.01)
         
         criterion =  nn.CrossEntropyLoss()
         
@@ -96,6 +96,7 @@ def train(name, **kwargs):
             loss_avg = 0
             nums = 0
             for batch_X,batch_y in batch_loader:
+                optimizer.zero_grad()
                 #看看训练集是否有问题
                 if(any(batch_y[batch_y>n_classes])):
                     print("出现了大于%d的标签,错误！！！"%n_classes)
