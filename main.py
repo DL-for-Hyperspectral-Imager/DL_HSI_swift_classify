@@ -16,7 +16,6 @@ def args_init():
     return parser.parse_args()
 
 
-# 这里定义一个main函数作为整个项目的入口，只有作为脚本时这个文件才会运行
 def main():
     # 获取args
     args = args_init()
@@ -34,7 +33,7 @@ def main():
     img = np.asarray(img, dtype=np.float32)
     img = (img - np.min(img)) / (np.max(img) - np.min(img))
     # 根据预处理方法进行预处理
-    img = preprocess(img, preprocess_name)
+    img = preprocess(img, preprocess_name, gt)
 
     n_classes = len(label_values)
     n_bands = img.shape[-1]

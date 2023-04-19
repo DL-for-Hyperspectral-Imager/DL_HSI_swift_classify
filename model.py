@@ -5,7 +5,7 @@ import numpy as np
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as nnFunc
-
+from datasets import Mydatasets
 from tqdm import tqdm
 from torch.utils.data.dataloader import DataLoader
 from torch.nn import init
@@ -13,16 +13,12 @@ from torch.nn import init
 # added by mangp, to solve a bug of sklearn
 from sklearn import neighbors
 
-# 不同平台相对路径加载方式不同
-if ('win' in sys.platform):
-    from datasets import layort_datasets
-elif ('linux' in sys.platform):
-    from .datasets import layort_datasets
+
 
 
 # 定义一个全连接神经网络模型
 # channels - 2048 - 4096 - 2048 - n_classes
-class Layort_neural_model(nn.Module):
+class neural_network_model(nn.Module):
     """
     Neural mdoel by layort
     use a simple full connected network to classify the img
@@ -35,9 +31,9 @@ class Layort_neural_model(nn.Module):
             init.kaiming_normal_(m.weight)
             init.zeros_(m.bias)
 
-    def __init__(self, n_channels, n_classes, dropout=False, p=0.5):
-        super(Layort_neural_model, self).__init__()  # why init like this?
-        self.use_dropout = dropout  # do we need dropout?
+    def __init__(self, n_channels, n_classes, dropout=False, p = 0.5):
+        super(neural_network_model, self).__init__()
+        self.use_dropout = dropout
         if dropout:
             self.dropout = nn.Dropout(p=p)
         #
@@ -65,11 +61,10 @@ class Layort_neural_model(nn.Module):
 def train(name, **kwargs):
     """
     用于训练的函数
-    :param :name the name of model, converted to lower
+    :param :name the name of model
     :param :kwargs other args in form of dict
     :return y_pred the predict result of X_test
     """
-    name = name.lower()
     X_train = kwargs['X_train']
     y_train = kwargs['y_train']
     X_test = kwargs['X_test']
@@ -77,6 +72,7 @@ def train(name, **kwargs):
     n_bands = kwargs['n_bands']
     n_classes = kwargs['n_classes']
     n_runs = kwargs['n_runs']
+    name = name.lower()
     if (name == "svm"):  # 使用SVM进行分类
         # 加载svm分类器
         svm_classifier = sklearn.svm.SVC(kernel='rbf', C=10, gamma=0.001)
@@ -84,21 +80,21 @@ def train(name, **kwargs):
         # 预测测试集
         y_pred = svm_classifier.predict(X_test)
         return y_pred
-    elif (name == 'nn'):
-        # 初始化神经模型
-        net = Layort_neural_model(n_bands, n_classes, dropout=True, p=0.2)
-        batch_size = 50  # batch_size
-        print("X_train.shape", X_train.shape)
-        print("y_train.shape", y_train.shape)
-        print("n_classes", n_classes)
-        # 加载数据集,这里定义了张量tensor
-        datasets = layort_datasets(X_train, y_train, batch_size)
-        # 放入dataloader
-        batch_loader = DataLoader(datasets, batch_size=batch_size)
-        # 定义优化器
-        optimizer = optim.AdamW(net.parameters(), lr=0.01, weight_decay=0.1)
-
-        criterion = nn.CrossEntropyLoss()
+    elif(name == 'nn'):
+        #初始化神经模型
+        net = neural_network_model(n_bands,n_classes,dropout= True, p = 0.2).cuda()
+        bsz = 50 #batch_size
+        print("X_train.shape",X_train.shape)
+        print("y_train.shape",y_train.shape)
+        print("n_classes",n_classes)
+        #加载数据集,这里定义了张量tensor
+        datasets = Mydatasets(X_train,y_train,bsz)
+        #放入dataloader
+        batch_loader = DataLoader(datasets,batch_size= bsz)
+        #定义优化器
+        optimizer = optim.AdamW(net.parameters(),lr = 0.01,weight_decay= 0.1)
+        
+        criterion =  nn.CrossEntropyLoss()
 
         for _ in tqdm(range(n_runs)):
             loss_avg = 0
@@ -109,10 +105,11 @@ def train(name, **kwargs):
                     print("出现了大于%d的标签,错误！！！" % n_classes)
                     # print("batch_y[batch_y>n_classes]",batch_y[batch_y>n_classes][0])
                     continue
-                # 放入网络里面
-                pred_classes = net(batch_X)
+                #放入网络里面
+                pred_classes = net(batch_X.cuda())
                 nums += 1
-                loss = criterion(pred_classes, batch_y - 1)
+                loss = criterion(pred_classes,batch_y.cuda())
+
                 loss_avg += loss.item()
                 # 反向梯度传播
                 loss.backward()
@@ -120,11 +117,13 @@ def train(name, **kwargs):
                 optimizer.step()
             print("loss:%.2f" % (loss_avg / nums))
         # 训练完后放入test进行测试
-
-        y_pred = net(torch.Tensor(X_test))
-        return y_pred.detach().numpy()
-
-    # added by Mangp, to implement KNN/nearest model
+            print("\nloss:%.2f"%(loss_avg/nums))
+        #训练完后放入test进行测试
+        
+        y_pred  = net(torch.Tensor(X_test).cuda())
+        y_pred = torch.topk(y_pred,k=1).indices
+        return y_pred.cpu().numpy()
+# added by Mangp, to implement KNN/nearest model
     elif (name == 'nearest'):
         # 加载knn分类器
         knn_classifier = sklearn.neighbors.KNeighborsClassifier()

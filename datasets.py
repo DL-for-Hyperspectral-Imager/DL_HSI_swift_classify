@@ -2,7 +2,7 @@ from torch.utils.data.dataset import Dataset
 
 
 
-class layort_datasets(Dataset):
+class Mydatasets(Dataset):
     def __init__(self, img_X, img_y,bsz):
         self.X = img_X
         self.y = img_y
