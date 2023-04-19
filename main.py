@@ -7,7 +7,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--n_runs', type=int, default=1, help='number of runs')
 parser.add_argument('--dataset', type=str, default='IndianPines', help='dataset name')
-parser.add_argument('--preprocess', type=str, default=None, help='preprocess name')
+parser.add_argument('--preprocess', type=str, default='LDA', help='preprocess name')
 parser.add_argument('--model', type=str, default='SVM', help='model name')
 args = parser.parse_args()
 # 获得全局变量信息
@@ -23,7 +23,11 @@ img, gt, label_values = load_dataset(dataset_name)
 img = np.asarray(img, dtype=np.float32)
 img = (img - np.min(img)) / (np.max(img) - np.min(img))
 # 根据预处理方法进行预处理
-img = preprocess(img, preprocess_name)
+
+    
+print("-----------------------------")
+
+img = preprocess(img, preprocess_name, gt) #make little changes
 
 n_classes = len(label_values)
 n_bands = img.shape[-1]
@@ -45,6 +49,8 @@ report = classification_report(y_test, y_pred, zero_division=1)
 accuracy = accuracy_score(y_test, y_pred)
 print("Classification Report:\n", report)
 print("Accuracy: ", accuracy)
+    
+print("------------------------------")
 
 
 
