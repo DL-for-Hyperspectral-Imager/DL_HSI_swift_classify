@@ -4,38 +4,40 @@ import sklearn
 import numpy as np
 import torch.nn as nn
 import torch.optim as optim
-import torch.nn.functional as F
-
+import torch.nn.functional as nnFunc
+from datasets import Mydatasets
 from tqdm import tqdm
 from torch.utils.data.dataloader import DataLoader
 from torch.nn import init
 
-#不同平台相对路径加载方式不同
-if('win' in sys.platform):
-    from datasets import Mydatasets
-elif('linux' in  sys.platform):
-    from .datasets import Mydatasets
+# added by mangp, to solve a bug of sklearn
+from sklearn import neighbors
 
-#定义一个神经网络模型
+
+
+
+# 定义一个全连接神经网络模型
+# channels - 2048 - 4096 - 2048 - n_classes
 class neural_network_model(nn.Module):
     """
     Neural mdoel by layort
-    use a simple network to classify the img
-    ouput shape (bsz,n_classes)
+    use a simple full connected network to classify the img
+    ouput shape (batch_size,n_classes)
     """
+
     @staticmethod
     def weight_init(m):
         if isinstance(m, nn.Linear):
             init.kaiming_normal_(m.weight)
             init.zeros_(m.bias)
 
-    def __init__(self, input_channels, n_classes, dropout=False, p = 0.5):
+    def __init__(self, n_channels, n_classes, dropout=False, p = 0.5):
         super(neural_network_model, self).__init__()
         self.use_dropout = dropout
         if dropout:
             self.dropout = nn.Dropout(p=p)
-
-        self.fc1 = nn.Linear(input_channels, 2048)
+        #
+        self.fc1 = nn.Linear(n_channels, 2048)
         self.fc2 = nn.Linear(2048, 4096)
         self.fc3 = nn.Linear(4096, 2048)
         self.fc4 = nn.Linear(2048, n_classes)
@@ -43,17 +45,18 @@ class neural_network_model(nn.Module):
         self.apply(self.weight_init)
 
     def forward(self, x):
-        x = F.relu(self.fc1(x))
+        x = nnFunc.relu(self.fc1(x))
         if self.use_dropout:
             x = self.dropout(x)
-        x = F.relu(self.fc2(x))
+        x = nnFunc.relu(self.fc2(x))
         if self.use_dropout:
             x = self.dropout(x)
-        x = F.relu(self.fc3(x))
+        x = nnFunc.relu(self.fc3(x))
         if self.use_dropout:
             x = self.dropout(x)
         x = self.fc4(x)
         return x
+
 
 def train(name, **kwargs):
     """
@@ -64,13 +67,14 @@ def train(name, **kwargs):
     """
     X_train = kwargs['X_train']
     y_train = kwargs['y_train']
-    X_test  = kwargs['X_test']
-    y_test  = kwargs['y_test']
+    X_test = kwargs['X_test']
+    y_test = kwargs['y_test']
     n_bands = kwargs['n_bands']
     n_classes = kwargs['n_classes']
     n_runs = kwargs['n_runs']
-    if(name == "svm"):# 使用SVM进行分类
-        #加载svm分类器
+    name = name.lower()
+    if (name == "svm"):  # 使用SVM进行分类
+        # 加载svm分类器
         svm_classifier = sklearn.svm.SVC(kernel='rbf', C=10, gamma=0.001)
         svm_classifier.fit(X_train, y_train)
         # 预测测试集
@@ -91,28 +95,42 @@ def train(name, **kwargs):
         optimizer = optim.AdamW(net.parameters(),lr = 0.01,weight_decay= 0.1)
         
         criterion =  nn.CrossEntropyLoss()
-        
+
         for _ in tqdm(range(n_runs)):
             loss_avg = 0
             nums = 0
-            for batch_X,batch_y in batch_loader:
-                #看看训练集是否有问题
-                if(any(batch_y[batch_y>n_classes])):
-                    print("出现了大于%d的标签,错误！！！"%n_classes)
-                    #print("batch_y[batch_y>n_classes]",batch_y[batch_y>n_classes][0])
+            for batch_X, batch_y in batch_loader:
+                # 看看训练集是否有问题
+                if (any(batch_y[batch_y > n_classes])):
+                    print("出现了大于%d的标签,错误！！！" % n_classes)
+                    # print("batch_y[batch_y>n_classes]",batch_y[batch_y>n_classes][0])
                     continue
                 #放入网络里面
                 pred_classes = net(batch_X.cuda())
                 nums += 1
                 loss = criterion(pred_classes,batch_y.cuda())
+
                 loss_avg += loss.item()
-                #反向梯度传播
+                # 反向梯度传播
                 loss.backward()
-                #梯度优化
+                # 梯度优化
                 optimizer.step()
+            print("loss:%.2f" % (loss_avg / nums))
+        # 训练完后放入test进行测试
             print("\nloss:%.2f"%(loss_avg/nums))
         #训练完后放入test进行测试
         
         y_pred  = net(torch.Tensor(X_test).cuda())
         y_pred = torch.topk(y_pred,k=1).indices
         return y_pred.cpu().numpy()
+# added by Mangp, to implement KNN/nearest model
+    elif (name == 'nearest'):
+        # 加载knn分类器
+        knn_classifier = sklearn.neighbors.KNeighborsClassifier()
+        knn_classifier = sklearn.model_selection.GridSearchCV(
+            knn_classifier, {"n_neighbors": [1, 3, 5, 10, 20]}, verbose=5, n_jobs=4
+        )
+        knn_classifier.fit(X_train, y_train)
+        # 预测测试集
+        y_pred = knn_classifier.predict(X_test)
+        return y_pred
