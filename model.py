@@ -41,7 +41,8 @@ class neural_network_model(nn.Module):
             init.kaiming_normal_(m.weight)
             init.zeros_(m.bias)
 
-    def __init__(self, n_channels, n_classes, dropout=False, p=0.5):
+
+    def __init__(self,n_channels,n_classes,dropout=False,p=0.2):
         super(neural_network_model, self).__init__()
         self.use_dropout = dropout
         if dropout:
@@ -135,7 +136,7 @@ def train(name, **kwargs):
 
         y_pred = net(torch.Tensor(X_test).cuda())
         y_pred = torch.topk(y_pred, k=1).indices
-        return neural_network_model
+        return net
 
 
 # added by Mangp, to implement KNN/nearest model
