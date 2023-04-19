@@ -41,13 +41,12 @@ class neural_network_model(nn.Module):
             init.kaiming_normal_(m.weight)
             init.zeros_(m.bias)
 
+    def __init__(self,n_channels,n_classes,dropout=False,p=0.2):
         super(neural_network_model, self).__init__()
         self.use_dropout = dropout
         if dropout:
             self.dropout = nn.Dropout(p=p)
 
-        self.fc1 = nn.Linear(input_channels, 2048)
-        #
         self.fc1 = nn.Linear(n_channels, 2048)
         self.fc2 = nn.Linear(2048, 4096)
         self.fc3 = nn.Linear(4096, 2048)
