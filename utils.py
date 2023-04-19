@@ -3,6 +3,8 @@ import numpy as np
 import sklearn
 import os
 current_dir = os.getcwd()
+
+
 def load_dataset(dataset_name):
     folder = "Datasets"
     if dataset_name == "IndianPines":
@@ -11,9 +13,12 @@ def load_dataset(dataset_name):
         # uint16
         img = io.loadmat(img_path)["indian_pines_corrected"]
         gt = io.loadmat(gt_path)["indian_pines_gt"]
-        label_values = ["Undefined", "Water", "Trees", "Asphalt",
-                        "Self-Blocking Bricks", "Bitumen", "Tiles", "Shadows",
-                        "Meadows", "Bare Soil"]
+        label_values = ["Undefined", "Alfalfa", "Corn-notill", "Corn-mintill",
+                        "Corn", "Grass-pasture", "Grass-trees",
+                        "Grass-pasture-mowed", "Hay-windrowed", "Oats",
+                        "Soybean-notill", "Soybean-mintill", "Soybean-clean",
+                        "Wheat", "Woods", "Buildings-Grass-Trees-Drives",
+                        "Stone-Steel-Towers"]
     else:
         pass
 

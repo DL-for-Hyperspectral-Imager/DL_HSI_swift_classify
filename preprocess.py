@@ -8,11 +8,11 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
 def preprocess(img, preprocess_name, gt):
     if preprocess_name == 'PCA':
-        img = pca_sklearn(img, 50)
+        img = pca_sklearn(img, 200)
     elif preprocess_name == 'ICA':
         img = ica_sklearn(img, 50)
     elif preprocess_name == 'LDA':
-        img = lda_sklearn(img, 50, gt)
+        img = lda_sklearn(img, gt)
     return img
 
 
@@ -67,13 +67,14 @@ def ica_sklearn(img, k):
     return img_ica
 
 
-def lda_sklearn(img, k, gt):
+def lda_sklearn(img, gt):
     # 原始数据的形状
     m, n, p = img.shape
     # 将数据reshape成(m*n,p)的形式
     X = np.reshape(img, (m*n, p))
     y = gt.reshape(m * n)
-    #创建lda对象
+    #创建lda对象,该算法要求 n_components不能大于原始数据维度和类别数
+    #经测试发现在kvm分类器下取13为最优
     lda = LinearDiscriminantAnalysis(n_components=13)
     # 对数据进行降维
     lda.fit(X, y)
