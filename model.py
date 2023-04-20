@@ -105,17 +105,11 @@ def train(name, **kwargs):
         optimizer = optim.AdamW(net.parameters(),lr = 0.001,weight_decay=0.01)
         
         criterion =  nn.CrossEntropyLoss()
-
-        for _ in tqdm(range(n_runs)):
-            loss_avg = 0
-            nums = 0
-            for batch_X,batch_y in batch_loader:
-                optimizer.zero_grad()
-                #看看训练集是否有问题
-                if(any(batch_y[batch_y>n_classes])):
-                    print("出现了大于%d的标签,错误！！！"%n_classes)
-                    #print("batch_y[batch_y>n_classes]",batch_y[batch_y>n_classes][0])
+        loss_avg = 0
+        nums = 0
+        for _ in tqdm(range(n_runs),leave = False):
             for batch_X, batch_y in batch_loader:
+                optimizer.zero_grad()
                 # 看看训练集是否有问题
                 if (any(batch_y[batch_y > n_classes])):
                     print("出现了大于%d的标签,错误！！！" % n_classes)
@@ -125,15 +119,13 @@ def train(name, **kwargs):
                 pred_classes = net(batch_X.cuda())
                 nums += 1
                 loss = criterion(pred_classes,batch_y.cuda())
-
+                
                 loss_avg += loss.item()
                 # 反向梯度传播
                 loss.backward()
                 # 梯度优化
                 optimizer.step()
-            print("loss:%.2f" % (loss_avg / nums))
-        # 训练完后放入test进行测试
-            print("\nloss:%.2f"%(loss_avg/nums))
+        print("\nloss:%.2f"%(loss_avg/nums))
         #训练完后放入test进行测试
         
         y_pred  = net(torch.Tensor(X_test).cuda())
