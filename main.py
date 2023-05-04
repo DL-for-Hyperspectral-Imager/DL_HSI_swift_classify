@@ -20,7 +20,7 @@ def args_init():
     parser = argparse.ArgumentParser()
     parser.add_argument('--n_runs', type=int, default=1, help='number of runs')
     parser.add_argument('--dataset', type=str, default='IndianPines', help='dataset name')
-    parser.add_argument('--preprocess', type=str, default=None, help='preprocess name')
+    parser.add_argument('--preprocess', type=str, default='', help='preprocess name')
     parser.add_argument('--model', type=str, default='SVM', help='model name')
     parser.add_argument('--sample_rate', type=float, default=0.3, help='sample rate')
     parser.add_argument('--n_bands', type=int, default=200, help='number of bands')
