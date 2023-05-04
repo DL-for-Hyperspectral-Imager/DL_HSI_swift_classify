@@ -21,6 +21,7 @@ def args_init():
     parser.add_argument('--preprocess', type=str, default=None, help='preprocess name')
     parser.add_argument('--model', type=str, default='SVM', help='model name')
     parser.add_argument('--sample_rate', type=float, default=0.3, help='sample rate')
+    parser.add_argument('--n_bands', type=int, default=200, help='number of bands')
     return parser.parse_args()
 
 
@@ -43,10 +44,10 @@ def main():
     img = np.asarray(hsi_img, dtype=np.float32)
     img = (img - np.min(img)) / (np.max(img) - np.min(img))
     # 根据预处理方法进行预处理
-    img = preprocess(img, preprocess_name, gt)
+    img = preprocess(img, gt, preprocess_name, n_bands=args.n_bands)
 
     n_classes = len(label_values)
-    n_bands = img.shape[-1]
+    height, width, n_bands = img.shape
 
     # 划分训练集和测试集
     # XX_gt: 145*145，存有坐标处像素的真值，为0代表未选择该像素
@@ -60,16 +61,16 @@ def main():
 
     # 预测
     y_test_pred = predict(model_name, clf, X_test)
-    y_img_pred = predict(model_name, clf, img.reshape((145 * 145, 200)))
+    y_img_pred = predict(model_name, clf, img.reshape((height * width, n_bands)))
 
     # 输出分类报告和准确率
     # 145*145,200 与 145,145,200名字有些混乱
-    report = classification_report(gt.reshape((145 * 145)), y_img_pred, zero_division=1)
-    accuracy = accuracy_score(gt.reshape((145 * 145)), y_img_pred)
+    report = classification_report(gt.reshape((height * width)), y_img_pred, zero_division=1)
+    accuracy = accuracy_score(gt.reshape((height * width)), y_img_pred)
     print("Classification Report:\n", report)
     print("Accuracy: ", accuracy)
 
-    visualize(hsi_img, gt, y_img_pred.reshape((145, 145)))
+    visualize(hsi_img, gt, y_img_pred.reshape((height, width)))
 
 
 if __name__ == "__main__":

@@ -5,11 +5,12 @@ from sklearn.decomposition import FastICA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
 
-def preprocess(img, preprocess_name, gt):
+def preprocess(img,  gt, preprocess_name, n_bands):
+    preprocess_name = preprocess_name.upper()
     if preprocess_name == 'PCA':
-        img = pca_sklearn(img, 200)
+        img = pca_sklearn(img, n_bands)
     elif preprocess_name == 'ICA':
-        img = ica_sklearn(img, 50)
+        img = ica_sklearn(img, n_bands)
     elif preprocess_name == 'LDA':
         img = lda_sklearn(img, gt)
     return img

@@ -90,15 +90,15 @@ def hsi2rgb(img):
     r = r.astype(np.int32)
     b = b.astype(np.int32)
     g = g.astype(np.int32)
-    rgb_img = Image.new("RGB", (145, 145))
+    rgb_IMG = Image.new("RGB", (145, 145))
     for i in range(145):
         for j in range(145):
-            rgb_img.putpixel((i, j), (r[i, j], g[i, j], b[i, j]))
-    return rgb_img
+            rgb_IMG.putpixel((i, j), (r[i, j], g[i, j], b[i, j]))
+    return rgb_IMG
 
 
 def visualize(hsi_img, gt, pred_img):
-    rgb_img = hsi2rgb(hsi_img)
+    rgb_IMG = hsi2rgb(hsi_img)
 
     # 颜色
     color = [(255, 255, 255), (255, 0, 0), (255, 128, 0), (255, 255, 0), (128, 255, 0), \
@@ -106,17 +106,24 @@ def visualize(hsi_img, gt, pred_img):
              (153, 0, 0), (0, 102, 51), (153, 153, 255), (255, 204, 204), (255, 255, 204), (0, 0, 0)]
 
     # 原标签对应图
-    color_gt = Image.new("RGB", (145, 145))
+    color_gt_IMG = Image.new("RGB", (145, 145))
     for i in range(145):
         for j in range(145):
-            color_gt.putpixel((i, j), color[gt[i, j]])
+            color_gt_IMG.putpixel((i, j), color[gt[i, j]])
 
     # 预测标签对应图
-    color_pred_gt = Image.new("RGB", (145, 145))
+    color_pred_gt_IMG = Image.new("RGB", (145, 145))
     for i in range(145):
         for j in range(145):
-            color_pred_gt.putpixel((i, j), color[pred_img[i, j]])
+            color_pred_gt_IMG.putpixel((i, j), color[pred_img[i, j]])
 
-    rgb_img.show()
-    color_gt.show()
-    color_pred_gt.show()
+    resdir = os.path.join(current_dir, "result")
+    os.makedirs(resdir, exist_ok=True)
+
+    rgb_IMG.save(os.path.join(resdir,"rgb.png"))
+    color_gt_IMG.save(os.path.join(resdir,"color_gt.png"))
+    color_pred_gt_IMG.save(os.path.join(resdir,"color_pred_gt.png"))
+
+    # rgb_IMG.show()
+    # color_gt_IMG.show()
+    # color_pred_gt_IMG.show()
