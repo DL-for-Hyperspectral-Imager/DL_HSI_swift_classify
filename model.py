@@ -18,7 +18,7 @@ from torch.nn import init
 if ('win' in sys.platform):
     from datasets import Mydatasets
 elif ('linux' in sys.platform):
-    from .datasets import Mydatasets
+    from datasets import Mydatasets
 # added by mangp, to solve a bug of sklearn
 from sklearn import neighbors
 
@@ -126,7 +126,7 @@ def train(name, **kwargs):
                 # 放入网络里面
                 pred_classes = net(batch_X.cuda())
                 nums += 1
-                loss = criterion(pred_classes, batch_y.cuda())
+                loss = criterion(pred_classes, batch_y.cuda().long())
 
                 loss_avg += loss.item()
                 # 反向梯度传播
