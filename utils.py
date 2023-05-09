@@ -5,6 +5,7 @@ import numpy as np
 import sklearn
 import os
 import PIL.Image as Image
+from sklearn.metrics import confusion_matrix
 
 current_dir = os.getcwd()
 
@@ -122,10 +123,85 @@ def visualize(hsi_img, gt, pred_img):
     resdir = os.path.join(current_dir, "result")
     os.makedirs(resdir, exist_ok=True)
 
-    rgb_IMG.save(os.path.join(resdir,"rgb.png"))
-    color_gt_IMG.save(os.path.join(resdir,"color_gt.png"))
-    color_pred_gt_IMG.save(os.path.join(resdir,"color_pred_gt.png"))
+    rgb_IMG.save(os.path.join(resdir, "rgb.png"))
+    color_gt_IMG.save(os.path.join(resdir, "color_gt.png"))
+    color_pred_gt_IMG.save(os.path.join(resdir, "color_pred_gt.png"))
 
     # rgb_IMG.show()
     # color_gt_IMG.show()
     # color_pred_gt_IMG.show()
+
+
+def metrics(prediction, target, ignored_labels=[], n_classes=None):
+    """Compute and print metrics (accuracy, confusion matrix and F1 scores).
+
+    Args:
+        prediction: list of predicted labels
+        target: list of target labels
+        ignored_labels (optional): list of labels to ignore, e.g. 0 for undef
+        n_classes (optional): number of classes, max(target) by default
+    Returns:
+        accuracy, F1 score by class, confusion matrix
+    """
+    ignored_mask = np.zeros(target.shape[:2], dtype=np.bool_)
+    for l in ignored_labels:
+        ignored_mask[target == l] = True
+    ignored_mask = ~ignored_mask
+    # target = target[ignored_mask] -1
+    target = target[ignored_mask]
+    prediction = prediction[ignored_mask]
+
+    results = {}
+
+    n_classes = np.max(target) + 1 if n_classes is None else n_classes
+
+    cm = confusion_matrix(target, prediction, labels=range(n_classes))
+
+    results["Confusion matrix"] = cm
+
+    # Compute global accuracy
+    total = np.sum(cm)
+    accuracy = sum([cm[x][x] for x in range(len(cm))])
+    accuracy *= 100 / float(total)
+
+    results["Accuracy"] = accuracy
+
+    # Compute F1 score
+    F1scores = np.zeros(len(cm))
+    for i in range(len(cm)):
+        try:
+            F1 = 2. * cm[i, i] / (np.sum(cm[i, :]) + np.sum(cm[:, i]))
+        except ZeroDivisionError:
+            F1 = 0.
+        F1scores[i] = F1
+
+    results["F1 scores"] = F1scores
+
+    # Compute kappa coefficient
+    pa = np.trace(cm) / float(total)
+    pe = np.sum(np.sum(cm, axis=0) * np.sum(cm, axis=1)) / \
+         float(total * total)
+    kappa = (pa - pe) / (1 - pe)
+    results["Kappa"] = kappa
+
+    return results
+
+
+def show_results(args, run_results, label_values):
+    """Print results of a run."""
+    print("Results for {} on {} with {} and {}% sample rate:".format(
+        args.model, args.dataset, args.preprocess, args.training_sample * 100))
+
+    print("Confusion matrix:")
+    for i in range(run_results["Confusion matrix"].shape[0]):
+        for j in range(run_results["Confusion matrix"].shape[1]):
+            # 设置对齐
+            print("{:4d}".format(run_results["Confusion matrix"][i][j]), end=" ")
+        print()
+
+    print("Global accuracy: {:.2f}".format(run_results["Accuracy"]))
+    print("F1 scores:")
+    for label, score in zip(label_values, run_results["F1 scores"]):
+        print("  {}: {:.2f}".format(label, score))
+
+    print("Kappa: {:.2f}".format(run_results["Kappa"]))

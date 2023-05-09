@@ -10,7 +10,7 @@ import torch.nn.functional as F
 
 import torch.nn.functional as nnFunc
 from datasets import Mydatasets
-from tqdm import tqdm
+from tqdm import trange
 from torch.utils.data.dataloader import DataLoader
 from torch.nn import init
 
@@ -43,8 +43,7 @@ class neural_network_model(nn.Module):
             init.kaiming_normal_(m.weight)
             init.zeros_(m.bias)
 
-
-    def __init__(self,n_channels,n_classes,dropout=False,p=0.2):
+    def __init__(self, n_channels, n_classes, dropout=False, p=0.2):
         super(neural_network_model, self).__init__()
         self.use_dropout = dropout
         if dropout:
@@ -86,13 +85,13 @@ def train(name, **kwargs):
     n_classes = kwargs['n_classes']
     n_runs = kwargs['n_runs']
     name = name.lower()
-    if (name == "svm"):  # 使用SVM进行分类
+    if name == "svm":  # 使用SVM进行分类
         clf = train_svm(X_train, y_train)
         return clf
-    elif (name == 'nearest'):
+    elif name == 'nearest':
         clf = train_knn(X_train, y_train)
         return clf
-    elif (name == 'nn'):
+    elif name == 'nn':
         # 初始化神经模型
         net = neural_network_model(n_bands, n_classes, dropout=True, p=0.5).cuda()
         bsz = 1000  # batch_size
@@ -108,45 +107,35 @@ def train(name, **kwargs):
 
         criterion = nn.CrossEntropyLoss()
 
-        for _ in tqdm(range(n_runs)):
+        t = trange(n_runs, desc='Runs')
+        for run in t:
             loss_avg = 0
             nums = 0
             for batch_X, batch_y in batch_loader:
-                optimizer.zero_grad()
-                # 看看训练集是否有问题
-                if (any(batch_y[batch_y > n_classes])):
-                    print("出现了大于%d的标签,错误！！！" % n_classes)
-                    # print("batch_y[batch_y>n_classes]",batch_y[batch_y>n_classes][0])
-            for batch_X, batch_y in batch_loader:
-                # 看看训练集是否有问题
-                if (any(batch_y[batch_y > n_classes])):
-                    print("出现了大于%d的标签,错误！！！" % n_classes)
-                    # print("batch_y[batch_y>n_classes]",batch_y[batch_y>n_classes][0])
+                # 检查训练集是否有问题
+                if any(batch_y[batch_y > n_classes]):
+                    print(f"出现了大于{n_classes}的标签,错误！！！")
                     continue
-                # 放入网络里面
+                # 输入网络进行训练
                 pred_classes = net(batch_X.cuda())
                 nums += 1
                 loss = criterion(pred_classes, batch_y.cuda().long())
-
                 loss_avg += loss.item()
-                # 反向梯度传播
+                # 反向传播
                 loss.backward()
-                # 梯度优化
+                # 更新权重
                 optimizer.step()
-            # 训练完后放入test进行测试
-            print("\nloss:%.2f" % (loss_avg / nums))
-
-        y_pred = net(torch.Tensor(X_test).cuda())
-        y_pred = torch.topk(y_pred, k=1).indices
+                # 更新进度条描述
+                if nums % 25 == 0:
+                    t.set_postfix(Loss=f'{loss_avg / nums:.2f}', refresh=True)
+                    print()
         return net
-
-
-# added by Mangp, to implement KNN/nearest model
 
 
 def train_svm(X_train, y_train):
     # 加载svm分类器
-    svm_classifier = sklearn.svm.SVC(kernel='rbf', C=10, gamma=0.001)
+    # svm_classifier = sklearn.svm.SVC(kernel='rbf', C=10, gamma=0.001)
+    svm_classifier = sklearn.svm.SVC(class_weight='balanced', kernel='rbf', C=10, gamma=0.001)
     svm_classifier.fit(X_train, y_train)
     return svm_classifier
 
