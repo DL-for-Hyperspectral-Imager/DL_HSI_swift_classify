@@ -11,6 +11,7 @@ from utils import *
 from model import *
 from preprocess import *
 import argparse
+
 import time
 
 
@@ -51,7 +52,6 @@ def main():
     print('Training time: %.5fs' % (end_train - start_train))
     print('Predicting time: %.5fs' % (end_pred - start_pred))
 
-
 def args_init():
     # 解析命令行参数
     parser = argparse.ArgumentParser()
@@ -61,9 +61,7 @@ def args_init():
     parser.add_argument('--model', type=str, default='SVM', help='model name')
     parser.add_argument('--training_sample', type=float, default=0.1, help='training sample')
     parser.add_argument('--n_bands', type=int, default=50, help='number of bands')
-
     return parser.parse_args()
-
 
 if __name__ == "__main__":
     main()
