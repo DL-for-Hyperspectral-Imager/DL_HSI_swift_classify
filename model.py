@@ -6,24 +6,94 @@ import sklearn
 import numpy as np
 import torch.nn as nn
 import torch.optim as optim
-import torch.nn.functional as F
 
 import torch.nn.functional as nnFunc
-from datasets import Mydatasets
 from tqdm import trange
 from torch.utils.data.dataloader import DataLoader
 from torch.nn import init
 
-# 不同平台相对路径加载方式不同
-if ('win' in sys.platform):
-    from datasets import Mydatasets
-elif ('linux' in sys.platform):
-    from datasets import Mydatasets
+from datasets import Mydatasets
 # added by mangp, to solve a bug of sklearn
 from sklearn import neighbors
 
 
-# 定义一个神经网络模型
+def train(hyperparams, **kwargs):
+    """
+    用于训练的函数
+    :param :name the name of model
+    :param :kwargs other args in form of dict
+    :return y_pred the predict result of X_test
+    """
+    model_name = hyperparams["model"].lower()
+    n_bands = hyperparams["n_bands"]
+    n_classes = hyperparams["n_classes"]
+    n_runs = hyperparams["n_runs"]
+
+    X_train = kwargs['X_train']
+    y_train = kwargs['y_train']
+
+    if model_name == "svm":  # 使用SVM进行分类
+        clf = train_svm(X_train, y_train)
+        return clf
+    elif model_name == 'nearest':
+        clf = train_knn(X_train, y_train)
+        return clf
+    else:
+        model, optimizer, loss = get_model(model_name, **hyperparams)
+    # elif model_name == 'nn':
+    #     # 初始化神经模型
+    #     net = neural_network_model(n_bands, n_classes, dropout=True, p=0.5).cuda()
+    #     bsz = 1000  # batch_size
+    #     print("X_train.shape", X_train.shape)
+    #     print("y_train.shape", y_train.shape)
+    #     print("n_classes", n_classes)
+    #     # 加载数据集,这里定义了张量tensor
+    #     datasets = Mydatasets(X_train, y_train, bsz)
+    #     # 放入dataloader
+    #     batch_loader = DataLoader(datasets, batch_size=bsz, shuffle=True)
+    #     # 定义优化器
+    #     optimizer = optim.AdamW(net.parameters(), lr=0.001, weight_decay=0.01)
+    #
+    #     criterion = nn.CrossEntropyLoss()
+    #
+    #     t = trange(n_runs, desc='Runs')
+    #     for run in t:
+    #         loss_avg = 0
+    #         nums = 0
+    #         for batch_X, batch_y in batch_loader:
+    #             # 检查训练集是否有问题
+    #             if any(batch_y[batch_y > n_classes]):
+    #                 print(f"出现了大于{n_classes}的标签,错误！！！")
+    #                 continue
+    #             # 输入网络进行训练
+    #             pred_classes = net(batch_X.cuda())
+    #             nums += 1
+    #             loss = criterion(pred_classes, batch_y.cuda().long())
+    #             loss_avg += loss.item()
+    #             # 反向传播
+    #             loss.backward()
+    #             # 更新权重
+    #             optimizer.step()
+    #             # 更新进度条描述
+    #             if nums % 25 == 0:
+    #                 t.set_postfix(Loss=f'{loss_avg / nums:.2f}', refresh=True)
+    #                 print()
+    #     return net
+
+def get_model(model_name, **kwargs):
+    n_bands = kwargs["n_bands"]
+    n_classes = kwargs["n_classes"]
+    if model_name == 'nn':
+        kwargs.setdefault('patch_size', 1)
+        center_pixel = True
+        model = neural_network_model(n_bands, n_classes, kwargs.setdefault('dropout', False))
+        lr = kwargs.setdefault('learning_rate', 0.0001)
+        optimizer = optim.Adam(model.parameters(), lr=lr)
+        criterion = nn.CrossEntropyLoss(weight=kwargs['weights'])
+        kwargs.setdefault('epoch', 100)
+        kwargs.setdefault('batch_size', 100)
+    else:
+        raise KeyError("{} model is unknown.".format(model_name))
 
 
 # 定义一个全连接神经网络模型
@@ -70,68 +140,6 @@ class neural_network_model(nn.Module):
         return x
 
 
-def train(name, **kwargs):
-    """
-    用于训练的函数
-    :param :name the name of model
-    :param :kwargs other args in form of dict
-    :return y_pred the predict result of X_test
-    """
-    X_train = kwargs['X_train']
-    y_train = kwargs['y_train']
-    X_test = kwargs['X_test']
-    y_test = kwargs['y_test']
-    n_bands = kwargs['n_bands']
-    n_classes = kwargs['n_classes']
-    n_runs = kwargs['n_runs']
-    name = name.lower()
-    if name == "svm":  # 使用SVM进行分类
-        clf = train_svm(X_train, y_train)
-        return clf
-    elif name == 'nearest':
-        clf = train_knn(X_train, y_train)
-        return clf
-    elif name == 'nn':
-        # 初始化神经模型
-        net = neural_network_model(n_bands, n_classes, dropout=True, p=0.5).cuda()
-        bsz = 1000  # batch_size
-        print("X_train.shape", X_train.shape)
-        print("y_train.shape", y_train.shape)
-        print("n_classes", n_classes)
-        # 加载数据集,这里定义了张量tensor
-        datasets = Mydatasets(X_train, y_train, bsz)
-        # 放入dataloader
-        batch_loader = DataLoader(datasets, batch_size=bsz, shuffle=True)
-        # 定义优化器
-        optimizer = optim.AdamW(net.parameters(), lr=0.001, weight_decay=0.01)
-
-        criterion = nn.CrossEntropyLoss()
-
-        t = trange(n_runs, desc='Runs')
-        for run in t:
-            loss_avg = 0
-            nums = 0
-            for batch_X, batch_y in batch_loader:
-                # 检查训练集是否有问题
-                if any(batch_y[batch_y > n_classes]):
-                    print(f"出现了大于{n_classes}的标签,错误！！！")
-                    continue
-                # 输入网络进行训练
-                pred_classes = net(batch_X.cuda())
-                nums += 1
-                loss = criterion(pred_classes, batch_y.cuda().long())
-                loss_avg += loss.item()
-                # 反向传播
-                loss.backward()
-                # 更新权重
-                optimizer.step()
-                # 更新进度条描述
-                if nums % 25 == 0:
-                    t.set_postfix(Loss=f'{loss_avg / nums:.2f}', refresh=True)
-                    print()
-        return net
-
-
 def train_svm(X_train, y_train):
     # 加载svm分类器
     # svm_classifier = sklearn.svm.SVC(kernel='rbf', C=10, gamma=0.001)
@@ -149,21 +157,24 @@ def train_knn(X_train, y_train):
     return knn_classifier
 
 
-def predict(name, clf, X_test):
+def predict(model_name, clf, X_test):
     """
     用于预测的函数
-    :param :name the name of model
+    :param :model_name the name of model
     :param :clf the model
     :param :X_test the test data
     :return y_pred the predict result of X_test
     """
-    name = name.lower()
-    if (name == "svm"):  # 使用SVM进行分类
+    model_name = model_name.lower()
+    if model_name == "svm":  # 使用SVM进行分类
         y_pred = clf.predict(X_test)
-    elif (name == 'nearest'):
+    elif model_name == 'nearest':
         y_pred = clf.predict(X_test)
-    elif (name == 'nn'):
+    elif model_name == 'nn':
         y_pred = clf(torch.Tensor(X_test).cuda())
         y_pred = torch.topk(y_pred, k=1).indices
         y_pred = y_pred.cpu().numpy()
-    return y_pred
+    else:
+        print("The model name is wrong")
+        y_pred = None
+    return y_pred.reshape(-1)

@@ -8,13 +8,16 @@ from sklearn.decomposition import FastICA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
 
-def preprocess(img,  gt, preprocess_name, n_bands):
-    preprocess_name = preprocess_name.upper()
-    if preprocess_name == 'PCA':
+def preprocess(hsi_img,  gt, preprocess_name, n_bands):
+    # 归一化
+    img = np.asarray(hsi_img, dtype=np.float32)
+    img = (img - np.min(img)) / (np.max(img) - np.min(img))
+    preprocess_name = preprocess_name.lower()
+    if preprocess_name == 'pca':
         img = pca_sklearn(img, n_bands)
-    elif preprocess_name == 'ICA':
+    elif preprocess_name == 'ica':
         img = ica_sklearn(img, n_bands)
-    elif preprocess_name == 'LDA':
+    elif preprocess_name == 'lda':
         img = lda_sklearn(img, gt)
     return img
 

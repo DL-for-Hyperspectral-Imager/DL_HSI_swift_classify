@@ -24,15 +24,12 @@ def load_dataset(dataset_name):
                         "Soybean-notill", "Soybean-mintill", "Soybean-clean",
                         "Wheat", "Woods", "Buildings-Grass-Trees-Drives",
                         "Stone-Steel-Towers"]
+        ignored_labels = [0]
     else:
         pass
 
-    # # 数据转换
-    # img = np.transpose(img, (2, 0, 1))
-    # gt = np.asarray(gt, dtype=np.int32)
-    # gt = np.transpose(gt, (1, 0))
 
-    return img, gt, label_values
+    return img, gt, label_values, ignored_labels
 
 
 def split_train_test(gt, trainrate):
@@ -62,7 +59,7 @@ def split_train_test(gt, trainrate):
     return train_gt, test_gt
 
 
-def build_set(img, gt):
+def build_dataset(img, gt):
     """
     构建数据:wq
     :集
