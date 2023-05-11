@@ -38,47 +38,48 @@ def train(hyperparams, **kwargs):
     elif model_name == 'nearest':
         clf = train_knn(X_train, y_train)
         return clf
-    else:
-        model, optimizer, loss = get_model(model_name, **hyperparams)
-    # elif model_name == 'nn':
-    #     # 初始化神经模型
-    #     net = neural_network_model(n_bands, n_classes, dropout=True, p=0.5).cuda()
-    #     bsz = 1000  # batch_size
-    #     print("X_train.shape", X_train.shape)
-    #     print("y_train.shape", y_train.shape)
-    #     print("n_classes", n_classes)
-    #     # 加载数据集,这里定义了张量tensor
-    #     datasets = Mydatasets(X_train, y_train, bsz)
-    #     # 放入dataloader
-    #     batch_loader = DataLoader(datasets, batch_size=bsz, shuffle=True)
-    #     # 定义优化器
-    #     optimizer = optim.AdamW(net.parameters(), lr=0.001, weight_decay=0.01)
-    #
-    #     criterion = nn.CrossEntropyLoss()
-    #
-    #     t = trange(n_runs, desc='Runs')
-    #     for run in t:
-    #         loss_avg = 0
-    #         nums = 0
-    #         for batch_X, batch_y in batch_loader:
-    #             # 检查训练集是否有问题
-    #             if any(batch_y[batch_y > n_classes]):
-    #                 print(f"出现了大于{n_classes}的标签,错误！！！")
-    #                 continue
-    #             # 输入网络进行训练
-    #             pred_classes = net(batch_X.cuda())
-    #             nums += 1
-    #             loss = criterion(pred_classes, batch_y.cuda().long())
-    #             loss_avg += loss.item()
-    #             # 反向传播
-    #             loss.backward()
-    #             # 更新权重
-    #             optimizer.step()
-    #             # 更新进度条描述
-    #             if nums % 25 == 0:
-    #                 t.set_postfix(Loss=f'{loss_avg / nums:.2f}', refresh=True)
-    #                 print()
-    #     return net
+    # 尚未实现
+    # else:
+    #     model, optimizer, loss = get_model(model_name, **hyperparams)
+    elif model_name == 'nn':
+        # 初始化神经模型
+        net = neural_network_model(n_bands, n_classes, dropout=True, p=0.5).cuda()
+        bsz = 1000  # batch_size
+        print("X_train.shape", X_train.shape)
+        print("y_train.shape", y_train.shape)
+        print("n_classes", n_classes)
+        # 加载数据集,这里定义了张量tensor
+        datasets = Mydatasets(X_train, y_train, bsz)
+        # 放入dataloader
+        batch_loader = DataLoader(datasets, batch_size=bsz, shuffle=True)
+        # 定义优化器
+        optimizer = optim.AdamW(net.parameters(), lr=0.001, weight_decay=0.01)
+
+        criterion = nn.CrossEntropyLoss()
+
+        t = trange(n_runs, desc='Runs')
+        for run in t:
+            loss_avg = 0
+            nums = 0
+            for batch_X, batch_y in batch_loader:
+                # 检查训练集是否有问题
+                if any(batch_y[batch_y > n_classes]):
+                    print(f"出现了大于{n_classes}的标签,错误！！！")
+                    continue
+                # 输入网络进行训练
+                pred_classes = net(batch_X.cuda())
+                nums += 1
+                loss = criterion(pred_classes, batch_y.cuda().long())
+                loss_avg += loss.item()
+                # 反向传播
+                loss.backward()
+                # 更新权重
+                optimizer.step()
+                # 更新进度条描述
+                if nums % 25 == 0:
+                    t.set_postfix(Loss=f'{loss_avg / nums:.2f}', refresh=True)
+                    print()
+        return net
 
 def get_model(model_name, **kwargs):
     n_bands = kwargs["n_bands"]
