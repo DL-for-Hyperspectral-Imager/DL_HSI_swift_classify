@@ -1,12 +1,5 @@
 # -*- coding: utf-8 -*-
 
-"""
-变量命名规范
-*img, *gt 等都是(145,145,200)的numpy数组
-*X 是(145*145,200)的numpy数组
-*y 是(145*145,)的numpy数组
-"""
-
 from utils import *
 from model import *
 from preprocess import *
@@ -34,23 +27,25 @@ def main():
     train_gt, test_gt = split_train_test(gt, hyperparams["training_sample"])
     # 依据train_gt构建训练集
     X_train, y_train = build_dataset(img, train_gt)
-    # 训练
-    start_train = time.time()
-    clf = train(hyperparams, X_train=X_train, y_train=y_train)
-    end_train = time.time()
-    # 预测
-    start_pred = time.time()
-    y_img_pred = predict(hyperparams["model"], clf, img.reshape(-1, hyperparams["n_bands"]))
-    end_pred = time.time()
+    best_args = (-1,-1,-1)
+    best_accuracy = 0
+    for n_brands_ in []:
+        for n_runs in []:
+            for training_sample in []:
+                args["n_brands"] = n_brands_
+                args["n_runs"] = n_runs
+                args["training_sample"] = training_sample
+                # 训练
+                clf = train(hyperparams, X_train=X_train, y_train=y_train)
+                # 预测
+                y_img_pred = predict(hyperparams["model"], clf, img.reshape(-1, hyperparams["n_bands"]))
 
-    run_results = metrics(y_img_pred, gt.reshape(-1), ignored_labels, hyperparams["n_classes"])
+                run_results = metrics(y_img_pred, gt.reshape(-1), ignored_labels, hyperparams["n_classes"])
+                if(run_results["Accuracy"] > best_accuracy):
+                    best_args = (n_brands_,n_runs,training_sample)
+    print("best_args:",best_args)
+
     
-    # 可视化与结果输出
-    visualize(hsi_img, gt, y_img_pred.reshape(hyperparams["height"], hyperparams["width"]))
-    show_results(args, run_results, label_values)
-
-    print('Training time: %.5fs' % (end_train - start_train))
-    print('Predicting time: %.5fs' % (end_pred - start_pred))
 
 def args_init():
     # 解析命令行参数
