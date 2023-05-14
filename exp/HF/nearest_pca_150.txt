@@ -1,0 +1,67 @@
+Fitting 5 folds for each of 5 candidates, totalling 25 fits
+Results for nearest on IndianPines with pca and 10.0% sample rate:
+Confusion matrix:
+   0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0 
+   0   19    0    0    1    3    0    0   23    0    0    0    0    0    0    0    0 
+   0    0  840   60    4    2    7    0    2    0   80  402   31    0    0    0    0 
+   0    0  181  357    0    0    2    0    0    0   45  225   20    0    0    0    0 
+   0    0  114   12   23    0   35    1    2    0   12   36    1    1    0    0    0 
+   0    3    6    0    2  361    8    1   13    0    0   20    2    0   66    1    0 
+   0    0    0    0    1    5  696    0    0    0    0    1    0   11   10    6    0 
+   0    0    0    0    0    0    0   15    5    0    2    6    0    0    0    0    0 
+   0   15    0    0    0    4    2    0  457    0    0    0    0    0    0    0    0 
+   0    0    0    0    0    7   13    0    0    0    0    0    0    0    0    0    0 
+   0    0   56   25    3    1    3    2    1    0  616  248   17    0    0    0    0 
+   0    0  200   92    9    7   15    2    2    0  243 1871   14    0    0    0    0 
+   0    0  218   44    3    0    6    0    0    0   46  183   93    0    0    0    0 
+   0    0    0    0    0    0   20    0    0    0    0    1    0  184    0    0    0 
+   0    0    0    0    0   60    9    0    0    0    0    0    0    3 1188    5    0 
+   0    0    1    2    0   24  144    0    2    0    0   17    0   47  125   24    0 
+   0    0   25    4    1    0    0    0    0    0    0    0    1    0    0    0   62 
+Global accuracy: 66.41
+F1 scores:
+  Undefined: nan
+  Alfalfa: 0.46
+  Corn-notill: 0.55
+  Corn-mintill: 0.50
+  Corn: 0.16
+  Grass-pasture: 0.75
+  Grass-trees: 0.82
+  Grass-pasture-mowed: 0.61
+  Hay-windrowed: 0.93
+  Oats: 0.00
+  Soybean-notill: 0.61
+  Soybean-mintill: 0.68
+  Soybean-clean: 0.24
+  Wheat: 0.82
+  Woods: 0.90
+  Buildings-Grass-Trees-Drives: 0.11
+  Stone-Steel-Towers: 0.80
+Kappa: 0.61
+Training time: 1.24810s
+Predicting time: 0.75168s
+[CV 1/5] END .....................n_neighbors=1;, score=0.463 total time=   0.0s
+[CV 5/5] END .....................n_neighbors=1;, score=0.574 total time=   0.0s
+[CV 2/5] END .....................n_neighbors=3;, score=0.580 total time=   0.0s
+[CV 4/5] END .....................n_neighbors=3;, score=0.605 total time=   0.0s
+[CV 3/5] END .....................n_neighbors=5;, score=0.629 total time=   0.0s
+[CV 2/5] END ....................n_neighbors=10;, score=0.507 total time=   0.0s
+[CV 2/5] END ....................n_neighbors=20;, score=0.512 total time=   0.0s
+[CV 3/5] END .....................n_neighbors=1;, score=0.620 total time=   0.0s
+[CV 1/5] END .....................n_neighbors=5;, score=0.517 total time=   0.0s
+[CV 1/5] END ....................n_neighbors=10;, score=0.512 total time=   0.0s
+[CV 5/5] END ....................n_neighbors=10;, score=0.613 total time=   0.0s
+[CV 4/5] END ....................n_neighbors=20;, score=0.566 total time=   0.0s
+[CV 2/5] END .....................n_neighbors=1;, score=0.556 total time=   0.0s
+[CV 1/5] END .....................n_neighbors=3;, score=0.507 total time=   0.0s
+[CV 3/5] END .....................n_neighbors=3;, score=0.595 total time=   0.0s
+[CV 2/5] END .....................n_neighbors=5;, score=0.571 total time=   0.0s
+[CV 4/5] END .....................n_neighbors=5;, score=0.571 total time=   0.0s
+[CV 3/5] END ....................n_neighbors=10;, score=0.673 total time=   0.0s
+[CV 1/5] END ....................n_neighbors=20;, score=0.468 total time=   0.0s
+[CV 5/5] END ....................n_neighbors=20;, score=0.613 total time=   0.0s
+[CV 4/5] END .....................n_neighbors=1;, score=0.610 total time=   0.0s
+[CV 5/5] END .....................n_neighbors=3;, score=0.578 total time=   0.0s
+[CV 5/5] END .....................n_neighbors=5;, score=0.554 total time=   0.0s
+[CV 4/5] END ....................n_neighbors=10;, score=0.610 total time=   0.0s
+[CV 3/5] END ....................n_neighbors=20;, score=0.605 total time=   0.0s

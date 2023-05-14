@@ -1,0 +1,42 @@
+svm_pca_25_
+Results for svm on IndianPines with pca and 10.0% sample rate:
+Confusion matrix:
+   0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0 
+   0    1    1    0    0    0   44    0    0    0    0    0    0    0    0    0    0 
+   0    1  653    0    0    0    7    0    0    3    0  493    0  171    0    0  100 
+   0    0  525    0    0    0    1    0    0    3    0  193    0  102    0    0    6 
+   0    0  122    0    0    0   17    0    0    4    0   34    0   59    0    0    1 
+   0   52    8    0    0    0  129    0    0    2    0    5    0   16  271    0    0 
+   0   51    0    0    0    0  630    0    0    0    0    0    0   48    1    0    0 
+   0    0    0    0    0    0    6    0    0    0    0    4    0   18    0    0    0 
+   0    1   40    0    0    0  360    0    0    0    0   41    0   36    0    0    0 
+   0    0    0    0    0    0   20    0    0    0    0    0    0    0    0    0    0 
+   0    0  303    0    0    0    8    0    0    3    0  553    0  105    0    0    0 
+   0    0 1590    0    0    0   31    0    0   14    0  571    0  211    0    0   38 
+   0    0  149    0    0    0    2    0    0    2    0  224    0  193    0    0   23 
+   0    0    0    0    0    0   34    0    0    0    0    0    0  171    0    0    0 
+   0   92    0    0    0    0  212    0    0    0    0    0    0  176  785    0    0 
+   0   68    1    0    0    0  189    0    0    0    0    2    0  119    7    0    0 
+   0    0    0    0    0    0    0    0    0    0    0    1    0    0    0    0   92 
+Global accuracy: 28.32
+F1 scores:
+  Undefined: nan
+  Alfalfa: 0.01
+  Corn-notill: 0.27
+  Corn-mintill: 0.00
+  Corn: 0.00
+  Grass-pasture: 0.00
+  Grass-trees: 0.52
+  Grass-pasture-mowed: 0.00
+  Hay-windrowed: 0.00
+  Oats: 0.00
+  Soybean-notill: 0.00
+  Soybean-mintill: 0.25
+  Soybean-clean: 0.00
+  Wheat: 0.21
+  Woods: 0.67
+  Buildings-Grass-Trees-Drives: 0.00
+  Stone-Steel-Towers: 0.52
+Kappa: 0.18
+Training time: 0.22797s
+Predicting time: 3.80624s
