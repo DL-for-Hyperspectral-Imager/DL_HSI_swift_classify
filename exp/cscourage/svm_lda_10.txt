@@ -1,0 +1,41 @@
+Results for svm on IndianPines with lda and 10.0% sample rate:
+Confusion matrix:
+   0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0 
+   0   31    0    0    0    0    0    2   13    0    0    0    0    0    0    0    0 
+   0    0 1036   21  105    6    2    0    0    1  150   94   12    0    0    1    0 
+   0    0   39  528  100    0    0    0    0    0   32   79   52    0    0    0    0 
+   0    0   12   22  173    1    0    1    0   21    1    1    3    0    0    2    0 
+   0    0    3    3   14  453    0    0    1    0    2    0    1    0    3    3    0 
+   0    0    1    0    0    8  696    0    0    0    1    1    0    0    1   22    0 
+   0    0    0    0    1    0    0   27    0    0    0    0    0    0    0    0    0 
+   0    6    0    0    0    0    0   14  458    0    0    0    0    0    0    0    0 
+   0    0    0    0    6    4    0    0    0   10    0    0    0    0    0    0    0 
+   0    0   60    1    6    0    3    0    0    1  666  234    1    0    0    0    0 
+   0    0  161  224   25   12    3    0    0    2  316 1456  250    0    0    6    0 
+   0    0    2   54   20    0    0    0    0    0    0   14  493    0    0    9    1 
+   0    0    0    1    0    0    0    0    0    0    0    0    0  204    0    0    0 
+   0    0    0    0    1   23    4    0    0    1    0    0    0    1 1088  147    0 
+   0    0    0    0    1    6   29    0    0    0    0    0    0    0   31  319    0 
+   0    0    0    0    0    1    0    0    0    0    0    0   12    0    0    2   78 
+Global accuracy: 75.29
+F1 scores:
+  Undefined: nan
+  Alfalfa: 0.75
+  Corn-notill: 0.76
+  Corn-mintill: 0.63
+  Corn: 0.50
+  Grass-pasture: 0.91
+  Grass-trees: 0.95
+  Grass-pasture-mowed: 0.75
+  Hay-windrowed: 0.96
+  Oats: 0.36
+  Soybean-notill: 0.62
+  Soybean-mintill: 0.67
+  Soybean-clean: 0.70
+  Wheat: 1.00
+  Woods: 0.91
+  Buildings-Grass-Trees-Drives: 0.71
+  Stone-Steel-Towers: 0.91
+Kappa: 0.72
+Training time: 0.02601s
+Predicting time: 1.39636s

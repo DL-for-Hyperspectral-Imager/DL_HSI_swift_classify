@@ -18,7 +18,7 @@ def preprocess(hsi_img,  gt, preprocess_name, n_bands):
     elif preprocess_name == 'ica':
         img = ica_sklearn(img, n_bands)
     elif preprocess_name == 'lda':
-        img = lda_sklearn(img, gt)
+        img = lda_sklearn(img, gt, n_bands)  ##
     return img
 
 
@@ -74,7 +74,7 @@ def ica_sklearn(img, k):
     return img_ica
 
 
-def lda_sklearn(img, gt):
+def lda_sklearn(img, gt, k):
     # 原始数据的形状
     m, n, p = img.shape
     # 将数据reshape成(m*n,p)的形式
@@ -82,7 +82,7 @@ def lda_sklearn(img, gt):
     y = gt.reshape(m * n)
     # 创建lda对象,该算法要求 n_components不能大于原始数据维度和类别数
     # 经测试发现在kvm分类器下取13为最优
-    lda = LinearDiscriminantAnalysis(n_components=13)
+    lda = LinearDiscriminantAnalysis(n_components=k) ##
     # 对数据进行降维
     lda.fit(X, y)
     X_lda = lda.transform(X)
