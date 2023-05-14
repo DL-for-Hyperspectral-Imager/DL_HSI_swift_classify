@@ -46,7 +46,8 @@ def main():
     run_results = metrics(y_img_pred, gt.reshape(-1), ignored_labels, hyperparams["n_classes"])
     
     # 可视化与结果输出
-    visualize(hsi_img, gt, y_img_pred.reshape(hyperparams["height"], hyperparams["width"]))
+    visualize(hsi_img, gt, y_img_pred.reshape(hyperparams["height"], hyperparams["width"]),hyperparams["img_path"],hyperparams["model"]+'_'+hyperparams["preprocess"]+'_'+str(hyperparams["n_bands"])
+              +'_')
     show_results(args, run_results, label_values)
 
     print('Training time: %.5fs' % (end_train - start_train))
@@ -57,10 +58,11 @@ def args_init():
     parser = argparse.ArgumentParser()
     parser.add_argument('--n_runs', type=int, default=1, help='number of runs')
     parser.add_argument('--dataset', type=str, default='IndianPines', help='dataset name')
-    parser.add_argument('--preprocess', type=str, default='', help='preprocess name')
-    parser.add_argument('--model', type=str, default='SVM', help='model name')
+    parser.add_argument('--preprocess', type=str, default='0', help='preprocess name')
+    parser.add_argument('--model', type=str, default='svm', help='model name')
     parser.add_argument('--training_sample', type=float, default=0.1, help='training sample')
     parser.add_argument('--n_bands', type=int, default=50, help='number of bands')
+    parser.add_argument('--img_path',type=str,default='result',help='path for saved img')
     return parser.parse_args()
 
 if __name__ == "__main__":
