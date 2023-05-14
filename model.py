@@ -128,6 +128,7 @@ class neural_network_model(nn.Module):
         self.apply(self.weight_init)
 
     def forward(self, x):
+        x = x.to(torch.float32) ##
         x = nnFunc.relu(self.fc1(x))
         if self.use_dropout:
             x = self.dropout(x)

@@ -1,0 +1,44 @@
+X_train.shape (1024, 8)
+y_train.shape (1024,)
+n_classes 17
+Results for nn on IndianPines with lda and 10.0% sample rate:
+Confusion matrix:
+   0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0 
+   0    0    0    0    0    0    0    0    0    0    0   46    0    0    0    0    0 
+   0    0   24    0    0    0    0    0    0    0    0 1404    0    0    0    0    0 
+   0    0    0    0    0    0    0    0    0    0    0  830    0    0    0    0    0 
+   0    0    2    0    0    0    0    0    0    0    0  235    0    0    0    0    0 
+   0    0    0    0    0    0    2    0    0    0    0  457    0    0   24    0    0 
+   0    0    0    0    0    0  110    0    0    0    0  619    0    0    1    0    0 
+   0    0    0    0    0    0    0    0    0    0    0   28    0    0    0    0    0 
+   0    0    0    0    0    0    0    0    0    0    0  478    0    0    0    0    0 
+   0    0    0    0    0    0    0    0    0    0    0   20    0    0    0    0    0 
+   0    0    0    0    0    0    0    0    0    0    0  972    0    0    0    0    0 
+   0    0    0    0    0    0    0    0    0    0    0 2454    0    0    1    0    0 
+   0    0    0    0    0    0    0    0    0    0    0  593    0    0    0    0    0 
+   0    0    0    0    0    0    0    0    0    0    0  205    0    0    0    0    0 
+   0    0    0    0    0    0    2    0    0    0    0  263    0    0 1000    0    0 
+   0    0    0    0    0    0    5    0    0    0    0  242    0    0  139    0    0 
+   0    0    0    0    0    0    0    0    0    0    0   93    0    0    0    0    0 
+Global accuracy: 35.01
+F1 scores:
+  Undefined: nan
+  Alfalfa: 0.00
+  Corn-notill: 0.03
+  Corn-mintill: 0.00
+  Corn: 0.00
+  Grass-pasture: 0.00
+  Grass-trees: 0.26
+  Grass-pasture-mowed: 0.00
+  Hay-windrowed: 0.00
+  Oats: 0.00
+  Soybean-notill: 0.00
+  Soybean-mintill: 0.43
+  Soybean-clean: 0.00
+  Wheat: 0.00
+  Woods: 0.82
+  Buildings-Grass-Trees-Drives: 0.00
+  Stone-Steel-Towers: 0.00
+Kappa: 0.16
+Training time: 2.13548s
+Predicting time: 0.24906s

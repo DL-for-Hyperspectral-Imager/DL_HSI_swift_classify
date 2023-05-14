@@ -97,9 +97,9 @@ def hsi2rgb(img):
     return rgb_IMG
 
 
-def visualize(hsi_img, gt, pred_img):
+def visualize(hsi_img, gt, pred_img, img_path = "result" , name  = ""):
     rgb_IMG = hsi2rgb(hsi_img)
-
+    print(name)
     # 颜色
     color = [(255, 255, 255), (255, 0, 0), (255, 128, 0), (255, 255, 0), (128, 255, 0), \
              (0, 255, 0), (0, 255, 255), (0, 128, 255), (0, 0, 255), (127, 0, 255), (255, 0, 255), \
@@ -117,12 +117,12 @@ def visualize(hsi_img, gt, pred_img):
         for j in range(145):
             color_pred_gt_IMG.putpixel((i, j), color[pred_img[i, j]])
 
-    resdir = os.path.join(current_dir, "result")
+    resdir = os.path.join(current_dir, img_path)
     os.makedirs(resdir, exist_ok=True)
 
-    rgb_IMG.save(os.path.join(resdir, "rgb.png"))
-    color_gt_IMG.save(os.path.join(resdir, "color_gt.png"))
-    color_pred_gt_IMG.save(os.path.join(resdir, "color_pred_gt.png"))
+    rgb_IMG.save(os.path.join(resdir, name + "rgb.png"))
+    color_gt_IMG.save(os.path.join(resdir, name + "color_gt.png"))
+    color_pred_gt_IMG.save(os.path.join(resdir, name + "color_pred_gt.png"))
 
     # rgb_IMG.show()
     # color_gt_IMG.show()

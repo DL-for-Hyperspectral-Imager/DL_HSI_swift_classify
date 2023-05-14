@@ -14,5 +14,5 @@ for preprocess in preprocess_list:
         # run_results, Training_time, Predicting_time即为本次运行的结果
         # run_results中包含了accuracy, F1 score by class, confusion matrix,为字典
         run_results, Training_time, Predicting_time = main.main(False, n_runs = 1, dataset = 'IndianPines', preprocess = preprocess, model = model, training_sample = 0.1,\
-                                 n_bands = n_bands)
+                                 n_bands = n_bands, img_path = 'result')
         # 下面进行分析处理...
