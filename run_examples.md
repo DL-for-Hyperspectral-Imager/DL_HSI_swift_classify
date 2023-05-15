@@ -1,7 +1,13 @@
 ## 运行示例
+有两种运行方式：
+
+1. 从命令行提供参数，此时需要提供--message参数
+2. 若没有提供--message参数，则main函数会使用函数接口中的kwargs参数来运行
+
+！！！故如果要用命令行运行，务必提供参数--message
 #### pca + svm
 ```commandline
-python main.py --dataset IndianPines --n_runs 1 --sample_rate 0.3 --preprocess PCA --model SVM
+python main.py --message yes --dataset IndianPines --n_runs 1 --sample_rate 0.3 --preprocess PCA --model SVM
 ```
 result:
 ```text

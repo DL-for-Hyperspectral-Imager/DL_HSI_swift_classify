@@ -15,7 +15,8 @@ from torch.nn import init
 from datasets import Mydatasets
 # added by mangp, to solve a bug of sklearn
 from sklearn import neighbors
-
+# added by mangp, to save the classifier
+import joblib
 
 def train(hyperparams, **kwargs):
     """
@@ -32,11 +33,15 @@ def train(hyperparams, **kwargs):
     X_train = kwargs['X_train']
     y_train = kwargs['y_train']
 
+    #将训练好的分类器保存在classifier文件夹下面
+    clf_save_path = 'classifier/'
     if model_name == "svm":  # 使用SVM进行分类
         clf = train_svm(X_train, y_train)
+        joblib.dump(clf, clf_save_path + model_name + '_' + 'clf')
         return clf
     elif model_name == 'nearest':
         clf = train_knn(X_train, y_train)
+        joblib.dump(clf, clf_save_path + model_name + '_' + 'clf')
         return clf
     # 尚未实现
     # else:
@@ -153,8 +158,10 @@ def train_svm(X_train, y_train):
 def train_knn(X_train, y_train):
     # 加载knn分类器
     knn_classifier = sklearn.neighbors.KNeighborsClassifier()
+    # 通过选择最佳的邻居数量来执行knn分类器的参数调整
+    # verbose为0表示不输出训练进度和信息
     knn_classifier = sklearn.model_selection.GridSearchCV(
-        knn_classifier, {"n_neighbors": [1, 3, 5, 10, 20]}, verbose=5, n_jobs=4)
+        knn_classifier, {"n_neighbors": [1, 3, 5, 10, 20]}, verbose=0, n_jobs=4)
     knn_classifier.fit(X_train, y_train)
     return knn_classifier
 
