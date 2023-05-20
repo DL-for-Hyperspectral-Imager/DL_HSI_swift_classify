@@ -108,7 +108,7 @@ def visualize(
         img_path = "result",
         name = ""):
 
-    rgb_IMG = hsi2rgb(hsi_img, rgb_bands = (43, 21, 11))
+    # rgb_IMG = hsi2rgb(hsi_img, rgb_bands = (43, 21, 11))
     palette = {0: (0, 0, 0)}
     for k, color in enumerate(seaborn.color_palette("hls", n_classes - 1)):
         palette[k + 1] = tuple(np.asarray(255 * np.array(color), dtype = "uint8"))
@@ -121,7 +121,10 @@ def visualize(
     # color_pred_IMG.show()
     # rgb_IMG.show()
     # color_gt_IMG.save(os.path.join("..", img_path, name + "color_gt.png"))
-    # color_pred_IMG.save(os.path.join(img_path, name + "color_pred.png"))
+    path = os.path.join(os.getcwd(), "..", img_path,  name + "color_pred.png")
+    color_pred_IMG.save(os.path.join("..",  img_path, name + "color_pred.png"))
+
+
 
 
 def metrics(prediction, target, ignored_labels = [], n_classes = None):

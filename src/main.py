@@ -13,14 +13,14 @@ from preprocess import *
 import argparse
 
 import time
-
+import sys
 
 # 这里定义一个main函数作为整个项目的入口，只有作为脚本时这个文件才会运行
 # 注意此处修改，main函数添加了一个参数，为一字典，若没有从命令行输入参数，
 # 则直接使用args中指定的值，同时方便使用其他python脚本进行测试。
 # 改动：将run_results, Training_time, Predicting_time作为返回值返回，方便使用脚本多次运行和保存结果
 # 改动：添加了一个输出开关选项，可以选择关闭输出
-def main(show_results_switch = True, **kwargs):
+def main(show_results_switch = True, hyperparams = {}):
     """
     Args:
         show_results_switch: if True, then print result, otherwise no print(usually for testing)
@@ -30,10 +30,6 @@ def main(show_results_switch = True, **kwargs):
         training_time
         predicting_time
     """
-    # 获取args
-    args = args_init(**kwargs)
-    hyperparams = args.__dict__
-
     # 加载原始数据集
     hsi_img, gt, label_values, ignored_labels, rgb_bands = load_dataset(hyperparams["dataset"])
     rgb_IMG = hsi2rgb(hsi_img, rgb_bands = rgb_bands)
@@ -51,7 +47,7 @@ def main(show_results_switch = True, **kwargs):
 
     hyperparams["height"], hyperparams["width"], hyperparams["n_bands"] = img.shape
 
-    train_gt, test_gt = split_train_test(gt, hyperparams["training_sample"])  # 划分训练集和测试集
+    train_gt, test_gt = split_train_test(gt, hyperparams["training_rate"])  # 划分训练集和测试集
 
     X_train, y_train = build_dataset(img, train_gt)  # 依据train_gt构建训练集
 
@@ -100,42 +96,39 @@ def main(show_results_switch = True, **kwargs):
 def args_init(**kwargs):
     # 添加需要解析的参数
     parser = argparse.ArgumentParser()
-    # message参数用于指定是否从命令行读取参数，若不提供message，则使用kwargs中提供的参数,
-    # 故如果不提供message，则需要在调用main()函数时提供kwargs参数，否则报错
-    parser.add_argument(
-            "--message",
-            type = str,
-            help = "if not offered,then use kwargs")
-    parser.add_argument(
-            "--n_runs",
-            type = int,
-            default = 1,
-            help = "number of runs")
     parser.add_argument(
             "--dataset",
             type = str,
             default = "IndianPines",
             help = "dataset name")
     parser.add_argument(
+            "--training_rate",
+            type = float,
+            default = 0.1,
+            help = "training sample")
+    # preprocess and n_bands
+    parser.add_argument(
             "--preprocess",
             type = str,
             default = "0",
             help = "preprocess name")
+    parser.add_argument(
+            "--n_bands",
+            type = int,
+            default = 50,
+            help = "number of bands")
+    # model and n_runs
     parser.add_argument(
             "--model",
             type = str,
             default = "svm",
             help = "model name")
     parser.add_argument(
-            "--training_sample",
-            type = float,
-            default = 0.1,
-            help = "training sample")
-    parser.add_argument(
-            "--n_bands",
+            "--n_runs",
             type = int,
-            default = 50,
-            help = "number of bands")
+            default = 1,
+            help = "number of runs")
+    # img_path and load_model
     parser.add_argument(
             "--img_path",
             type = str,
@@ -146,23 +139,12 @@ def args_init(**kwargs):
             type = str,
             default = None,
             help = "if load model")
-    # 此处修改，若没有从命令行输入参数，则手动设置参数
-    args = parser.parse_args()
-    if not args.message:
-        print("没有从命令行输入的参数")
-        # 此时使用kwargs中传递的参数，方便快速多次测试
-        args = argparse.Namespace()
-        args.n_runs = kwargs["n_runs"]
-        args.dataset = kwargs["dataset"]
-        args.preprocess = kwargs["preprocess"]
-        args.model = kwargs["model"]
-        args.training_sample = kwargs["training_sample"]
-        args.n_bands = kwargs["n_bands"]
-        args.img_path = kwargs["img_path"]
-    else:
-        pass
     return args
 
 
 if __name__ == "__main__":
-    main(True)
+    # 获取args
+    args = args_init()
+    hyperparams = vars(args)
+    main(show_results_switch = True,
+         hyperparams = hyperparams)

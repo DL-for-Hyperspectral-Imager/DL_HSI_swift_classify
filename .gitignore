@@ -2,3 +2,4 @@ Datasets/
 venv/
 __pycache__/
 temp/
+classifier/
