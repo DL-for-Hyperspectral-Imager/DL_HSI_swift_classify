@@ -48,38 +48,34 @@ def train(hyperparams, **kwargs):
         print("X_train.shape", X_train.shape)
         print("y_train.shape", y_train.shape)
         print("n_classes", n_classes)
-        # 加载数据集,这里定义了张量tensor
-        datasets = Mydatasets(X_train, y_train, bsz)
-        # 放入dataloader
-        batch_loader = DataLoader(datasets, batch_size=bsz, shuffle=True)
-        # 定义优化器
-        optimizer = optim.AdamW(net.parameters(), lr=0.001, weight_decay=0.01)
 
-        criterion = nn.CrossEntropyLoss()
+        datasets = Mydatasets(X_train, y_train, bsz) # 加载数据集,这里定义了张量tensor
+        batch_loader = DataLoader(datasets, batch_size=bsz, shuffle=True)# 放入dataloader
+        optimizer = optim.AdamW(net.parameters(), lr=0.001, weight_decay=0.01) # 定义优化器
+        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min') # 定义学习率衰减策
+        criterion = nn.CrossEntropyLoss() # 定义损失函数
 
         t = trange(n_runs, desc='Runs')
         for run in t:
-            loss_avg = 0
-            nums = 0
+            loss_avg = 0    # 记录每个epoch的平均损失
+            nums = 0        # 记录每个epoch的样本数
+            optimizer.zero_grad()  # 必须要清零梯度
             for batch_X, batch_y in batch_loader:
-                # 检查训练集是否有问题
-                if any(batch_y[batch_y > n_classes]):
+                if any(batch_y[batch_y > n_classes]):# 检查训练集是否有问题
                     print(f"出现了大于{n_classes}的标签,错误！！！")
                     continue
                 # 输入网络进行训练
                 pred_classes = net(batch_X.cuda())
-                nums += 1
                 loss = criterion(pred_classes, batch_y.cuda().long())
                 loss_avg += loss.item()
-                # 反向传播
-                loss.backward()
-                # 更新权重
-                optimizer.step()
-                # 更新进度条描述
-                if nums % 25 == 0:
-                    t.set_postfix(Loss=f'{loss_avg / nums:.2f}', refresh=True)
-                    print()
+                nums += 1
+                loss.backward()  # 反向传播
+                optimizer.step()  # 更新权重
+            scheduler.step(loss_avg/nums)  # 更新学习率
+            t.set_postfix(loss=loss_avg/nums, learning_rate=optimizer.param_groups[0]['lr'])
+
         return net
+
 
 def get_model(model_name, **kwargs):
     n_bands = kwargs["n_bands"]
@@ -128,7 +124,7 @@ class neural_network_model(nn.Module):
         self.apply(self.weight_init)
 
     def forward(self, x):
-        x = x.to(torch.float32) ##
+        x = x.to(torch.float32)  ##
         x = nnFunc.relu(self.fc1(x))
         if self.use_dropout:
             x = self.dropout(x)

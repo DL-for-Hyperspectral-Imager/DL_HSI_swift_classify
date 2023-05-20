@@ -86,19 +86,19 @@ def args_init(**kwargs):
     parser.add_argument('--img_path',type=str,default='result',help='path for saved img')
     #此处修改，若没有从命令行输入参数，则手动设置参数
     args, unknown_args = parser.parse_known_args()
-    if unknown_args:
-        print(f"存在未知参数：{unknown_args}")
-    else:
-        print("没有从命令行输入的参数")
-        #此时使用kwargs中传递的参数，方便快速多次测试
-        args = argparse.Namespace()
-        args.n_runs          = kwargs['n_runs']
-        args.dataset         = kwargs['dataset']
-        args.preprocess      = kwargs['preprocess']
-        args.model           = kwargs['model']
-        args.training_sample = kwargs['training_sample']
-        args.n_bands         = kwargs['n_bands']
-        args.img_path        = kwargs['img_path']
+    # if unknown_args:
+    #     print(f"存在未知参数：{unknown_args}")
+    # else:
+    #     print("没有从命令行输入的参数")
+    #     #此时使用kwargs中传递的参数，方便快速多次测试
+    #     args = argparse.Namespace()
+    #     args.n_runs          = kwargs['n_runs']
+    #     args.dataset         = kwargs['dataset']
+    #     args.preprocess      = kwargs['preprocess']
+    #     args.model           = kwargs['model']
+    #     args.training_sample = kwargs['training_sample']
+    #     args.n_bands         = kwargs['n_bands']
+    #     args.img_path        = kwargs['img_path']
     return args
 if __name__ == "__main__":
-    main()
+    main(True)
