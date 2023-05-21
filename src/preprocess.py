@@ -100,6 +100,7 @@ def lda_sklearn(img, gt, k):
     return X_lda_reshape
 
 
+<<<<<<< HEAD
 # def lle_sklearn(img, k):
 #     img = cp.asarray(img)
 #     # 原始数据的形状
@@ -117,6 +118,23 @@ def lda_sklearn(img, gt, k):
 #     X_lle_reshape = cp.asnumpy(X_lle_reshape)
 #     # 返回降维后的数据
 #     return X_lle_reshape
+=======
+def lle_sklearn(img, k):
+    # 原始数据的形状
+    m, n, p = img.shape
+    # 将数据reshape成(m*n,p)的形式,无监督降维算法
+    X = np.reshape(img, (m * n, p))
+    X = cp.asarray(X)
+    # 创建lle对象
+    lle = LocallyLinearEmbedding(n_components=k, eigen_solver='dense', neighbors_algorithm='kd_tree')
+    # 对数据进行降维
+    X_lle = lle.fit_transform(X)
+    #X_lle = cp.asnumpy(X_lle)
+    # 将数据reshape回原来的形状
+    X_lle_reshape = np.reshape(cp.asnumpy(X_lle), (m, n, k))
+    # 返回降维后的数据
+    return X_lle_reshape
+>>>>>>> 9db7525426604b1e633860e2bfd641662e84b9f0
 
 
 
