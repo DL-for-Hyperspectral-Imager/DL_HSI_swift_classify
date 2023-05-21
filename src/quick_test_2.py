@@ -4,10 +4,17 @@ import subprocess
 import argparse
 import main
 import matplotlib.pyplot as plt
+import numpy as np
 
-model_list = ['svm', 'nearest']  # 'nn'
+<<<<<<< HEAD
+model_list =  ['nn']
+preprocess_list = ['ica', 'pca']
+n_bands_list = [25, 50, 75, 100, 125, 150, 175]
+=======
+model_list = ['cnn2d']  # 'nn'
 preprocess_list = ['pca', 'ica']
 n_bands_list = [25, 50, 75, 100, 125, 150, 175, 200]
+>>>>>>> db4e61533b8171e525d84088b44b7939e94d64df
 
 for model in model_list:
     # 以不同的波段数和降维方法进行多次测试
@@ -20,13 +27,26 @@ for model in model_list:
             # run_results中包含了accuracy, F1 score by class, confusion matrix,为字典
             hyperparams = {}
             hyperparams = {'dataset':'IndianPines',
+<<<<<<< HEAD
                            'n_runs':1,
+                           'training_rate':0.3,
+=======
+                           'n_runs':200,
                            'training_rate':0.1,
+>>>>>>> db4e61533b8171e525d84088b44b7939e94d64df
                            'preprocess': preprocess,
                            'n_bands':n_bands,
                            'model':model,
-                           'img_path':'../result',
+                           'img_path':'result',
+<<<<<<< HEAD
                            'load_model':None}
+            if(model == 'nn'):
+                hyperparams['n_runs'] = 200
+=======
+                           'load_model':None,
+                           'patch_size':10,
+                           'bsz':1000}
+>>>>>>> db4e61533b8171e525d84088b44b7939e94d64df
             run_results, Training_time, Predicting_time = main.main(
                     show_results_switch = False, hyperparams = hyperparams)
             # 记录数据，可以增加其他属性
@@ -46,12 +66,13 @@ for model in model_list:
         plt.plot(n_bands_list, train_times, "ob-", label = "train time")
         plt.plot(n_bands_list, predict_times, "or-", label = "predict time")
         plt.legend()
-        plt.savefig("../result/" + model + "_" + preprocess + ".jpg")
-        plt.show()
+        plt.savefig("../result/" + model + '_' + preprocess + '/' + model + "_" + preprocess + ".jpg")
+        # plt.show()
+
 
 preprocess = 'lda'  # lda需要用不同的bands
 
-n_bands_list = [1, 3, 5, 7, 9, 11, 13, 15]
+n_bands_list = list(np.arange(1, 17))
 for model in model_list:
     train_times = []
     predict_times = []
@@ -66,7 +87,7 @@ for model in model_list:
                         'preprocess': preprocess,
                         'n_bands':n_bands,
                         'model':model,
-                        'img_path':'../result',
+                        'img_path':'result',
                         'load_model':None}
         run_results, Training_time, Predicting_time = main.main(
                 show_results_switch = False, hyperparams = hyperparams)
@@ -87,5 +108,5 @@ for model in model_list:
     plt.plot(n_bands_list, train_times, "ob-", label = "train time")
     plt.plot(n_bands_list, predict_times, "or-", label = "predict time")
     plt.legend()
-    plt.savefig("../result/" + model + "_" + preprocess + ".jpg")
+    plt.savefig("../result/" + model + '_' + preprocess + '/' + model + "_" + preprocess + ".jpg")
     plt.show()
