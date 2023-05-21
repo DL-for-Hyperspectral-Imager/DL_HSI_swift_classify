@@ -18,7 +18,7 @@ import numpy as np
 import os
 
 model_list = ['svm']  # 'nn'
-preprocess_list = ['pca']
+preprocess_list = ['ica','lda']
 n_bands_list_normal = [25, 50, 75, 100, 125, 150, 175, 200]
 n_bands_list_lda = list(np.arange(1, 17))
 
@@ -48,7 +48,7 @@ for model in model_list:
                            'load_model':None, 
                            'patch_size':None,
                            'bsz':None}
-            if(model == 'cnn1d' or model == 'cnn2d'):
+            if(model == 'cnn1d' or model == 'cnn2d' or model == 'nn'):
                 hyperparams['n_runs'] = 200
                 hyperparams['patch_size'] = 10
                 hyperparams['bsz']        = 1000
