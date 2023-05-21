@@ -219,8 +219,11 @@ def train_knn(X_train, y_train):
     # 通过选择最佳的邻居数量来执行knn分类器的参数调整
     # verbose为0表示不输出训练进度和信息
     knn_classifier = sklearn.model_selection.GridSearchCV(
-            knn_classifier, {"n_neighbors": [1, 3, 5, 10, 20]}, verbose = 0, n_jobs = 4)
+        knn_classifier, {"n_neighbors": [1, 3, 5, 7, 9, 10, 13, 15, 20], \
+                        "metric":['euclidean', 'manhattan', 'chebyshev']},\
+                        verbose = 0, n_jobs = 8)
     knn_classifier.fit(X_train, y_train)
+    print("The best k is %d:" %knn_classifier.best_params_['n_neighbors'])
     return knn_classifier
 
 
