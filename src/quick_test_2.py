@@ -15,7 +15,7 @@ import argparse
 import main
 import matplotlib.pyplot as plt
 
-# model_list = ['svm', 'nearest']  # 'nn'
+# model_list = ['cnn2d']  # 'nn'
 model_list = ['nn']
 preprocess_list = ['pca', 'ica', 'tsne']
 n_bands_list = [25, 50, 75, 100, 125, 150, 175, 200]
@@ -37,6 +37,12 @@ for model in model_list:
                            'preprocess': preprocess,
                            'n_bands':n_bands,
                            'model':model,
+                           'img_path':'result',
+                           'load_model':None,
+                           'patch_size':10,
+                           'bsz':1000}
+            run_results, Training_time, Predicting_time = main.main(
+                    show_results_switch = False, hyperparams = hyperparams)
                            'img_path':'result',
                            'load_model':None}
             run_results = main.main(show_results_switch = False, 
