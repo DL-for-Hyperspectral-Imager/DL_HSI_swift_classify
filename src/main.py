@@ -79,7 +79,7 @@ def main(show_results_switch = True, hyperparams = {}):
             gt = gt,
             pred_img = y_img_pred.reshape(hyperparams["height"], hyperparams["width"]),
             n_classes = hyperparams["n_classes"],
-            img_path = hyperparams["img_path"] + '\\' + hyperparams['model'] + '_' + hyperparams['preprocess'],
+            img_path = hyperparams["img_path"] + r'/' + hyperparams['model'] + '_' + hyperparams['preprocess'],
             name = hyperparams["model"] + "_" + hyperparams["preprocess"] + "_" + str(hyperparams["n_bands"]) + "_",
     )
 
@@ -96,8 +96,8 @@ def main(show_results_switch = True, hyperparams = {}):
         print("Training time: %.5fs" % (training_time))
         print("Predicting time: %.5fs" % (predicting_time))
 
-    # 下方改动,将重要结果返回
-    return run_results, training_time, predicting_time
+    # 下方改动,将重要结果返回一个字典
+    return run_results
 
 
 def args_init(**kwargs):

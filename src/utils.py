@@ -172,7 +172,7 @@ def visualize(
     if not os.path.exists('../'+ img_path):
         os.makedirs('../'+img_path)
 
-    path = os.path.join(os.getcwd(), "..", img_path,  name + "color_pred.png")
+    path = os.path.join(os.getcwd(), "..", img_path,  name + r"color_pred.png")
     color_pred_IMG.save(os.path.join("..",  img_path, name + "color_pred.png"))
     # color_pred_IMG.save(os.path.join(img_path, name + "color_pred.png"))
 
