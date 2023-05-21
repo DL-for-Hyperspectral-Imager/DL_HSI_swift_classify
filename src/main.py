@@ -37,14 +37,14 @@ def main(show_results_switch = True, hyperparams = {}):
     rgb_IMG.save(path)
 
     hyperparams["n_classes"] = len(label_values)
-
+    start_preprocess = time.time()
     img = preprocess(
             hsi_img = hsi_img,
             gt = gt,
             preprocess_name = hyperparams["preprocess"],
             n_bands = hyperparams["n_bands"],
     )  # 数据预处理
-
+    end_preprocess = time.time()
     hyperparams["height"], hyperparams["width"], hyperparams["n_bands"] = img.shape
 
     train_gt, test_gt = split_train_test(gt, hyperparams["training_rate"])  # 划分训练集和测试集
@@ -80,9 +80,13 @@ def main(show_results_switch = True, hyperparams = {}):
             name = hyperparams["model"] + "_" + hyperparams["preprocess"] + "_" + str(hyperparams["n_bands"]) + "_",
     )
 
+    preprocess_time = end_preprocess - start_preprocess
     training_time = end_train - start_train
     predicting_time = end_pred - start_pred
-
+    
+    run_results['preprocess_time'] = preprocess_time
+    run_results['training_time'] = training_time
+    run_results['predicting_time'] = predicting_time
     # 下方修改，若输出开关关闭则关闭输出
     if show_results_switch:
         show_results(args, run_results, label_values)
