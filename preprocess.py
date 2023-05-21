@@ -2,10 +2,12 @@
 
 
 import numpy as np
+import cupy as cp
 
 from sklearn.decomposition import PCA
 from sklearn.decomposition import FastICA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from cuml.manifold import LocallyLinearEmbedding
 
 
 def preprocess(hsi_img,  gt, preprocess_name, n_bands):
@@ -19,6 +21,8 @@ def preprocess(hsi_img,  gt, preprocess_name, n_bands):
         img = ica_sklearn(img, n_bands)
     elif preprocess_name == 'lda':
         img = lda_sklearn(img, gt, n_bands)  ##
+    elif preprocess_name == 'lle':
+        img = lle_sklearn(img, n_bands)
     return img
 
 
@@ -77,7 +81,7 @@ def ica_sklearn(img, k):
 def lda_sklearn(img, gt, k):
     # 原始数据的形状
     m, n, p = img.shape
-    # 将数据reshape成(m*n,p)的形式
+    # 将数据reshape成(m*n,p)的形式,有监督降维算法,所以要提供gt.
     X = np.reshape(img, (m * n, p))
     y = gt.reshape(m * n)
     # 创建lda对象,该算法要求 n_components不能大于原始数据维度和类别数
@@ -90,3 +94,24 @@ def lda_sklearn(img, gt, k):
     X_lda_reshape = np.reshape(X_lda, (m, n, X_lda.shape[-1]))
     # 返回降维后的数据
     return X_lda_reshape
+
+
+def lle_sklearn(img, k):
+    # 原始数据的形状
+    m, n, p = img.shape
+    # 将数据reshape成(m*n,p)的形式,无监督降维算法
+    X = np.reshape(img, (m * n, p))
+    X = cp.asarray(X)
+    # 创建lle对象
+    lle = LocallyLinearEmbedding(n_components=k, n_neighbors=10)
+    # 对数据进行降维
+    X_lle = lle.fit_transform(X)
+    X_lle = cp.asnumpy(X_lle)
+    # 将数据reshape回原来的形状
+    X_lle_reshape = np.reshape(X_lle, (m, n, X_lle.shape[-1]))
+    # 返回降维后的数据
+    return X_lle_reshape
+
+
+
+
