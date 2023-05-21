@@ -49,7 +49,10 @@ def main(show_results_switch = True, hyperparams = {}):
 
     train_gt, test_gt = split_train_test(gt, hyperparams["training_rate"])  # 划分训练集和测试集
 
-    X_train, y_train = build_dataset(img, train_gt)  # 依据train_gt构建训练集
+    if(hyperparams['model'] == 'cnn2d'):
+        X_train, y_train = build_dataset_cnn2d(img, train_gt,hyperparams["patch_size"] )  # 依据train_gt构建训练集
+    else:
+        X_train, y_train = build_dataset(img, train_gt)  # 依据train_gt构建训练集
 
     start_train = time.time()
     clf = train(hyperparams, X_train = X_train, y_train = y_train)  # 训练
@@ -59,10 +62,10 @@ def main(show_results_switch = True, hyperparams = {}):
     y_img_pred = predict(
             model_name = hyperparams["model"],
             clf = clf,
-            X_test = img.reshape(-1, hyperparams["n_bands"])
+            X_test = img.reshape(-1, hyperparams["n_bands"]),
+            patch_size = hyperparams["patch_size"]
     )
     end_pred = time.time()
-
     run_results = metrics(
             prediction = y_img_pred,
             target = gt.reshape(-1),
@@ -139,6 +142,16 @@ def args_init(**kwargs):
             type = str,
             default = None,
             help = "if load model")
+    parser.add_argument(
+            "--patch_size",
+            type = int,
+            default = 10,
+            help = "patch size of slide windows")
+    parser.add_argument(
+            "--bsz",
+            type = int,
+            default = 1000,
+            help = "batch size")
     args = parser.parse_args()
     return args
 

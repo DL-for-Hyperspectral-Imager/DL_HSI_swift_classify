@@ -5,7 +5,7 @@ import argparse
 import main
 import matplotlib.pyplot as plt
 
-model_list = ['svm', 'nearest']  # 'nn'
+model_list = ['cnn2d']  # 'nn'
 preprocess_list = ['pca', 'ica']
 n_bands_list = [25, 50, 75, 100, 125, 150, 175, 200]
 
@@ -20,13 +20,15 @@ for model in model_list:
             # run_results中包含了accuracy, F1 score by class, confusion matrix,为字典
             hyperparams = {}
             hyperparams = {'dataset':'IndianPines',
-                           'n_runs':1,
+                           'n_runs':200,
                            'training_rate':0.1,
                            'preprocess': preprocess,
                            'n_bands':n_bands,
                            'model':model,
-                           'img_path':'../result',
-                           'load_model':None}
+                           'img_path':'result',
+                           'load_model':None,
+                           'patch_size':10,
+                           'bsz':1000}
             run_results, Training_time, Predicting_time = main.main(
                     show_results_switch = False, hyperparams = hyperparams)
             # 记录数据，可以增加其他属性
