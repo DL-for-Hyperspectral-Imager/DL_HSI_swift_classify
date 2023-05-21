@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
-model_list = ['cnn2d']  # 'nn'
+model_list = ['svm']  # 'nn'
 preprocess_list = ['pca']
 n_bands_list_normal = [25, 50, 75, 100, 125, 150, 175, 200]
 n_bands_list_lda = list(np.arange(1, 17))
