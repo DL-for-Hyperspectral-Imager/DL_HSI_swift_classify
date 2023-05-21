@@ -15,8 +15,9 @@ import argparse
 import main
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 
-model_list = ['svm']  # 'nn'
+model_list = ['cnn2d']  # 'nn'
 preprocess_list = ['pca']
 n_bands_list_normal = [25, 50, 75, 100, 125, 150, 175, 200]
 n_bands_list_lda = list(np.arange(1, 17))
@@ -74,3 +75,35 @@ for model in model_list:
         plt.legend()
         plt.savefig(r"../result/" + model + "_" + preprocess + r"/" + model + "_" + preprocess + ".jpg")
         # plt.show()
+
+        # 创建一个新的文件，如果文件已经存在则删除它，保证每次重新运行时是覆写而不是追加
+        filepath = "../result/" + model + '_' + preprocess + '/' + model + "_" + preprocess + ".txt"
+        if os.path.exists(filepath):
+            os.remove(filepath)
+
+        # 进行单次运行，追加数据到文件中
+        with open(filepath, "a") as f:
+            f.write("n_bands: \n")
+            for bands in n_bands_list:
+                f.write("%s\t    " % bands)
+            f.write("\n")
+            
+            f.write("accuracys: \n")
+            for ac in accuracys:
+                f.write("%.4s  \t" % ac)
+            f.write("\n")
+            
+            f.write("train_times: \n")
+            for train in train_times:
+                f.write("%.6s\t" % train)
+            f.write("\n")
+            
+            f.write("predict_times: \n")
+            for pred in predict_times:
+                f.write("%.6s\t" % pred)
+            f.write("\n")
+
+            f.write("preprocess_times: \n")
+            for prepro in preprocess_times:
+                f.write("%.6s\t" % prepro)
+            f.write("\n")
