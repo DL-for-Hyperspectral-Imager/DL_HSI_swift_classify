@@ -79,7 +79,7 @@ def main(show_results_switch = True, hyperparams = {}):
             gt = gt,
             pred_img = y_img_pred.reshape(hyperparams["height"], hyperparams["width"]),
             n_classes = hyperparams["n_classes"],
-            img_path = hyperparams["img_path"],
+            img_path = hyperparams["img_path"] + '\\' + hyperparams['model'] + '_' + hyperparams['preprocess'],
             name = hyperparams["model"] + "_" + hyperparams["preprocess"] + "_" + str(hyperparams["n_bands"]) + "_",
     )
 

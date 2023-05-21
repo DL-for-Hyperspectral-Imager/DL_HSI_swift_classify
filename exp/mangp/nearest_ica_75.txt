@@ -1,67 +1,42 @@
-Fitting 5 folds for each of 5 candidates, totalling 25 fits
+The best k is 20:
 Results for nearest on IndianPines with ica and 10.0% sample rate:
 Confusion matrix:
    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0 
-   0    0    8    1    0    0    0    0    0    0    3   21    5    2    6    0    0 
-   0    0  325   61    2   39   40    0    3    0   59  700   22    6  157   14    0 
-   0    0  166   34    0   25   17    0    1    0   45  426   14    4   92    6    0 
-   0    0   48   10    1   10    8    0    0    0   11  102    3    5   35    3    1 
-   0    0   99   19    0   40   13    0    0    0    9  219    1    6   71    6    0 
-   0    0  118   18    0   26   42    0    0    0   19  374   24   11   92    6    0 
-   0    0    5    1    0    0    2    0    0    0    1   10    0    1    3    5    0 
-   0    0   75    9    0   21   16    0    1    0   19  231   12    6   82    6    0 
-   0    0    2    0    0    2    0    0    0    0    2    4    0    4    6    0    0 
-   0    0  147   34    0   34   35    0    1    0   96  494   19    4  104    4    0 
-   0    0  414   76    0   51  104    0    2    0   88 1487   28    7  181   17    0 
-   0    0  128   20    0   10    7    0    2    0   42  282   30   10   60    2    0 
-   0    0   28    4    0   25    9    0    0    0    2   94    0   23   19    1    0 
-   0    0  220   38    1   85   29    0    6    0   46  514   17   12  283   14    0 
-   0    0   59   11    0   25    8    0    2    0   15  153    2   10   83   18    0 
-   0    0   22    1    0    1    2    0    1    0    5   30    2    2   24    3    0 
-Global accuracy: 23.22
+   0    0    7    1    0    1    0    0    0    0    2   22    4    1    8    0    0 
+   0    0  302   53    1   46   40    0    4    0   55  718   20    4  173   12    0 
+   0    0  173   30    0   27   19    0    1    0   45  427   13    3   87    5    0 
+   0    0   49    9    1   12    9    0    0    0   11  101    3    2   37    3    0 
+   0    0  101   22    0   40   11    0    0    0    9  224    1    4   66    5    0 
+   0    0  108   14    0   35   39    0    0    0   17  380   22   10  100    5    0 
+   0    0    7    0    0    0    1    0    0    0    0   13    0    1    2    4    0 
+   0    1   74    9    0   21   15    0    1    0   20  230   14    5   84    4    0 
+   0    0    2    1    0    2    0    0    0    0    2    5    0    4    4    0    0 
+   0    0  145   31    0   29   47    0    3    0   91  502   14    2  103    5    0 
+   0    0  405   76    0   50  115    0    1    0   69 1494   33    4  196   12    0 
+   0    0  113   19    1   12    5    0    0    0   34  306   23    7   72    1    0 
+   0    0   25    3    0   30    6    0    0    0    3   93    0   15   29    1    0 
+   0    0  205   40    0   80   38    0    6    0   43  523   15   10  294   11    0 
+   0    0   59    6    0   26   12    0    0    0   11  155    3   13   87   14    0 
+   0    0   18    1    0    1    2    0    1    0    2   34    3    2   26    3    0 
+Global accuracy: 22.87
 F1 scores:
   Undefined: nan
   Alfalfa: 0.00
-  Corn-notill: 0.20
-  Corn-mintill: 0.06
+  Corn-notill: 0.19
+  Corn-mintill: 0.05
   Corn: 0.01
   Grass-pasture: 0.09
-  Grass-trees: 0.08
+  Grass-trees: 0.07
   Grass-pasture-mowed: 0.00
   Hay-windrowed: 0.00
   Oats: 0.00
   Soybean-notill: 0.13
   Soybean-mintill: 0.39
-  Soybean-clean: 0.08
-  Wheat: 0.14
+  Soybean-clean: 0.06
+  Wheat: 0.10
   Woods: 0.22
-  Buildings-Grass-Trees-Drives: 0.07
+  Buildings-Grass-Trees-Drives: 0.06
   Stone-Steel-Towers: 0.00
-Kappa: 0.07
-Training time: 1.48213s
-Predicting time: 0.55778s
-[CV 3/5] END .....................n_neighbors=1;, score=0.156 total time=   0.0s
-[CV 3/5] END .....................n_neighbors=5;, score=0.156 total time=   0.0s
-[CV 2/5] END ....................n_neighbors=10;, score=0.176 total time=   0.0s
-[CV 2/5] END ....................n_neighbors=20;, score=0.224 total time=   0.0s
-[CV 1/5] END .....................n_neighbors=1;, score=0.088 total time=   0.0s
-[CV 1/5] END .....................n_neighbors=3;, score=0.117 total time=   0.0s
-[CV 3/5] END .....................n_neighbors=3;, score=0.127 total time=   0.0s
-[CV 5/5] END .....................n_neighbors=3;, score=0.137 total time=   0.0s
-[CV 2/5] END .....................n_neighbors=5;, score=0.176 total time=   0.0s
-[CV 1/5] END ....................n_neighbors=10;, score=0.166 total time=   0.0s
-[CV 4/5] END ....................n_neighbors=10;, score=0.151 total time=   0.0s
-[CV 3/5] END ....................n_neighbors=20;, score=0.195 total time=   0.0s
-[CV 2/5] END .....................n_neighbors=1;, score=0.137 total time=   0.0s
-[CV 5/5] END .....................n_neighbors=1;, score=0.123 total time=   0.0s
-[CV 2/5] END .....................n_neighbors=3;, score=0.122 total time=   0.0s
-[CV 4/5] END .....................n_neighbors=3;, score=0.122 total time=   0.0s
-[CV 4/5] END .....................n_neighbors=5;, score=0.151 total time=   0.0s
-[CV 5/5] END ....................n_neighbors=10;, score=0.196 total time=   0.0s
-[CV 4/5] END ....................n_neighbors=20;, score=0.195 total time=   0.0s
-[CV 4/5] END .....................n_neighbors=1;, score=0.180 total time=   0.0s
-[CV 1/5] END .....................n_neighbors=5;, score=0.141 total time=   0.0s
-[CV 5/5] END .....................n_neighbors=5;, score=0.167 total time=   0.0s
-[CV 3/5] END ....................n_neighbors=10;, score=0.146 total time=   0.0s
-[CV 1/5] END ....................n_neighbors=20;, score=0.166 total time=   0.0s
-[CV 5/5] END ....................n_neighbors=20;, score=0.221 total time=   0.0s
+Kappa: 0.06
+Training time: 2.27740s
+Predicting time: 0.67761s

@@ -14,10 +14,10 @@ import subprocess
 import argparse
 import main
 import matplotlib.pyplot as plt
+import numpy as np
 
-# model_list = ['cnn2d']  # 'nn'
-model_list = ['nn']
-preprocess_list = ['pca', 'ica', 'tsne']
+model_list = ['cnn2d']  # 'nn'
+preprocess_list = ['pca']
 n_bands_list = [25, 50, 75, 100, 125, 150, 175, 200]
 # n_bands_list = [25]
 for model in model_list:
@@ -32,19 +32,18 @@ for model in model_list:
             # run_results中包含了accuracy, F1 score by class, confusion matrix,为字典
             hyperparams = {}
             hyperparams = {'dataset':'IndianPines',
-                           'n_runs':250,
+                           'n_runs':1,
                            'training_rate':0.3,
                            'preprocess': preprocess,
                            'n_bands':n_bands,
                            'model':model,
                            'img_path':'result',
-                           'load_model':None,
-                           'patch_size':10,
-                           'bsz':1000}
-            run_results, Training_time, Predicting_time = main.main(
-                    show_results_switch = False, hyperparams = hyperparams)
-                           'img_path':'result',
                            'load_model':None}
+            if(model == 'cnn1d' or model == 'cnn2d'):
+                hyperparams['n_runs'] = 200
+                hyperparams['patch_size'] = 10
+                hyperparams['bsz']        = 1000
+
             run_results = main.main(show_results_switch = False, 
                                     hyperparams = hyperparams)
             # 记录数据，可以增加其他属性
@@ -66,12 +65,13 @@ for model in model_list:
         plt.plot(n_bands_list, predict_times, "or-", label = "predict time")
         plt.plot(n_bands_list, preprocess_times, "oy-", label = "preprocess time")
         plt.legend()
-        plt.savefig("../result/" + model + "_" + preprocess + ".jpg")
+        plt.savefig("../result/" + model + '_' + preprocess + '/' + model + "_" + preprocess + ".jpg")
         # plt.show()
+
 
 preprocess = 'lda'  # lda需要用不同的bands
 
-n_bands_list = [1, 3, 5, 7, 9, 11, 13, 15]
+n_bands_list = list(np.arange(1, 17))
 for model in model_list:
     train_times = []
     predict_times = []
@@ -88,6 +88,10 @@ for model in model_list:
                         'model':model,
                         'img_path':'result',
                         'load_model':None}
+        if(model == 'cnn1d' or model == 'cnn2d'):
+                hyperparams['n_runs'] = 200
+                hyperparams['patch_size'] = 10
+                hyperparams['bsz']        = 1000
         run_results, Training_time, Predicting_time = main.main(
                 show_results_switch = False, hyperparams = hyperparams)
         # 记录数据，可以增加其他属性
@@ -107,5 +111,5 @@ for model in model_list:
     plt.plot(n_bands_list, train_times, "ob-", label = "train time")
     plt.plot(n_bands_list, predict_times, "or-", label = "predict time")
     plt.legend()
-    plt.savefig("../result/" + model + "_" + preprocess + ".jpg")
-    plt.show()
+    plt.savefig("../result/" + model + '_' + preprocess + '/' + model + "_" + preprocess + ".jpg")
+    # plt.show()

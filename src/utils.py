@@ -168,6 +168,10 @@ def visualize(
     # color_pred_IMG.show()
     # rgb_IMG.show()
     # color_gt_IMG.save(os.path.join("..", img_path, name + "color_gt.png"))
+
+    if not os.path.exists('../'+ img_path):
+        os.makedirs('../'+img_path)
+
     path = os.path.join(os.getcwd(), "..", img_path,  name + "color_pred.png")
     color_pred_IMG.save(os.path.join("..",  img_path, name + "color_pred.png"))
     # color_pred_IMG.save(os.path.join(img_path, name + "color_pred.png"))

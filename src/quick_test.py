@@ -9,10 +9,9 @@ parser.add_argument('--folder', type = str, help = 'Input file path', default = 
 args = parser.parse_args()
 
 model = 'nearest'
-preprocess_list = ['pca', 'ica', 'lda']
+# preprocess_list = ['pca', 'ica', 'lda']
+preprocess_list = ['ica']
 n_bands_list = [25, 50, 75, 100, 125, 150, 175]
-# 要统计的量
-data_list = ['Global accuracy', 'Kappa', 'Training time', 'Predicting time']
 
 # 以不同的波段数和降维方法进行多次测试
 for preprocess in preprocess_list:
