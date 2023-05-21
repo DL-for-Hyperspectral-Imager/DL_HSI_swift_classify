@@ -1,4 +1,4 @@
-Fitting 5 folds for each of 5 candidates, totalling 25 fits
+The best k is 5:
 Results for nearest on IndianPines with ica and 10.0% sample rate:
 Confusion matrix:
    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0 
@@ -38,30 +38,5 @@ F1 scores:
   Buildings-Grass-Trees-Drives: 0.18
   Stone-Steel-Towers: 0.39
 Kappa: 0.49
-Training time: 1.45590s
-Predicting time: 0.41255s
-[CV 3/5] END .....................n_neighbors=1;, score=0.478 total time=   0.0s
-[CV 5/5] END .....................n_neighbors=3;, score=0.500 total time=   0.0s
-[CV 3/5] END .....................n_neighbors=5;, score=0.532 total time=   0.0s
-[CV 1/5] END ....................n_neighbors=10;, score=0.420 total time=   0.0s
-[CV 2/5] END ....................n_neighbors=20;, score=0.410 total time=   0.0s
-[CV 1/5] END .....................n_neighbors=1;, score=0.454 total time=   0.0s
-[CV 5/5] END .....................n_neighbors=1;, score=0.451 total time=   0.0s
-[CV 1/5] END .....................n_neighbors=3;, score=0.439 total time=   0.0s
-[CV 3/5] END .....................n_neighbors=3;, score=0.473 total time=   0.0s
-[CV 1/5] END .....................n_neighbors=5;, score=0.400 total time=   0.0s
-[CV 2/5] END ....................n_neighbors=10;, score=0.444 total time=   0.0s
-[CV 5/5] END ....................n_neighbors=10;, score=0.446 total time=   0.0s
-[CV 3/5] END ....................n_neighbors=20;, score=0.454 total time=   0.0s
-[CV 4/5] END .....................n_neighbors=1;, score=0.483 total time=   0.0s
-[CV 4/5] END .....................n_neighbors=5;, score=0.463 total time=   0.0s
-[CV 3/5] END ....................n_neighbors=10;, score=0.502 total time=   0.0s
-[CV 1/5] END ....................n_neighbors=20;, score=0.351 total time=   0.0s
-[CV 5/5] END ....................n_neighbors=20;, score=0.402 total time=   0.0s
-[CV 2/5] END .....................n_neighbors=1;, score=0.449 total time=   0.0s
-[CV 2/5] END .....................n_neighbors=3;, score=0.454 total time=   0.0s
-[CV 4/5] END .....................n_neighbors=3;, score=0.459 total time=   0.0s
-[CV 2/5] END .....................n_neighbors=5;, score=0.449 total time=   0.0s
-[CV 5/5] END .....................n_neighbors=5;, score=0.485 total time=   0.0s
-[CV 4/5] END ....................n_neighbors=10;, score=0.444 total time=   0.0s
-[CV 4/5] END ....................n_neighbors=20;, score=0.380 total time=   0.0s
+Training time: 2.35109s
+Predicting time: 0.51957s

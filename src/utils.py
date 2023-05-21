@@ -61,6 +61,53 @@ def split_train_test(gt, trainrate):
     return train_gt, test_gt
 
 
+def build_dataset_cnn2d(img, gt, patch_size):
+    """
+    构建数据:wq
+    :集
+    :param img: height * width * bands 3D float image
+    :param gt: height * width 2D int labels
+    :return: X_train, y_train
+    """
+    samples = []
+    labels = []
+    for label in np.unique(gt):
+        if label == 0:
+            continue
+        # 找到所有真值==label的像素，格式为：
+        # ([r0, r1, ...],[c0, c1, ...])
+        indices = np.nonzero(gt == label)
+        samples += get_window(img, gt.shape[0],indices, patch_size)
+        labels += len(indices[0]) * [label]
+    X_train = np.asarray(samples)
+    y_train = np.asarray(labels)
+    return X_train, y_train
+
+def get_window(img, img_length, indices ,patch_size):
+    X_get = []
+    for posX,posY in zip(indices[0],indices[1]):
+        # posX,posY = int(posX),int(posY)
+        X = np.zeros((patch_size,patch_size,img.shape[2]),dtype = np.float32)
+        if (posX - patch_size//2 >-1):
+            left = posX - patch_size//2
+        else:
+            left = 0
+        if(posX + patch_size//2 < img_length):
+            right = posX + patch_size//2
+        else:
+            right = img_length
+        if(posY - patch_size//2 >-1):
+            bottom = posY - patch_size//2
+        else:
+            bottom = 0
+        if(posY + patch_size//2 < img_length):
+            top = posY + patch_size//2 
+        else:
+            top = img_length
+        X[0:right-left,0:top-bottom] =  img[left:right,bottom:top]
+        X_get.append(X)
+    return X_get
+
 def build_dataset(img, gt):
     """
     构建数据:wq
@@ -128,8 +175,6 @@ def visualize(
     path = os.path.join(os.getcwd(), "..", img_path,  name + "color_pred.png")
     color_pred_IMG.save(os.path.join("..",  img_path, name + "color_pred.png"))
     # color_pred_IMG.save(os.path.join(img_path, name + "color_pred.png"))
-
-
 
 
 

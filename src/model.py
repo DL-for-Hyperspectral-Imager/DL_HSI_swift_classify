@@ -6,13 +6,13 @@ import sklearn
 import numpy as np
 import torch.nn as nn
 import torch.optim as optim
-
+import torch.nn.functional as F
 import torch.nn.functional as nnFunc
 from tqdm import trange
 from torch.utils.data.dataloader import DataLoader
 from torch.nn import init
 
-from datasets import Mydatasets
+from datasets import Mydatasets,CNNDatasets
 # added by mangp, to solve a bug of sklearn
 from sklearn import neighbors
 # added by mangp, to save the classifier
@@ -66,11 +66,49 @@ def train(hyperparams, **kwargs):
         clf = train_knn(X_train, y_train)
         joblib.dump(clf, os.path.join(sklearn_clf_save_folder, model_name + '_' + 'clf'))
         return clf
-    else:  # pytorch model
-        bsz = 1000  # batch_size
+    elif model_name in ['nn','cnn1d']:  # pytorch model
+        bsz = hyperparams['bsz']  # batch_size
         model = get_model(model_name, **hyperparams)
 
-        datasets = Mydatasets(X_train, y_train, bsz)  # 加载数据集,这里定义了张量tensor
+        datasets = Mydatasets(X_train, y_train)  # 加载数据集,这里定义了张量tensor
+        batch_loader = DataLoader(datasets, batch_size = bsz, shuffle = True)  # 放入dataloader
+
+        optimizer = optim.AdamW(model.parameters(), lr = 0.001, weight_decay = 0.01)  # 定义优化器
+
+        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min')  # 定义学习率衰减策
+
+        criterion = nn.CrossEntropyLoss()  # 定义损失函数
+
+        t = trange(n_runs, desc = 'Runs')
+        for run in t:
+            loss_avg = 0  # 记录每个epoch的平均损失
+            nums = 0  # 记录每个epoch的样本数
+            optimizer.zero_grad()  # 必须要清零梯度
+            for batch_X, batch_y in batch_loader:
+                if any(batch_y[batch_y > n_classes]):  # 检查训练集是否有问题
+                    print(f"出现了大于{n_classes}的标签,错误！！！")
+                    continue
+                # 输入网络进行训练
+                pred_classes = model(batch_X.cuda())
+                loss = criterion(pred_classes, batch_y.cuda().long())
+                loss_avg += loss.item()
+                nums += 1
+                loss.backward()  # 反向传播
+                optimizer.step()  # 更新权重
+            scheduler.step(loss_avg / nums)  # 更新学习率
+            t.set_postfix(loss = loss_avg / nums, learning_rate = optimizer.param_groups[0]['lr'])
+        if isinstance(model, nn.Module):
+            os.makedirs(torch_model_save_folder, exist_ok = True)
+            torch.save(
+                    model.state_dict(),
+                    os.path.join(torch_model_save_folder, model_name + '_' + 'runs' + str(n_runs) + '.pth'))
+        return model
+    elif model_name == 'cnn2d':
+        bsz = hyperparams['bsz']  # batch_size
+        model = get_model(model_name, **hyperparams)
+        
+        datasets = Mydatasets(X_train, y_train)  # 加载数据集,这里定义了张量tensor
+
         batch_loader = DataLoader(datasets, batch_size = bsz, shuffle = True)  # 放入dataloader
 
         optimizer = optim.AdamW(model.parameters(), lr = 0.001, weight_decay = 0.01)  # 定义优化器
@@ -110,8 +148,10 @@ def get_model(model_name, **kwargs):
     n_classes = kwargs["n_classes"]
     if model_name == 'nn':
         model = FNN(n_bands, n_classes, dropout = True, p = 0.5).cuda()
-    elif model_name == 'cnn':
-        model = CNN(n_bands, n_classes).cuda()
+    elif model_name == 'cnn1d':
+        model = CNN1D(n_bands, n_classes).cuda()
+    elif model_name == 'cnn2d':
+        model = CNN2D(n_bands, n_classes, patch_size=kwargs['patch_size']).cuda()
     else:
         raise KeyError("{} model is unknown.".format(model_name))
     return model
@@ -162,7 +202,7 @@ class FNN(nn.Module):
         return x
 
 
-class CNN(nn.Module):
+class CNN1D(nn.Module):
     @staticmethod
     def weight_init(m):
         if isinstance(m, nn.Linear) or isinstance(m, nn.Conv1d):
@@ -176,7 +216,7 @@ class CNN(nn.Module):
             x = self.pool(x)
         return x.numel()
     def __init__(self, n_channels, n_classes, kernel_size = None, pool_size = None):
-        super(CNN, self).__init__()
+        super(CNN1D, self).__init__()
         if kernel_size is None:
             kernel_size = math.ceil(n_channels / 9)  # 200/9 = 23
         if pool_size is None:
@@ -204,6 +244,56 @@ class CNN(nn.Module):
 
 
 
+class CNN2D(nn.Module):
+    @staticmethod
+    def weight_init(m):
+        if isinstance(m, (nn.Linear, nn.Conv2d)):
+            init.kaiming_normal_(m.weight)
+            init.zeros_(m.bias)
+
+    def __init__(self, input_channels, n_classes, patch_size=9):
+        super(CNN2D, self).__init__()
+        self.input_channels = input_channels
+        self.patch_size = patch_size
+        self.aux_loss_weight = 1
+
+        # "W1 is a 3x3xB1 kernel [...] B1 is the number of the output bands for the convolutional
+        # "and pooling layer" -> actually 3x3 2D convolutions with B1 outputs
+        # "the value of B1 is set to be 80"
+        self.conv1 = nn.Conv2d(input_channels, 80, (3, 3))
+        self.pool1 = nn.MaxPool2d((2, 2))
+
+        self.features_sizes = self._get_sizes()
+
+        self.fc_enc = nn.Linear(self.features_sizes[2], n_classes)
+
+        self.apply(self.weight_init)
+
+    def _get_sizes(self):
+        x = torch.zeros((1, self.input_channels, self.patch_size, self.patch_size))
+        x = F.relu(self.conv1(x))
+        _, c, w, h = x.size()
+        size0 = c * w * h
+
+        x = self.pool1(x)
+        _, c, w, h = x.size()
+        size1 = c * w * h
+
+        _, c, w, h = x.size()
+        size2 = c * w * h
+
+        return size0, size1, size2
+
+    def forward(self, x):
+        x = x.permute(0,3,1,2)
+        x_conv1 = self.conv1(x)
+        x = x_conv1
+        x_pool1 = self.pool1(x)
+        x = x_pool1
+        x_enc = F.relu(x).contiguous().view(-1, self.features_sizes[2])
+        x = x_enc
+        x_classif = self.fc_enc(x)
+        return x_classif
 
 def train_svm(X_train, y_train):
     # 加载svm分类器
@@ -227,7 +317,7 @@ def train_knn(X_train, y_train):
     return knn_classifier
 
 
-def predict(model_name, clf, X_test):
+def predict(model_name, clf, X_test, **kwargs):
     """
     用于预测的函数
     :param :model_name the name of model
@@ -240,11 +330,21 @@ def predict(model_name, clf, X_test):
         y_pred = clf.predict(X_test)
     elif model_name == 'nearest':
         y_pred = clf.predict(X_test)
-    elif model_name in ['nn', 'cnn']:
+    elif model_name in ['nn', 'cnn1d']:
         y_pred = clf(torch.Tensor(X_test).cuda())
         y_pred = torch.topk(y_pred, k = 1).indices
         y_pred = y_pred.cpu().numpy()
+    elif model_name == 'cnn2d':
+        slide_windows_datasets = CNNDatasets(X_test, np.ones((len(X_test))), patch_size= kwargs["patch_size"])
+        slide_windows_dataloader = DataLoader(slide_windows_datasets,batch_size=len(slide_windows_datasets))
+        with torch.no_grad():
+            for X_test_window, y_test in slide_windows_dataloader:
+                y_pred = clf(torch.Tensor(X_test_window).cuda())
+                y_pred = torch.topk(y_pred, k=1).indices
+                y_pred = y_pred.cpu().numpy()
+                return y_pred.reshape(-1)
     else:
         print("The model name is wrong")
         y_pred = None
     return y_pred.reshape(-1)
+
