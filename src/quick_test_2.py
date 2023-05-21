@@ -46,7 +46,8 @@ for model in model_list:
                            'model':model,
                            'img_path':'result',
                            'load_model':None, 
-                           'patch_size':None}
+                           'patch_size':None,
+                           'bsz':None}
             if(model == 'cnn1d' or model == 'cnn2d'):
                 hyperparams['n_runs'] = 200
                 hyperparams['patch_size'] = 10
