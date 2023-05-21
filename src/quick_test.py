@@ -19,7 +19,7 @@ for preprocess in preprocess_list:
     for n_bands in n_bands_list:
         # 输出文件为 model_preprocess_nbands.txt, 后续加入其他参数
         # 样例： nearest_pca_100.txt
-        output_path = 'exp/' + args.folder + '/' + model + '_' + preprocess + '_' + \
+        output_path = '../exp/' + args.folder + '/' + model + '_' + preprocess + '_' + \
                       str(n_bands) + '.txt'
 
         with open(output_path, 'w') as f:

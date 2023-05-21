@@ -139,6 +139,7 @@ def args_init(**kwargs):
             type = str,
             default = None,
             help = "if load model")
+    args = parser.parse_args()
     return args
 
 

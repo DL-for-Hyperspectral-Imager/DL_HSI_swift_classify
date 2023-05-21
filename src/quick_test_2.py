@@ -18,12 +18,17 @@ for model in model_list:
         for n_bands in n_bands_list:
             # run_results, Training_time, Predicting_time即为本次运行的结果
             # run_results中包含了accuracy, F1 score by class, confusion matrix,为字典
+            hyperparams = {}
+            hyperparams = {'dataset':'IndianPines',
+                           'n_runs':1,
+                           'training_rate':0.1,
+                           'preprocess': preprocess,
+                           'n_bands':n_bands,
+                           'model':model,
+                           'img_path':'../result',
+                           'load_model':None}
             run_results, Training_time, Predicting_time = main.main(
-                    show_results_switch = False,
-                    dataset = 'IndianPines', training_sample = 0.1,
-                    preprocess = preprocess, n_bands = n_bands,
-                    model = model, n_runs = 1,
-                    img_path = 'result')
+                    show_results_switch = False, hyperparams = hyperparams)
             # 记录数据，可以增加其他属性
             accuracys.append(run_results['Accuracy'])
             train_times.append(Training_time)
@@ -41,7 +46,7 @@ for model in model_list:
         plt.plot(n_bands_list, train_times, "ob-", label = "train time")
         plt.plot(n_bands_list, predict_times, "or-", label = "predict time")
         plt.legend()
-        plt.savefig("./result/" + model + "_" + preprocess + ".jpg")
+        plt.savefig("../result/" + model + "_" + preprocess + ".jpg")
         plt.show()
 
 preprocess = 'lda'  # lda需要用不同的bands
@@ -54,10 +59,17 @@ for model in model_list:
     for n_bands in n_bands_list:
         # run_results, Training_time, Predicting_time即为本次运行的结果
         # run_results中包含了accuracy, F1 score by class, confusion matrix,为字典
+        hyperparams = {}
+        hyperparams = {'dataset':'IndianPines',
+                        'n_runs':1,
+                        'training_rate':0.1,
+                        'preprocess': preprocess,
+                        'n_bands':n_bands,
+                        'model':model,
+                        'img_path':'../result',
+                        'load_model':None}
         run_results, Training_time, Predicting_time = main.main(
-                False, n_runs = 1, dataset = 'IndianPines', preprocess = preprocess, model = model,
-                training_sample = 0.1, \
-                n_bands = n_bands, img_path = 'result')
+                show_results_switch = False, hyperparams = hyperparams)
         # 记录数据，可以增加其他属性
         accuracys.append(run_results['Accuracy'])
         train_times.append(Training_time)
@@ -75,5 +87,5 @@ for model in model_list:
     plt.plot(n_bands_list, train_times, "ob-", label = "train time")
     plt.plot(n_bands_list, predict_times, "or-", label = "predict time")
     plt.legend()
-    plt.savefig("./result/" + model + "_" + preprocess + ".jpg")
+    plt.savefig("../result/" + model + "_" + preprocess + ".jpg")
     plt.show()

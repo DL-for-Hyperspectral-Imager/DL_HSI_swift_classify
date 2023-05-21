@@ -123,6 +123,8 @@ def visualize(
     # color_gt_IMG.save(os.path.join("..", img_path, name + "color_gt.png"))
     path = os.path.join(os.getcwd(), "..", img_path,  name + "color_pred.png")
     color_pred_IMG.save(os.path.join("..",  img_path, name + "color_pred.png"))
+    # color_pred_IMG.save(os.path.join(img_path, name + "color_pred.png"))
+
 
 
 
@@ -186,7 +188,7 @@ def show_results(args, run_results, label_values):
     """Print results of a run."""
     print(
             "Results for {} on {} with {} and {}% sample rate:".format(
-                    args.model, args.dataset, args.preprocess, args.training_sample * 100))
+                    args.model, args.dataset, args.preprocess, args.training_rate * 100))
 
     print("Confusion matrix:")
     for i in range(run_results["Confusion matrix"].shape[0]):
