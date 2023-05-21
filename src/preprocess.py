@@ -107,7 +107,7 @@ def lle_sklearn(img, k):
     X = np.reshape(img, (m * n, p))
     #X = cp.asarray(X)
     # 创建lle对象
-    lle = LocallyLinearEmbedding(n_components=k, n_neighbors=10)
+    lle = LocallyLinearEmbedding(n_components=k, eigen_solver='dense')
     # 对数据进行降维
     X_lle = lle.fit_transform(X)
     #X_lle = cp.asnumpy(X_lle)

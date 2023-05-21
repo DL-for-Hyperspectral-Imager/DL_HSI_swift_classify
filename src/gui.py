@@ -72,7 +72,7 @@ class Window(QMainWindow):
 
         # Populate ComboBoxes
         self.dataset_selector.addItems(['IndianPines'])
-        self.preprocess_selector.addItems(['PCA', 'ICA', 'LDA'])
+        self.preprocess_selector.addItems(['PCA', 'ICA', 'LDA', 'LLE'])
         self.model_selector.addItems(['svm', 'knn', 'nn', 'cnn'])
 
         # Set up Layout
