@@ -5,6 +5,7 @@ import numpy as np
 
 from sklearn.decomposition import PCA
 from sklearn.decomposition import FastICA
+from sklearn.manifold import TSNE
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
 
@@ -19,6 +20,8 @@ def preprocess(hsi_img,  gt, preprocess_name, n_bands):
         img = ica_sklearn(img, n_bands)
     elif preprocess_name == 'lda':
         img = lda_sklearn(img, gt, n_bands)  ##
+    elif preprocess_name == 'tsne':
+        img = tsne_sklearn(img, n_bands)
     return img
 
 
@@ -90,3 +93,19 @@ def lda_sklearn(img, gt, k):
     X_lda_reshape = np.reshape(X_lda, (m, n, X_lda.shape[-1]))
     # 返回降维后的数据
     return X_lda_reshape
+
+def tsne_sklearn(data, k):
+    # 原始数据的形状
+    m, n, p = data.shape
+    # 将数据reshape成(m*n,p)的形式
+    data_reshape = np.reshape(data, (m * n, p))
+    # pca = PCA(n_components=50)
+    # data_pca = pca.fit_transform(data_reshape)
+    # 创建tsne对象
+    tsne = TSNE(n_components=3, method='barnes_hut', random_state=0)
+    # 对数据进行降维
+    data_tsne = tsne.fit_transform(data_reshape)
+    # 将数据reshape回原来的形状
+    data_tsne_reshape = np.reshape(data_tsne, (m, n, data_tsne.shape[-1]))
+    # 返回降维后的数据
+    return data_tsne_reshape
