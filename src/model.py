@@ -67,15 +67,15 @@ def train(hyperparams, **kwargs):
         joblib.dump(clf, os.path.join(sklearn_clf_save_folder, model_name + '_' + 'clf'))
         return clf
     elif model_name in ['nn','cnn1d']:  # pytorch model
-        bsz = hyperparams['bsz']  # batch_size
-        model = get_model(model_name, **hyperparams)
+        batch_size = hyperparams['batch_size']  # batch_size
+        model = get_model(model_name, hyperparams)
 
         datasets = Mydatasets(X_train, y_train)  # 加载数据集,这里定义了张量tensor
-        batch_loader = DataLoader(datasets, batch_size = bsz, shuffle = True)  # 放入dataloader
+        batch_loader = DataLoader(datasets, batch_size = batch_size, shuffle = True)  # 放入dataloader
 
         optimizer = optim.AdamW(model.parameters(), lr = 0.001, weight_decay = 0.01)  # 定义优化器
 
-        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min')  # 定义学习率衰减策
+        # scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min')  # 定义学习率衰减策
 
         criterion = nn.CrossEntropyLoss()  # 定义损失函数
 
@@ -95,7 +95,7 @@ def train(hyperparams, **kwargs):
                 nums += 1
                 loss.backward()  # 反向传播
                 optimizer.step()  # 更新权重
-            scheduler.step(loss_avg / nums)  # 更新学习率
+            # scheduler.step(loss_avg / nums)  # 更新学习率
             t.set_postfix(loss = loss_avg / nums, learning_rate = optimizer.param_groups[0]['lr'])
         if isinstance(model, nn.Module):
             os.makedirs(torch_model_save_folder, exist_ok = True)
@@ -104,12 +104,12 @@ def train(hyperparams, **kwargs):
                     os.path.join(torch_model_save_folder, model_name + '_' + 'runs' + str(n_runs) + '.pth'))
         return model
     elif model_name == 'cnn2d':
-        bsz = hyperparams['bsz']  # batch_size
-        model = get_model(model_name, **hyperparams)
+        batch_size = hyperparams['batch_size']  # batch_size
+        model = get_model(model_name, hyperparams)
         
         datasets = Mydatasets(X_train, y_train)  # 加载数据集,这里定义了张量tensor
 
-        batch_loader = DataLoader(datasets, batch_size = bsz, shuffle = True)  # 放入dataloader
+        batch_loader = DataLoader(datasets, batch_size = batch_size, shuffle = True)  # 放入dataloader
 
         optimizer = optim.AdamW(model.parameters(), lr = 0.001, weight_decay = 0.01)  # 定义优化器
 
@@ -143,15 +143,16 @@ def train(hyperparams, **kwargs):
         return model
 
 
-def get_model(model_name, **kwargs):
-    n_bands = kwargs["n_bands"]
-    n_classes = kwargs["n_classes"]
+def get_model(model_name, hyperparams):
+    n_bands = hyperparams["n_bands"]
+    n_classes = hyperparams["n_classes"]
     if model_name == 'nn':
         model = FNN(n_bands, n_classes, dropout = True, p = 0.5).cuda()
     elif model_name == 'cnn1d':
+        # if(hyperparams['n_bands'])
         model = CNN1D(n_bands, n_classes).cuda()
     elif model_name == 'cnn2d':
-        model = CNN2D(n_bands, n_classes, patch_size=kwargs['patch_size']).cuda()
+        model = CNN2D(n_bands, n_classes, patch_size=hyperparams['patch_size']).cuda()
     else:
         raise KeyError("{} model is unknown.".format(model_name))
     return model
@@ -163,7 +164,7 @@ class FNN(nn.Module):
     """
     Neural mdoel by layort
     use a simple network to classify the img
-    ouput shape (bsz,n_classes)
+    ouput shape (batch_size,n_classes)
     use a simple full connected network to classify the img
     ouput shape (batch_size,n_classes)
     """
@@ -201,7 +202,7 @@ class FNN(nn.Module):
         x = self.fc4(x)
         return x
 
-
+# CNN1D对波段进行卷积，输入channels数量>1，建议输入channels>50
 class CNN1D(nn.Module):
     @staticmethod
     def weight_init(m):
@@ -317,12 +318,12 @@ def train_knn(X_train, y_train):
     return knn_classifier
 
 
-def predict(model_name, clf, X_test, **kwargs):
+def predict(model_name, clf, X_test, patch_size, vector_mask = None):
     """
     用于预测的函数
     :param :model_name the name of model
     :param :clf the model
-    :param :X_test the test data
+    :param :X_test the test data, shape = (n_samples, n_features)
     :return y_pred the predict result of X_test
     """
     model_name = model_name.lower()
@@ -335,16 +336,16 @@ def predict(model_name, clf, X_test, **kwargs):
         y_pred = torch.topk(y_pred, k = 1).indices
         y_pred = y_pred.cpu().numpy()
     elif model_name == 'cnn2d':
-        slide_windows_datasets = CNNDatasets(X_test, np.ones((len(X_test))), patch_size= kwargs["patch_size"])
+        slide_windows_datasets = CNNDatasets(X_test, np.ones((len(X_test))), patch_size= patch_size)
         slide_windows_dataloader = DataLoader(slide_windows_datasets,batch_size=len(slide_windows_datasets))
         with torch.no_grad():
             for X_test_window, y_test in slide_windows_dataloader:
                 y_pred = clf(torch.Tensor(X_test_window).cuda())
                 y_pred = torch.topk(y_pred, k=1).indices
                 y_pred = y_pred.cpu().numpy()
-                return y_pred.reshape(-1)
     else:
         print("The model name is wrong")
         y_pred = None
-    return y_pred.reshape(-1)
+    y_pred[vector_mask==1] = 0
+    return y_pred
 

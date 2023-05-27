@@ -15,6 +15,7 @@ import argparse
 import time
 import sys
 
+
 # 这里定义一个main函数作为整个项目的入口，只有作为脚本时这个文件才会运行
 # 注意此处修改，main函数添加了一个参数，为一字典，若没有从命令行输入参数，
 # 则直接使用args中指定的值，同时方便使用其他python脚本进行测试。
@@ -30,13 +31,16 @@ def main(show_results_switch = True, hyperparams = {}):
         training_time
         predicting_time
     """
+    hyperparams['n_bands_in'] = hyperparams["n_bands"]
     # 加载原始数据集
-    hsi_img, gt, label_values, ignored_labels, rgb_bands = load_dataset(hyperparams["dataset"])
-    rgb_IMG = hsi2rgb(hsi_img, rgb_bands = rgb_bands)
-    path = os.path.join(os.getcwd(), "..", "Datasets", "IndianPines", "rgb.png")
-    rgb_IMG.save(path)
-
-    hyperparams["n_classes"] = len(label_values)
+    print("* Loading dataset %s..." % hyperparams["dataset"])
+    hsi_img, gt, palette = load_dataset(hyperparams["dataset"], hyperparams)
+    print("* Dataset %s loaded!" % hyperparams["dataset"])
+    print("--- Original dataset shape:", hsi_img.shape)
+    if hyperparams["preprocess"] != '' :
+        print(
+            "* Start %s preprocessing..., from %d -> %d bands" % (
+            hyperparams["preprocess"], hsi_img.shape[2], hyperparams["n_bands"]))
     start_preprocess = time.time()
     img = preprocess(
             hsi_img = hsi_img,
@@ -45,56 +49,65 @@ def main(show_results_switch = True, hyperparams = {}):
             n_bands = hyperparams["n_bands"],
     )  # 数据预处理
     end_preprocess = time.time()
+    if hyperparams["preprocess"] != 'nopre':
+        print("* Preprocessing finished!")
+        print("--- After preprocessing, dataset shape:", img.shape)
     hyperparams["height"], hyperparams["width"], hyperparams["n_bands"] = img.shape
-
+    print("* Splitting train and test set..., training rate: %f" % hyperparams["training_rate"])
     train_gt, test_gt = split_train_test(gt, hyperparams["training_rate"])  # 划分训练集和测试集
 
-    if(hyperparams['model'] == 'cnn2d'):
-        X_train, y_train = build_dataset_cnn2d(img, train_gt,hyperparams["patch_size"] )  # 依据train_gt构建训练集
+    if (hyperparams['model'] == 'cnn2d'):
+        X_train, y_train = build_dataset_cnn2d(img, train_gt, hyperparams["patch_size"])  # 依据train_gt构建训练集
     else:
         X_train, y_train = build_dataset(img, train_gt)  # 依据train_gt构建训练集
-
+    print("Model: {model}, n_runs: {n_runs}, batch_size: {batch_size}, patch_size: {patch_size}".format(**hyperparams))
+    print("* Start training...")
     start_train = time.time()
     clf = train(hyperparams, X_train = X_train, y_train = y_train)  # 训练
     end_train = time.time()
+    print("* Training finished!")
     # 预测
+    vector_mask = get_vector_mask(gt.reshape(-1), hyperparams['ignored_labels'])  # 获取测试集掩膜
+    print("* Start predicting...")
     start_pred = time.time()
-    y_img_pred = predict(
+    y_img_pred = predict(  # vector
             model_name = hyperparams["model"],
             clf = clf,
             X_test = img.reshape(-1, hyperparams["n_bands"]),
-            patch_size = hyperparams["patch_size"]
+            patch_size = hyperparams["patch_size"],
+            vector_mask = vector_mask
     )
     end_pred = time.time()
+    print("* Predicting finished!")
     run_results = metrics(
             prediction = y_img_pred,
             target = gt.reshape(-1),
-            ignored_labels = ignored_labels,
+            ignored_labels = hyperparams['ignored_labels'],
             n_classes = hyperparams["n_classes"]
     )
 
     # 可视化与结果输出
-    visualize(
-            hsi_img = hsi_img,
-            gt = gt,
+    save_pred(
             pred_img = y_img_pred.reshape(hyperparams["height"], hyperparams["width"]),
-            n_classes = hyperparams["n_classes"],
-            img_path = hyperparams["img_path"] + r'/' + hyperparams['model'] + '_' + hyperparams['preprocess'],
-            name = hyperparams["model"] + "_" + hyperparams["preprocess"] + "_" + str(hyperparams["n_bands"]) + "_",
+            palette = palette,
+            res_folder = hyperparams["res_folder"],
+            name = "pred-{dataset}_{training_rate}-{preprocess}_{n_bands_in}-{model}_runs{n_runs}_bsz{batch_size}_psz{patch_size}".format(**hyperparams),
+            hyperparams = hyperparams,
     )
 
     preprocess_time = end_preprocess - start_preprocess
     training_time = end_train - start_train
     predicting_time = end_pred - start_pred
-    
+
     run_results['preprocess_time'] = preprocess_time
     run_results['training_time'] = training_time
     run_results['predicting_time'] = predicting_time
     # 下方修改，若输出开关关闭则关闭输出
     if show_results_switch:
-        show_results(args, run_results, label_values)
-        print("Training time: %.5fs" % (training_time))
-        print("Predicting time: %.5fs" % (predicting_time))
+        show_results(run_results = run_results, hyperparams = hyperparams)
+        print("Preprocessing time: %.5fs" % (preprocess_time))
+        print("Training time     : %.5fs" % (training_time))
+        print("Predicting time   : %.5fs" % (predicting_time))
 
     # 下方改动,将重要结果返回一个字典
     return run_results
@@ -112,17 +125,17 @@ def args_init(**kwargs):
             "--training_rate",
             type = float,
             default = 0.1,
-            help = "training sample")
+            help = "training rate")
     # preprocess and n_bands
     parser.add_argument(
             "--preprocess",
             type = str,
-            default = "0",
+            default = 'nopre',
             help = "preprocess name")
     parser.add_argument(
             "--n_bands",
             type = int,
-            default = 50,
+            default = 0,  # 0 表示不降维
             help = "number of bands")
     # model and n_runs
     parser.add_argument(
@@ -135,16 +148,16 @@ def args_init(**kwargs):
             type = int,
             default = 1,
             help = "number of runs")
-    # img_path and load_model
+    # res_folder and load_model
     parser.add_argument(
-            "--img_path",
+            "--res_folder",
             type = str,
-            default = "result",
-            help = "path for saved img")
+            default = "result",  # 相对于主目录的文件夹相对路径
+            help = "folder for saved img")
     parser.add_argument(
             "--load_model",
-            type = str,
-            default = None,
+            type = bool,
+            default = False,
             help = "if load model")
     parser.add_argument(
             "--patch_size",
@@ -152,7 +165,7 @@ def args_init(**kwargs):
             default = 10,
             help = "patch size of slide windows")
     parser.add_argument(
-            "--bsz",
+            "--batch_size",
             type = int,
             default = 1000,
             help = "batch size")
@@ -164,5 +177,6 @@ if __name__ == "__main__":
     # 获取args
     args = args_init()
     hyperparams = vars(args)
-    main(show_results_switch = True,
-         hyperparams = hyperparams)
+    main(
+        show_results_switch = True,
+        hyperparams = hyperparams)

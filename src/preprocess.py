@@ -17,6 +17,8 @@ def preprocess(hsi_img, gt, preprocess_name, n_bands):
     img = np.asarray(hsi_img, dtype = np.float32)
     img = (img - np.min(img)) / (np.max(img) - np.min(img))
     preprocess_name = preprocess_name.lower()
+    if n_bands == 0:
+        return img
     if preprocess_name == 'pca':
         img = pca_sklearn(img, n_bands)
     elif preprocess_name == 'ica':
