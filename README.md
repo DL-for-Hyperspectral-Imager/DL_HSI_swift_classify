@@ -74,11 +74,16 @@ pip install -r requirements.txt
 
 该程序使用命令行参数来控制程序的行为。以下是可以使用的参数及其默认值：
 
-- `--n_runs`：运行程序的次数，默认为 1。
-- `--dataset`：数据集名称，默认为 'IndianPines'。
-- `--preprocess`：数据预处理方法名称，默认为 `None`。
-- `--model`：分类模型名称，默认为 'SVM'。
-- `--sample_rate`：训练集样本比例，默认为 0.3。
+- `--dataset`：数据集名称，默认为 `IndianPines`.
+- `--training_rate`：训练集样本比例，默认为 `0.1`.
+- `--preprocess`：数据预处理方法名称，默认为 `None`.可选`PCA` / `ICA` / `LDA` / `TSNE`.
+- `--n_bands`：预处理降维的目标维数，默认为`50`.
+- `--model`：分类模型名称，默认为 `SVM`.可选：`SVM` / `NEAREST` / `NN` / `CNN1D` / `CNN2D`.
+- `--n_runs`：运行程序的次数，默认为 1.
+- `--img_path`：生成的图片的存储路径，默认为 `./result` 文件夹.
+- `--load_model`：选择是否加载已经村好的模型数据，默认`None`.
+- `--patch_size`：2D-CNN的卷积窗口大小，默认为10.
+- `--bsz`：神经网络模型单轮训练的批大小.
 
 你可以使用以下命令来运行程序：
 
@@ -86,11 +91,12 @@ SVM模型
 
 ```commandline
 python main.py --dataset IndianPines --preprocess ICA --model SVM
+python3 main.py --preprocess PCA --model CNN2D 
 ```
 
 在上面的示例中，我们将 `--n_runs` 参数设置为 3，`--dataset` 参数设置为 'IndianPines'，`--preprocess` 参数设置为 'ICA'，`--model` 参数设置为 'SVM'。你可以根据需要调整这些参数的值。
 
-更多运行示例请参照[run_example.md](./run_examples.md)。
+更多运行示例请参照[run_example.md](./manual/run_examples.md)。
 
 
 在程序中，使用 `argparse` 模块来解析命令行参数，并将其存储在相应的变量中。你可以使用这些变量来控制程序的行为。例如，使用 `n_runs` 变量来指定程序的运行次数，使用 `dataset_name` 变量来指定数据集名称等等。

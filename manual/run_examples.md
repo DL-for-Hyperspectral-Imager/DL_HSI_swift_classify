@@ -72,3 +72,5 @@ weighted avg       0.78      0.78      0.77      3075
 
 Accuracy:  0.7817886178861788
 ```
+
+python3 main.py 
