@@ -30,21 +30,27 @@ class Worker(QThread):
                 'n_bands'      : self.n_bands,
                 'model'        : self.model,
                 'n_runs'       : self.n_runs,
-                'img_path'     : tmp_folder,
-                'load_model'   : None,
-
+                'res_folder'   : tmp_folder,
+                'load_model'   : False,
+                'patch_size'   : 0,
+                'batch_size'   : 0,
         }
-        run_results, training_time, predicting_time = main.main(
+        if (self.model in ['nn', 'cnn1d', 'cnn2d']):
+            hyperparams['n_runs']       = 200
+            hyperparams['patch_size']   = 10
+            hyperparams['batch_size']   = 1000
+        run_results = main.main(
                 show_results_switch = False,
                 hyperparams = hyperparams)
 
-        accuracy = run_results['Accuracy']
-        name = hyperparams["model"] + "_" + hyperparams["preprocess"] + "_" + str(hyperparams["n_bands"]) + "_"
-        image_path = os.path.join(os.getcwd(), '..', tmp_folder, name + 'color_pred.png')
-        # Assuming the func returns accuracy and image_path
-        # I'm hardcoding the values here for the sake of this example.
+        accuracy = run_results['accuracy']
 
-        self.finished.emit(accuracy, image_path)
+        name = "pred-{dataset}_{training_rate}-{preprocess}_{n_bands_in}-{model}_runs{n_runs}_bsz{batch_size}_psz{patch_size}".format(**hyperparams)
+
+        abs_res_folder = os.path.join(os.getcwd(), "..", tmp_folder, "{preprocess}_{model}".format(**hyperparams))
+        if not os.path.exists(abs_res_folder):
+            os.makedirs(abs_res_folder)
+        self.finished.emit(accuracy, os.path.join(abs_res_folder, name + "_acy%.2f.png" % accuracy))
 
 
 class Window(QMainWindow):
@@ -72,8 +78,8 @@ class Window(QMainWindow):
 
         # Populate ComboBoxes
         self.dataset_selector.addItems(['IndianPines'])
-        self.preprocess_selector.addItems(['PCA', 'ICA', 'LDA', 'LLE'])
-        self.model_selector.addItems(['svm', 'knn', 'nn', 'cnn'])
+        self.preprocess_selector.addItems(['pca', 'ica', 'lda', 'tsne'])
+        self.model_selector.addItems(['svm', 'knn', 'nn', 'cnn1d', 'cnn2d'])
 
         # Set up Layout
         layout = QVBoxLayout()

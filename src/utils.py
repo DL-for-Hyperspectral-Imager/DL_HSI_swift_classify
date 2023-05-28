@@ -7,12 +7,14 @@ import os
 import PIL.Image as Image
 from sklearn.metrics import confusion_matrix
 import seaborn
-datasets_name = {"indianpines":"IndianPines"}
+
+datasets_name = {"indianpines": "IndianPines"}
 
 current_dir = os.getcwd()
 
 top_dir = os.path.join(os.getcwd(), "..")
 datasets_dir = os.path.join(top_dir, "Datasets")
+
 
 # about dataset op
 def load_dataset(dataset_name, hyperparams):
@@ -24,37 +26,36 @@ def load_dataset(dataset_name, hyperparams):
         hsi_img = io.loadmat(img_path)["indian_pines_corrected"]
         gt = io.loadmat(gt_path)["indian_pines_gt"]
         labels = ["Undefined", "Alfalfa", "Corn-notill", "Corn-mintill",
-                        "Corn", "Grass-pasture", "Grass-trees",
-                        "Grass-pasture-mowed", "Hay-windrowed", "Oats",
-                        "Soybean-notill", "Soybean-mintill", "Soybean-clean",
-                        "Wheat", "Woods", "Buildings-Grass-Trees-Drives",
-                        "Stone-Steel-Towers"]
+                  "Corn", "Grass-pasture", "Grass-trees",
+                  "Grass-pasture-mowed", "Hay-windrowed", "Oats",
+                  "Soybean-notill", "Soybean-mintill", "Soybean-clean",
+                  "Wheat", "Woods", "Buildings-Grass-Trees-Drives",
+                  "Stone-Steel-Towers"]
         ignored_labels = [0]
         rgb_bands = (43, 21, 11)
     else:
         pass
-    
+
     palette = get_palette(len(labels))
     hyperparams["labels"] = labels
     hyperparams["n_classes"] = len(labels)
     hyperparams["ignored_labels"] = ignored_labels
-    
-    
+
     # real rgb image
     real_rgb_path = os.path.join(datasets_dir, dataset_name, "real_rgb.png")
     if os.path.exists(real_rgb_path):
         print("--- real_rgb.png already exists")
     else:
-        real_rgb_IMG = hsi_to_rgb(hsi_img, rgb_bands = rgb_bands)
+        real_rgb_IMG = hsi_to_rgbIMG(hsi_img, rgb_bands = rgb_bands)
         real_rgb_IMG.save(real_rgb_path)
     # gt rgb image
     gt_rgb_path = os.path.join(datasets_dir, dataset_name, "gt_rgb.png")
     if os.path.exists(gt_rgb_path):
         print("--- gt_rgb.png already exists")
     else:
-        gt_rgb_IMG = label_to_color(gt, palette, ignored_labels)
+        gt_rgb_IMG = label_to_color_IMG(gt, palette, ignored_labels)
         gt_rgb_IMG.save(gt_rgb_path)
-    
+
     return hsi_img, gt, palette
 
 
@@ -85,6 +86,7 @@ def split_train_test(gt, trainrate):
     test_gt[tuple(test_indices)] = gt[tuple(test_indices)]
     return train_gt, test_gt
 
+
 def build_dataset(img, gt):
     """
     构建数据:wq
@@ -107,6 +109,7 @@ def build_dataset(img, gt):
     y_train = np.asarray(labels)
     return X_train, y_train
 
+
 def build_dataset_cnn2d(img, gt, patch_size):
     """
     构建数据:wq
@@ -123,40 +126,40 @@ def build_dataset_cnn2d(img, gt, patch_size):
         # 找到所有真值==label的像素，格式为：
         # ([r0, r1, ...],[c0, c1, ...])
         indices = np.nonzero(gt == label)
-        samples += get_window(img, gt.shape[0],indices, patch_size)
+        samples += get_window(img, gt.shape[0], indices, patch_size)
         labels += len(indices[0]) * [label]
     X_train = np.asarray(samples)
     y_train = np.asarray(labels)
     return X_train, y_train
 
-def get_window(img, img_length, indices ,patch_size):
+
+def get_window(img, img_length, indices, patch_size):
     X_get = []
-    for posX,posY in zip(indices[0],indices[1]):
+    for posX, posY in zip(indices[0], indices[1]):
         # posX,posY = int(posX),int(posY)
-        X = np.zeros((patch_size,patch_size,img.shape[2]),dtype = np.float32)
-        if (posX - patch_size//2 >-1):
-            left = posX - patch_size//2
+        X = np.zeros((patch_size, patch_size, img.shape[2]), dtype = np.float32)
+        if (posX - patch_size // 2 > -1):
+            left = posX - patch_size // 2
         else:
             left = 0
-        if(posX + patch_size//2 < img_length):
-            right = posX + patch_size//2
+        if (posX + patch_size // 2 < img_length):
+            right = posX + patch_size // 2
         else:
             right = img_length
-        if(posY - patch_size//2 >-1):
-            bottom = posY - patch_size//2
+        if (posY - patch_size // 2 > -1):
+            bottom = posY - patch_size // 2
         else:
             bottom = 0
-        if(posY + patch_size//2 < img_length):
-            top = posY + patch_size//2 
+        if (posY + patch_size // 2 < img_length):
+            top = posY + patch_size // 2
         else:
             top = img_length
-        X[0:right-left,0:top-bottom] =  img[left:right,bottom:top]
+        X[0:right - left, 0:top - bottom] = img[left:right, bottom:top]
         X_get.append(X)
     return X_get
 
 
-
-def hsi_to_rgb(img, rgb_bands = None):
+def hsi_to_rgbIMG(img, rgb_bands = None):
     # 原图
     r = img[:, :, rgb_bands[0]] * 1.55 // 80
     g = img[:, :, rgb_bands[1]] * 1.55 // 80
@@ -171,7 +174,8 @@ def hsi_to_rgb(img, rgb_bands = None):
             rgb_IMG.putpixel((i, j), (r[i, j], g[i, j], b[i, j]))
     return rgb_IMG
 
-def label_to_color(arr_2d, palette = None, ignored_labels =[0]):
+
+def label_to_color_IMG(arr_2d, palette = None, ignored_labels = [0]):
     """从标签转换为颜色图像。
 
     Args:
@@ -190,39 +194,40 @@ def label_to_color(arr_2d, palette = None, ignored_labels =[0]):
     for c, i in palette.items():
         m = arr_2d == c
         arr_rgb[m] = i
+    color_IMG = Image.fromarray(arr_rgb)
+    return color_IMG
 
-    return arr_rgb
 
 def save_pred(
         pred_img,
-        palette, # 色彩板
-        res_folder = "result", # 相对主目录的路径
+        palette,  # 色彩板
+        res_folder = "result",  # 相对主目录的路径
         name = "",
         hyperparams = {},
-        accuracy = 0,):
+        accuracy = 0, ):
 
-    abs_res_folder = os.path.join(os.getcwd(), "..", res_folder, "{preprocess}_{model}".format(**hyperparams) )
+    abs_res_folder = os.path.join(os.getcwd(), "..", res_folder, "{preprocess}_{model}".format(**hyperparams))
     if not os.path.exists(abs_res_folder):
         os.makedirs(abs_res_folder)
-    
-    color_pred = label_to_color(pred_img, palette)
-    color_pred_IMG = Image.fromarray(color_pred)
-    color_pred_IMG.save(os.path.join(abs_res_folder, name + "acy%.2f.png"%accuracy))
+
+    color_pred_IMG = label_to_color_IMG(pred_img, palette)
+    color_pred_IMG.save(os.path.join(abs_res_folder, name + "_acy%.2f.png" % accuracy))
+
 
 def get_vector_mask(vector_gt, ignored_labels):
     # vector_gt = gt.reshape(-1)
-    vector_mask = np.zeros(vector_gt.shape, dtype = np.bool)
+    vector_mask = np.zeros(vector_gt.shape, dtype = np.bool_)
     for ig_label in ignored_labels:
         vector_mask[vector_gt == ig_label] = 1
     return vector_mask
 
 
-
-def metrics(prediction, 
-            target, 
-            ignored_labels = [0], 
-            n_classes = 0,
-            ):
+def metrics(
+        prediction,
+        target,
+        ignored_labels = [0],
+        n_classes = 0,
+):
     """Compute and print metrics (accuracy, confusion matrix and F1 scores).
 
     Args:
@@ -274,11 +279,12 @@ def metrics(prediction,
 
 def show_results(run_results, hyperparams):
     """Print results of a run."""
-    print("\n\
-* Dataset {dataset}, Training rate {training_rate}, \n\
-* Preprocess {preprocess}, N_Bands {n_bands}, \n\
-* Model {model}, N_Runs {n_runs}, Patch_Size {patch_size}, Batch_Size {batch_size}".format(**hyperparams))
-    
+    print(
+            "\n\
+            * Dataset {dataset}, Training rate {training_rate}, \n\
+            * Preprocess {preprocess}, N_Bands {n_bands}, \n\
+            * Model {model}, N_Runs {n_runs}, Patch_Size {patch_size}, Batch_Size {batch_size}".format(**hyperparams))
+
     print("Confusion matrix:")
     for i in range(run_results["confusion_matrix"].shape[0]):
         for j in range(run_results["confusion_matrix"].shape[1]):
@@ -292,7 +298,6 @@ def show_results(run_results, hyperparams):
 
     print("Kappa: {:.2f}".format(run_results["kappa"]))
     print("Global accuracy: {:.2f}".format(run_results["accuracy"]))
-
 
 
 def get_palette(n_classes):

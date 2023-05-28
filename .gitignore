@@ -4,4 +4,5 @@ __pycache__/
 temp/
 classifier/
 result/
-*mytest.py
+*mytest.py/
+.idea/
