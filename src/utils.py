@@ -198,7 +198,8 @@ def save_pred(
         palette, # 色彩板
         res_folder = "result", # 相对主目录的路径
         name = "",
-        hyperparams = {}):
+        hyperparams = {},
+        accuracy = 0,):
 
     abs_res_folder = os.path.join(os.getcwd(), "..", res_folder, "{preprocess}_{model}".format(**hyperparams) )
     if not os.path.exists(abs_res_folder):
@@ -206,7 +207,7 @@ def save_pred(
     
     color_pred = label_to_color(pred_img, palette)
     color_pred_IMG = Image.fromarray(color_pred)
-    color_pred_IMG.save(os.path.join(abs_res_folder, name + ".png"))
+    color_pred_IMG.save(os.path.join(abs_res_folder, name + "acy%.2f.png"%accuracy))
 
 def get_vector_mask(vector_gt, ignored_labels):
     # vector_gt = gt.reshape(-1)
@@ -217,7 +218,11 @@ def get_vector_mask(vector_gt, ignored_labels):
 
 
 
-def metrics(prediction, target, ignored_labels = [0], n_classes = None):
+def metrics(prediction, 
+            target, 
+            ignored_labels = [0], 
+            n_classes = 0,
+            ):
     """Compute and print metrics (accuracy, confusion matrix and F1 scores).
 
     Args:
@@ -236,34 +241,33 @@ def metrics(prediction, target, ignored_labels = [0], n_classes = None):
 
     n_classes = np.max(target) + 1 if n_classes is None else n_classes
 
-    cm = confusion_matrix(target, prediction, labels = range(n_classes))
+    conf_matrix = confusion_matrix(target, prediction, labels = range(n_classes))
 
-    results["Confusion matrix"] = cm
+    results["confusion_matrix"] = conf_matrix
 
     # Compute global accuracy
-    total = np.sum(cm)
-    accuracy = sum([cm[x][x] for x in range(len(cm))])
+    total = np.sum(conf_matrix)
+    accuracy = sum([conf_matrix[x][x] for x in range(len(conf_matrix))])
     accuracy *= 100 / float(total)
 
-    results["Accuracy"] = accuracy
+    results["accuracy"] = accuracy
 
     # Compute F1 score
-    F1scores = np.zeros(len(cm))
-    for i in range(len(cm)):
+    F1scores = np.zeros(len(conf_matrix))
+    for i in range(len(conf_matrix)):
         try:
-            F1 = 2. * cm[i, i] / (np.sum(cm[i, :]) + np.sum(cm[:, i]))
+            F1 = 2. * conf_matrix[i, i] / (np.sum(conf_matrix[i, :]) + np.sum(conf_matrix[:, i]))
         except ZeroDivisionError:
             F1 = 0.
         F1scores[i] = F1
 
-    results["F1 scores"] = F1scores
+    results["f1_scores"] = F1scores
 
     # Compute kappa coefficient
-    pa = np.trace(cm) / float(total)
-    pe = np.sum(np.sum(cm, axis = 0) * np.sum(cm, axis = 1)) / \
-         float(total * total)
+    pa = np.trace(conf_matrix) / float(total)
+    pe = np.sum(np.sum(conf_matrix, axis = 0) * np.sum(conf_matrix, axis = 1)) / float(total * total)
     kappa = (pa - pe) / (1 - pe)
-    results["Kappa"] = kappa
+    results["kappa"] = kappa
 
     return results
 
@@ -276,18 +280,18 @@ def show_results(run_results, hyperparams):
 * Model {model}, N_Runs {n_runs}, Patch_Size {patch_size}, Batch_Size {batch_size}".format(**hyperparams))
     
     print("Confusion matrix:")
-    for i in range(run_results["Confusion matrix"].shape[0]):
-        for j in range(run_results["Confusion matrix"].shape[1]):
+    for i in range(run_results["confusion_matrix"].shape[0]):
+        for j in range(run_results["confusion_matrix"].shape[1]):
             # 设置对齐
-            print("{:4d}".format(run_results["Confusion matrix"][i][j]), end = " ")
+            print("{:4d}".format(run_results["confusion_matrix"][i][j]), end = " ")
         print()
 
     print("F1 scores:")
-    for label, score in zip(hyperparams["labels"], run_results["F1 scores"]):
+    for label, score in zip(hyperparams["labels"], run_results["f1_scores"]):
         print(" - {:30}: {:.2f}".format(label, score))
 
-    print("Kappa: {:.2f}".format(run_results["Kappa"]))
-    print("Global accuracy: {:.2f}".format(run_results["Accuracy"]))
+    print("Kappa: {:.2f}".format(run_results["kappa"]))
+    print("Global accuracy: {:.2f}".format(run_results["accuracy"]))
 
 
 

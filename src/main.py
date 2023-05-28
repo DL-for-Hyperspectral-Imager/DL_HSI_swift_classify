@@ -93,6 +93,7 @@ def main(show_results_switch = True, hyperparams = {}):
             res_folder = hyperparams["res_folder"],
             name = "pred-{dataset}_{training_rate}-{preprocess}_{n_bands_in}-{model}_runs{n_runs}_bsz{batch_size}_psz{patch_size}".format(**hyperparams),
             hyperparams = hyperparams,
+            accuracy = run_results["accuracy"],
     )
 
     preprocess_time = end_preprocess - start_preprocess
