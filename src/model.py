@@ -234,6 +234,7 @@ class CNN1D(nn.Module):
         self.apply(self.weight_init)
 
     def forward(self, x):
+        x = x.float()
         x = x.squeeze(dim=-1).squeeze(dim=-1)
         x = x.unsqueeze(1)
         x = self.conv(x)

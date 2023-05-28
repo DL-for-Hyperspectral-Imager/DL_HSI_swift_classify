@@ -17,14 +17,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
-model_list = ['svm', 'knn', 'nn', 'cnn1d', 'cnn2d']  # 'nn'
+# model_list = ['svm', 'knn', 'nn', 'cnn1d', 'cnn2d']  # 'nn'
+model_list = ['cnn2d']  # 'nn'
 preprocess_list = ['pca', 'ica', 'lda', 'tsne']
 n_bands_list_normal = [0, 25, 50, 75, 100, 125, 150, 175, 200]  # 0 代表不降维， 以比较不降维和降维的效果
 n_bands_list_lda = list(np.arange(2, 17))
 res_folder = "result"
 print('model_list:', model_list)
 print('preprocess_list:', preprocess_list)
-allcnts = len(model_list) * len(preprocess_list) * len(n_bands_list_normal)
+allcnts = len(model_list) * (len(preprocess_list)- 1) * len(n_bands_list_normal) + len(model_list) * len(n_bands_list_lda)
 cnt = 0
 Start = time.time()
 for model in model_list:

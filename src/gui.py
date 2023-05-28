@@ -39,18 +39,22 @@ class Worker(QThread):
             hyperparams['n_runs']       = 200
             hyperparams['patch_size']   = 10
             hyperparams['batch_size']   = 1000
-        run_results = main.main(
-                show_results_switch = False,
-                hyperparams = hyperparams)
+        try:
+            run_results = main.main(
+                    show_results_switch = False,
+                    hyperparams = hyperparams)
 
-        accuracy = run_results['accuracy']
+            accuracy = run_results['accuracy']
 
-        name = "pred-{dataset}_{training_rate}-{preprocess}_{n_bands_in}-{model}_runs{n_runs}_bsz{batch_size}_psz{patch_size}".format(**hyperparams)
+            name = "pred-{dataset}_{training_rate}-{preprocess}_{n_bands_in}-{model}_runs{n_runs}_bsz{batch_size}_psz{patch_size}".format(**hyperparams)
 
-        abs_res_folder = os.path.join(os.getcwd(), "..", tmp_folder, "{preprocess}_{model}".format(**hyperparams))
-        if not os.path.exists(abs_res_folder):
-            os.makedirs(abs_res_folder)
-        self.finished.emit(accuracy, os.path.join(abs_res_folder, name + "_acy%.2f.png" % accuracy))
+            abs_res_folder = os.path.join(os.getcwd(), "..", tmp_folder, "{preprocess}_{model}".format(**hyperparams))
+            if not os.path.exists(abs_res_folder):
+                os.makedirs(abs_res_folder)
+            self.finished.emit(accuracy, os.path.join(abs_res_folder, name + "_acy%.2f.png" % accuracy))
+        except Exception as e:
+            print(e)
+            self.finished.emit(0, "error")
 
 
 class Window(QMainWindow):
