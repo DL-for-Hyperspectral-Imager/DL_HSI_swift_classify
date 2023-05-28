@@ -21,7 +21,7 @@ import os
 import math
 
 pwd = os.getcwd()
-sklearn_clf = {"svm", "nearest"}
+sklearn_clf = {"svm", "knn"}
 
 
 def train(hyperparams, **kwargs):
@@ -62,7 +62,7 @@ def train(hyperparams, **kwargs):
         clf = train_svm(X_train, y_train)
         joblib.dump(clf, os.path.join(sklearn_clf_save_folder, model_name + '_' + 'clf'))
         return clf
-    elif model_name == 'nearest':
+    elif model_name == 'knn':
         clf = train_knn(X_train, y_train)
         joblib.dump(clf, os.path.join(sklearn_clf_save_folder, model_name + '_' + 'clf'))
         return clf
@@ -329,7 +329,7 @@ def predict(model_name, clf, X_test, patch_size, vector_mask = None):
     model_name = model_name.lower()
     if model_name == "svm":  # 使用SVM进行分类
         y_pred = clf.predict(X_test)
-    elif model_name == 'nearest':
+    elif model_name == 'knn':
         y_pred = clf.predict(X_test)
     elif model_name in ['nn', 'cnn1d']:
         y_pred = clf(torch.Tensor(X_test).cuda())

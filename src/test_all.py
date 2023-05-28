@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
-model_list = ['knn', 'nn', 'cnn1d', 'cnn2d']  # 'nn'
+model_list = ['svm', 'knn', 'nn', 'cnn1d', 'cnn2d']  # 'nn'
 preprocess_list = ['pca', 'ica', 'lda', 'tsne']
 n_bands_list_normal = [0, 25, 50, 75, 100, 125, 150, 175, 200]  # 0 代表不降维， 以比较不降维和降维的效果
 n_bands_list_lda = list(np.arange(2, 17))
@@ -43,7 +43,7 @@ for model in model_list:
             cnt = cnt + 1
             Curr = time.time()
             print("\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n")
-            print("No %d / %d, during %.5e min" % (cnt, allcnts, (Curr - Start) / 60))
+            print("No %d / %d, during %.1f min" % (cnt, allcnts, (Curr - Start) / 60))
             # run_results, Training_time, Predicting_time即为本次运行的结果
             # run_results中包含了accuracy, F1 score by class, confusion matrix,为字典
             hyperparams = {
@@ -90,7 +90,7 @@ for model in model_list:
                 os.path.join(
                         os.getcwd(), "..", res_folder, "%s_%s" % (preprocess, model),
                                                        "%s_%s.png" % (preprocess, model)))
-        plt.show()
+        # plt.show()
 
         # 创建一个新的文件，如果文件已经存在则删除它，保证每次重新运行时是覆写而不是追加
         filepath = os.path.join(
