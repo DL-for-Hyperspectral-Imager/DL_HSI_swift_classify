@@ -1,5 +1,7 @@
 # added by Mangp, to run test quickly in this py
 # 此文件将各次运行结果全部保存起来了，方便作图分析等
+model_list = ['svm', 'knn', 'nn', 'cnn1d', 'cnn2d']  # 'nn'
+
 import sys
 import matplotlib
 
@@ -17,9 +19,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
-# model_list = ['svm', 'knn', 'nn', 'cnn1d', 'cnn2d']  # 'nn'
-model_list = ['cnn2d']  # 'nn'
-preprocess_list = ['pca', 'ica', 'lda', 'tsne']
+model_list = ['svm', 'knn', 'nn', 'cnn1d', 'cnn2d']  # 'nn'
+# model_list = ['cnn2d']  # 'nn'
+preprocess_list = [ 'ica']
+preprocess_list = ['pca', 'lda', 'ica', 'tsne']
 n_bands_list_normal = [0, 25, 50, 75, 100, 125, 150, 175, 200]  # 0 代表不降维， 以比较不降维和降维的效果
 n_bands_list_lda = list(np.arange(2, 17))
 res_folder = "result"
