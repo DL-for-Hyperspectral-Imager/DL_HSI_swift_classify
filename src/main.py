@@ -129,55 +129,55 @@ def args_init(**kwargs):
     # 添加需要解析的参数
     parser = argparse.ArgumentParser()
     parser.add_argument(
-            "--dataset",
+            "--dataset", "-data",
             type = str,
             default = "IndianPines",
             help = "dataset name")
     parser.add_argument(
-            "--training_rate",
+            "--training_rate", "-rate",
             type = float,
-            default = 0.1,
+            default = 0.3,
             help = "training rate")
     # preprocess and n_bands
     parser.add_argument(
-            "--preprocess",
+            "--preprocess", "-pre",
             type = str,
             default = 'nopre',
             help = "preprocess name")
     parser.add_argument(
-            "--n_bands",
+            "--n_bands", "-nb",
             type = int,
             default = 0,  # 0 表示不降维
             help = "number of bands")
     # model and n_runs
     parser.add_argument(
-            "--model",
+            "--model", "-m",
             type = str,
             default = "svm",
             help = "model name")
     parser.add_argument(
-            "--n_runs",
+            "--n_runs", "-nr",
             type = int,
             default = 1,
             help = "number of runs")
     # res_folder and load_model
     parser.add_argument(
-            "--res_folder",
+            "--res_folder", "-folder",
             type = str,
             default = "result",  # 相对于主目录的文件夹相对路径
             help = "folder for saved img")
     parser.add_argument(
-            "--load_model",
+            "--load_model", "-lm",
             type = bool,
             default = False,
             help = "if load model")
     parser.add_argument(
-            "--patch_size",
+            "--patch_size", "-psz",
             type = int,
             default = 10,
             help = "patch size of slide windows")
     parser.add_argument(
-            "--batch_size",
+            "--batch_size", "-bsz",
             type = int,
             default = 1000,
             help = "batch size")
