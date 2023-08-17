@@ -304,3 +304,4 @@ def get_palette(n_classes):
     palette = {0: (0, 0, 0)}
     for k, color in enumerate(seaborn.color_palette("hls", n_classes - 1)):
         palette[k + 1] = tuple(np.asarray(255 * np.array(color), dtype = "uint8"))
+    return palette

@@ -13,7 +13,16 @@ from preprocess import *
 import argparse
 
 import time
-import sys
+# setting random seed, for replicate
+def seed_torch(seed=1029):
+	os.environ['PYTHONHASHSEED'] = str(seed) # 为了禁止hash随机化，使得实验可复现
+	np.random.seed(seed)
+	torch.manual_seed(seed)
+	torch.cuda.manual_seed(seed)
+	torch.cuda.manual_seed_all(seed) # if you are using multi-GPU.
+	torch.backends.cudnn.benchmark = False
+	torch.backends.cudnn.deterministic = True
+
 
 
 # 这里定义一个main函数作为整个项目的入口，只有作为脚本时这个文件才会运行
@@ -31,6 +40,8 @@ def main(show_results_switch = True, hyperparams = {}):
         training_time
         predicting_time
     """
+    seed = int(time.time() * 397 % 2**32)
+    seed_torch(seed)
     hyperparams['n_bands_in'] = hyperparams["n_bands"]
     # 加载原始数据集
     print("* Loading dataset %s..." % hyperparams["dataset"])
