@@ -90,8 +90,12 @@ pip install -r requirements.txt
 SVM模型
 
 ```commandline
+python main.py --dataset IndianPines --preprocess PCA --n_bands 125 --model nn --n_runs 50
+python main.py --dataset IndianPines --preprocess PCA --n_bands 75 --model CNN1D
 python main.py --dataset IndianPines --preprocess ICA --model SVM
 python3 main.py --preprocess PCA --model CNN2D 
+
+find . -name "*.py" -print | xargs wc -l
 ```
 
 在上面的示例中，我们将 `--n_runs` 参数设置为 3，`--dataset` 参数设置为 'IndianPines'，`--preprocess` 参数设置为 'ICA'，`--model` 参数设置为 'SVM'。你可以根据需要调整这些参数的值。

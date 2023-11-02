@@ -33,6 +33,16 @@ def load_dataset(dataset_name, hyperparams):
                   "Stone-Steel-Towers"]
         ignored_labels = [0]
         rgb_bands = (43, 21, 11)
+    elif dataset_name == "XiongAn":
+        from osgeo import gdal
+        img_path = "/mnt/d/HSI/Datasets/XiongAn/XiongAn.img"
+        gt_path = "/mnt/d/HSI/Datasets/XiongAn/farm_roi.img"
+        hsi_img = gdal.Open(img_path).ReadAsArray()
+        gt = gdal.Open(gt_path).ReadAsArray()
+        labels = [ 'Unclassified', '复叶槭', '柳树', '榆树', '水稻', '国槐', '白蜡', '栾树', '水域', '裸地', 
+ '水稻茬', '刺槐', '玉米', '梨树', '大豆', '杨树', '菜地', '稀疏林', '草地', '桃树', '房屋']
+        ignored_labels = [0]
+        rgb_bands = (109, 70, 26)
     else:
         pass
 

@@ -89,8 +89,9 @@ def train(hyperparams, **kwargs):
                     print(f"出现了大于{n_classes}的标签,错误！！！")
                     continue
                 # 输入网络进行训练
-                pred_classes = model(batch_X.cuda())
-                loss = criterion(pred_classes, batch_y.cuda().long())
+                
+                pred_classes = model(batch_X)
+                loss = criterion(pred_classes, batch_y.long())
                 loss_avg += loss.item()
                 nums += 1
                 loss.backward()  # 反向传播
@@ -127,8 +128,8 @@ def train(hyperparams, **kwargs):
                     print(f"出现了大于{n_classes}的标签,错误！！！")
                     continue
                 # 输入网络进行训练
-                pred_classes = model(batch_X.cuda())
-                loss = criterion(pred_classes, batch_y.cuda().long())
+                pred_classes = model(batch_X)
+                loss = criterion(pred_classes, batch_y.long())
                 loss_avg += loss.item()
                 nums += 1
                 loss.backward()  # 反向传播
@@ -147,12 +148,12 @@ def get_model(model_name, hyperparams):
     n_bands = hyperparams["n_bands"]
     n_classes = hyperparams["n_classes"]
     if model_name == 'nn':
-        model = FNN(n_bands, n_classes, dropout = True, p = 0.5).cuda()
+        model = FNN(n_bands, n_classes, dropout = True, p = 0.5)
     elif model_name == 'cnn1d':
         # if(hyperparams['n_bands'])
-        model = CNN1D(n_bands, n_classes).cuda()
+        model = CNN1D(n_bands, n_classes)
     elif model_name == 'cnn2d':
-        model = CNN2D(n_bands, n_classes, patch_size=hyperparams['patch_size']).cuda()
+        model = CNN2D(n_bands, n_classes, patch_size=hyperparams['patch_size'])
     else:
         raise KeyError("{} model is unknown.".format(model_name))
     return model
@@ -323,7 +324,7 @@ def predict(model_name, clf, X_test, patch_size, vector_mask = None):
     elif model_name == 'knn':
         y_pred = clf.predict(X_test)
     elif model_name in ['nn', 'cnn1d']:
-        y_pred = clf(torch.Tensor(X_test).cuda())
+        y_pred = clf(torch.Tensor(X_test))
         y_pred = torch.topk(y_pred, k = 1).indices
         y_pred = y_pred.cpu().numpy()
     elif model_name == 'cnn2d':
@@ -331,7 +332,7 @@ def predict(model_name, clf, X_test, patch_size, vector_mask = None):
         slide_windows_dataloader = DataLoader(slide_windows_datasets,batch_size=len(slide_windows_datasets))
         with torch.no_grad():
             for X_test_window, y_test in slide_windows_dataloader:
-                y_pred = clf(torch.Tensor(X_test_window).cuda())
+                y_pred = clf(torch.Tensor(X_test_window))
                 y_pred = torch.topk(y_pred, k=1).indices
                 y_pred = y_pred.cpu().numpy()
     else:

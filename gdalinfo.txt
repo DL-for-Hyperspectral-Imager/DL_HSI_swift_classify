@@ -1,0 +1,1563 @@
+Driver: ENVI/ENVI .hdr Labelled
+Files: /mnt/d/HSI/Datasets/XiongAn/XiongAn.img
+       /mnt/d/HSI/Datasets/XiongAn/XiongAn.hdr
+Size is 3750, 1580
+Coordinate System is:
+ENGCRS["Arbitrary",
+    EDATUM[""],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["Meter",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["Meter",1]]]
+Data axis to CRS axis mapping: 1,2
+Origin = (547201.100100000039674,4311890.500099999830127)
+Pixel Size = (0.500000000000000,-0.500000000000000)
+Metadata:
+  Band_1=391.298300 Nanometers
+  Band_10=412.883300 Nanometers
+  Band_100=628.733300 Nanometers
+  Band_101=631.131700 Nanometers
+  Band_102=633.530000 Nanometers
+  Band_103=635.928300 Nanometers
+  Band_104=638.326700 Nanometers
+  Band_105=640.725000 Nanometers
+  Band_106=643.123300 Nanometers
+  Band_107=645.521700 Nanometers
+  Band_108=647.920000 Nanometers
+  Band_109=650.318300 Nanometers
+  Band_11=415.281700 Nanometers
+  Band_110=652.716700 Nanometers
+  Band_111=655.115000 Nanometers
+  Band_112=657.513300 Nanometers
+  Band_113=659.911700 Nanometers
+  Band_114=662.310000 Nanometers
+  Band_115=664.708300 Nanometers
+  Band_116=667.106700 Nanometers
+  Band_117=669.505000 Nanometers
+  Band_118=671.903300 Nanometers
+  Band_119=674.301700 Nanometers
+  Band_12=417.680000 Nanometers
+  Band_120=676.700000 Nanometers
+  Band_121=679.098300 Nanometers
+  Band_122=681.496700 Nanometers
+  Band_123=683.895000 Nanometers
+  Band_124=686.293300 Nanometers
+  Band_125=688.691700 Nanometers
+  Band_126=691.090000 Nanometers
+  Band_127=693.488300 Nanometers
+  Band_128=695.886700 Nanometers
+  Band_129=698.285000 Nanometers
+  Band_13=420.078300 Nanometers
+  Band_130=700.683300 Nanometers
+  Band_131=703.081700 Nanometers
+  Band_132=705.480000 Nanometers
+  Band_133=707.878300 Nanometers
+  Band_134=710.276700 Nanometers
+  Band_135=712.675000 Nanometers
+  Band_136=715.073300 Nanometers
+  Band_137=717.471700 Nanometers
+  Band_138=719.870000 Nanometers
+  Band_139=722.268300 Nanometers
+  Band_14=422.476700 Nanometers
+  Band_140=724.666700 Nanometers
+  Band_141=727.065000 Nanometers
+  Band_142=729.463300 Nanometers
+  Band_143=731.861700 Nanometers
+  Band_144=734.260000 Nanometers
+  Band_145=736.658300 Nanometers
+  Band_146=739.056700 Nanometers
+  Band_147=741.455000 Nanometers
+  Band_148=743.853300 Nanometers
+  Band_149=746.251700 Nanometers
+  Band_15=424.875000 Nanometers
+  Band_150=748.650000 Nanometers
+  Band_151=751.048300 Nanometers
+  Band_152=753.446700 Nanometers
+  Band_153=755.845000 Nanometers
+  Band_154=758.243300 Nanometers
+  Band_155=760.641700 Nanometers
+  Band_156=763.040000 Nanometers
+  Band_157=765.438300 Nanometers
+  Band_158=767.836700 Nanometers
+  Band_159=770.235000 Nanometers
+  Band_16=427.273300 Nanometers
+  Band_160=772.633300 Nanometers
+  Band_161=775.031700 Nanometers
+  Band_162=777.430000 Nanometers
+  Band_163=779.828300 Nanometers
+  Band_164=782.226700 Nanometers
+  Band_165=784.625000 Nanometers
+  Band_166=787.023300 Nanometers
+  Band_167=789.421700 Nanometers
+  Band_168=791.820000 Nanometers
+  Band_169=794.218300 Nanometers
+  Band_17=429.671700 Nanometers
+  Band_170=796.616700 Nanometers
+  Band_171=799.015000 Nanometers
+  Band_172=801.413300 Nanometers
+  Band_173=803.811700 Nanometers
+  Band_174=806.210000 Nanometers
+  Band_175=808.608300 Nanometers
+  Band_176=811.006700 Nanometers
+  Band_177=813.405000 Nanometers
+  Band_178=815.803300 Nanometers
+  Band_179=818.201700 Nanometers
+  Band_18=432.070000 Nanometers
+  Band_180=820.600000 Nanometers
+  Band_181=822.998300 Nanometers
+  Band_182=825.396700 Nanometers
+  Band_183=827.795000 Nanometers
+  Band_184=830.193300 Nanometers
+  Band_185=832.591700 Nanometers
+  Band_186=834.990000 Nanometers
+  Band_187=837.388300 Nanometers
+  Band_188=839.786700 Nanometers
+  Band_189=842.185000 Nanometers
+  Band_19=434.468300 Nanometers
+  Band_190=844.583300 Nanometers
+  Band_191=846.981700 Nanometers
+  Band_192=849.380000 Nanometers
+  Band_193=851.778300 Nanometers
+  Band_194=854.176700 Nanometers
+  Band_195=856.575000 Nanometers
+  Band_196=858.973300 Nanometers
+  Band_197=861.371700 Nanometers
+  Band_198=863.770000 Nanometers
+  Band_199=866.168300 Nanometers
+  Band_2=393.696700 Nanometers
+  Band_20=436.866700 Nanometers
+  Band_200=868.566700 Nanometers
+  Band_201=870.965000 Nanometers
+  Band_202=873.363300 Nanometers
+  Band_203=875.761700 Nanometers
+  Band_204=878.160000 Nanometers
+  Band_205=880.558300 Nanometers
+  Band_206=882.956700 Nanometers
+  Band_207=885.355000 Nanometers
+  Band_208=887.753300 Nanometers
+  Band_209=890.151700 Nanometers
+  Band_21=439.265000 Nanometers
+  Band_210=892.550000 Nanometers
+  Band_211=894.948300 Nanometers
+  Band_212=897.346700 Nanometers
+  Band_213=899.745000 Nanometers
+  Band_214=902.143300 Nanometers
+  Band_215=904.541700 Nanometers
+  Band_216=906.940000 Nanometers
+  Band_217=909.338300 Nanometers
+  Band_218=911.736700 Nanometers
+  Band_219=914.135000 Nanometers
+  Band_22=441.663300 Nanometers
+  Band_220=916.533300 Nanometers
+  Band_221=918.931700 Nanometers
+  Band_222=921.330000 Nanometers
+  Band_223=923.728300 Nanometers
+  Band_224=926.126700 Nanometers
+  Band_225=928.525000 Nanometers
+  Band_226=930.923300 Nanometers
+  Band_227=933.321700 Nanometers
+  Band_228=935.720000 Nanometers
+  Band_229=938.118300 Nanometers
+  Band_23=444.061700 Nanometers
+  Band_230=940.516700 Nanometers
+  Band_231=942.915000 Nanometers
+  Band_232=945.313300 Nanometers
+  Band_233=947.711700 Nanometers
+  Band_234=950.110000 Nanometers
+  Band_235=952.508300 Nanometers
+  Band_236=954.906700 Nanometers
+  Band_237=957.305000 Nanometers
+  Band_238=959.703300 Nanometers
+  Band_239=962.101700 Nanometers
+  Band_24=446.460000 Nanometers
+  Band_240=964.500000 Nanometers
+  Band_241=966.898300 Nanometers
+  Band_242=969.296700 Nanometers
+  Band_243=971.695000 Nanometers
+  Band_244=974.093300 Nanometers
+  Band_245=976.491700 Nanometers
+  Band_246=978.890000 Nanometers
+  Band_247=981.288300 Nanometers
+  Band_248=983.686700 Nanometers
+  Band_249=986.085000 Nanometers
+  Band_25=448.858300 Nanometers
+  Band_250=988.483300 Nanometers
+  Band_251=990.881700 Nanometers
+  Band_252=993.280000 Nanometers
+  Band_253=995.678300 Nanometers
+  Band_254=998.076700 Nanometers
+  Band_255=1000.475000 Nanometers
+  Band_256=1002.873000 Nanometers
+  Band_26=451.256700 Nanometers
+  Band_27=453.655000 Nanometers
+  Band_28=456.053300 Nanometers
+  Band_29=458.451700 Nanometers
+  Band_3=396.095000 Nanometers
+  Band_30=460.850000 Nanometers
+  Band_31=463.248300 Nanometers
+  Band_32=465.646700 Nanometers
+  Band_33=468.045000 Nanometers
+  Band_34=470.443300 Nanometers
+  Band_35=472.841700 Nanometers
+  Band_36=475.240000 Nanometers
+  Band_37=477.638300 Nanometers
+  Band_38=480.036700 Nanometers
+  Band_39=482.435000 Nanometers
+  Band_4=398.493300 Nanometers
+  Band_40=484.833300 Nanometers
+  Band_41=487.231700 Nanometers
+  Band_42=489.630000 Nanometers
+  Band_43=492.028300 Nanometers
+  Band_44=494.426700 Nanometers
+  Band_45=496.825000 Nanometers
+  Band_46=499.223300 Nanometers
+  Band_47=501.621700 Nanometers
+  Band_48=504.020000 Nanometers
+  Band_49=506.418300 Nanometers
+  Band_5=400.891700 Nanometers
+  Band_50=508.816700 Nanometers
+  Band_51=511.215000 Nanometers
+  Band_52=513.613300 Nanometers
+  Band_53=516.011700 Nanometers
+  Band_54=518.410000 Nanometers
+  Band_55=520.808300 Nanometers
+  Band_56=523.206700 Nanometers
+  Band_57=525.605000 Nanometers
+  Band_58=528.003300 Nanometers
+  Band_59=530.401700 Nanometers
+  Band_6=403.290000 Nanometers
+  Band_60=532.800000 Nanometers
+  Band_61=535.198300 Nanometers
+  Band_62=537.596700 Nanometers
+  Band_63=539.995000 Nanometers
+  Band_64=542.393300 Nanometers
+  Band_65=544.791700 Nanometers
+  Band_66=547.190000 Nanometers
+  Band_67=549.588300 Nanometers
+  Band_68=551.986700 Nanometers
+  Band_69=554.385000 Nanometers
+  Band_7=405.688300 Nanometers
+  Band_70=556.783300 Nanometers
+  Band_71=559.181700 Nanometers
+  Band_72=561.580000 Nanometers
+  Band_73=563.978300 Nanometers
+  Band_74=566.376700 Nanometers
+  Band_75=568.775000 Nanometers
+  Band_76=571.173300 Nanometers
+  Band_77=573.571700 Nanometers
+  Band_78=575.970000 Nanometers
+  Band_79=578.368300 Nanometers
+  Band_8=408.086700 Nanometers
+  Band_80=580.766700 Nanometers
+  Band_81=583.165000 Nanometers
+  Band_82=585.563300 Nanometers
+  Band_83=587.961700 Nanometers
+  Band_84=590.360000 Nanometers
+  Band_85=592.758300 Nanometers
+  Band_86=595.156700 Nanometers
+  Band_87=597.555000 Nanometers
+  Band_88=599.953300 Nanometers
+  Band_89=602.351700 Nanometers
+  Band_9=410.485000 Nanometers
+  Band_90=604.750000 Nanometers
+  Band_91=607.148300 Nanometers
+  Band_92=609.546700 Nanometers
+  Band_93=611.945000 Nanometers
+  Band_94=614.343300 Nanometers
+  Band_95=616.741700 Nanometers
+  Band_96=619.140000 Nanometers
+  Band_97=621.538300 Nanometers
+  Band_98=623.936700 Nanometers
+  Band_99=626.335000 Nanometers
+  wavelength_units=Nanometers
+Image Structure Metadata:
+  INTERLEAVE=BAND
+Corner Coordinates:
+Upper Left  (  547201.100, 4311890.500) 
+Lower Left  (  547201.100, 4311100.500) 
+Upper Right (  549076.100, 4311890.500) 
+Lower Right (  549076.100, 4311100.500) 
+Center      (  548138.600, 4311495.500) 
+Band 1 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 391.298300 Nanometers
+  Metadata:
+    wavelength=391.298300
+    wavelength_units=Nanometers
+Band 2 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 393.696700 Nanometers
+  Metadata:
+    wavelength=393.696700
+    wavelength_units=Nanometers
+Band 3 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 396.095000 Nanometers
+  Metadata:
+    wavelength=396.095000
+    wavelength_units=Nanometers
+Band 4 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 398.493300 Nanometers
+  Metadata:
+    wavelength=398.493300
+    wavelength_units=Nanometers
+Band 5 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 400.891700 Nanometers
+  Metadata:
+    wavelength=400.891700
+    wavelength_units=Nanometers
+Band 6 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 403.290000 Nanometers
+  Metadata:
+    wavelength=403.290000
+    wavelength_units=Nanometers
+Band 7 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 405.688300 Nanometers
+  Metadata:
+    wavelength=405.688300
+    wavelength_units=Nanometers
+Band 8 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 408.086700 Nanometers
+  Metadata:
+    wavelength=408.086700
+    wavelength_units=Nanometers
+Band 9 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 410.485000 Nanometers
+  Metadata:
+    wavelength=410.485000
+    wavelength_units=Nanometers
+Band 10 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 412.883300 Nanometers
+  Metadata:
+    wavelength=412.883300
+    wavelength_units=Nanometers
+Band 11 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 415.281700 Nanometers
+  Metadata:
+    wavelength=415.281700
+    wavelength_units=Nanometers
+Band 12 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 417.680000 Nanometers
+  Metadata:
+    wavelength=417.680000
+    wavelength_units=Nanometers
+Band 13 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 420.078300 Nanometers
+  Metadata:
+    wavelength=420.078300
+    wavelength_units=Nanometers
+Band 14 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 422.476700 Nanometers
+  Metadata:
+    wavelength=422.476700
+    wavelength_units=Nanometers
+Band 15 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 424.875000 Nanometers
+  Metadata:
+    wavelength=424.875000
+    wavelength_units=Nanometers
+Band 16 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 427.273300 Nanometers
+  Metadata:
+    wavelength=427.273300
+    wavelength_units=Nanometers
+Band 17 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 429.671700 Nanometers
+  Metadata:
+    wavelength=429.671700
+    wavelength_units=Nanometers
+Band 18 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 432.070000 Nanometers
+  Metadata:
+    wavelength=432.070000
+    wavelength_units=Nanometers
+Band 19 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 434.468300 Nanometers
+  Metadata:
+    wavelength=434.468300
+    wavelength_units=Nanometers
+Band 20 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 436.866700 Nanometers
+  Metadata:
+    wavelength=436.866700
+    wavelength_units=Nanometers
+Band 21 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 439.265000 Nanometers
+  Metadata:
+    wavelength=439.265000
+    wavelength_units=Nanometers
+Band 22 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 441.663300 Nanometers
+  Metadata:
+    wavelength=441.663300
+    wavelength_units=Nanometers
+Band 23 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 444.061700 Nanometers
+  Metadata:
+    wavelength=444.061700
+    wavelength_units=Nanometers
+Band 24 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 446.460000 Nanometers
+  Metadata:
+    wavelength=446.460000
+    wavelength_units=Nanometers
+Band 25 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 448.858300 Nanometers
+  Metadata:
+    wavelength=448.858300
+    wavelength_units=Nanometers
+Band 26 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 451.256700 Nanometers
+  Metadata:
+    wavelength=451.256700
+    wavelength_units=Nanometers
+Band 27 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 453.655000 Nanometers
+  Metadata:
+    wavelength=453.655000
+    wavelength_units=Nanometers
+Band 28 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 456.053300 Nanometers
+  Metadata:
+    wavelength=456.053300
+    wavelength_units=Nanometers
+Band 29 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 458.451700 Nanometers
+  Metadata:
+    wavelength=458.451700
+    wavelength_units=Nanometers
+Band 30 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 460.850000 Nanometers
+  Metadata:
+    wavelength=460.850000
+    wavelength_units=Nanometers
+Band 31 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 463.248300 Nanometers
+  Metadata:
+    wavelength=463.248300
+    wavelength_units=Nanometers
+Band 32 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 465.646700 Nanometers
+  Metadata:
+    wavelength=465.646700
+    wavelength_units=Nanometers
+Band 33 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 468.045000 Nanometers
+  Metadata:
+    wavelength=468.045000
+    wavelength_units=Nanometers
+Band 34 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 470.443300 Nanometers
+  Metadata:
+    wavelength=470.443300
+    wavelength_units=Nanometers
+Band 35 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 472.841700 Nanometers
+  Metadata:
+    wavelength=472.841700
+    wavelength_units=Nanometers
+Band 36 Block=3750x1 Type=UInt16, ColorInterp=Blue
+  Description = 475.240000 Nanometers
+  Metadata:
+    wavelength=475.240000
+    wavelength_units=Nanometers
+Band 37 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 477.638300 Nanometers
+  Metadata:
+    wavelength=477.638300
+    wavelength_units=Nanometers
+Band 38 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 480.036700 Nanometers
+  Metadata:
+    wavelength=480.036700
+    wavelength_units=Nanometers
+Band 39 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 482.435000 Nanometers
+  Metadata:
+    wavelength=482.435000
+    wavelength_units=Nanometers
+Band 40 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 484.833300 Nanometers
+  Metadata:
+    wavelength=484.833300
+    wavelength_units=Nanometers
+Band 41 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 487.231700 Nanometers
+  Metadata:
+    wavelength=487.231700
+    wavelength_units=Nanometers
+Band 42 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 489.630000 Nanometers
+  Metadata:
+    wavelength=489.630000
+    wavelength_units=Nanometers
+Band 43 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 492.028300 Nanometers
+  Metadata:
+    wavelength=492.028300
+    wavelength_units=Nanometers
+Band 44 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 494.426700 Nanometers
+  Metadata:
+    wavelength=494.426700
+    wavelength_units=Nanometers
+Band 45 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 496.825000 Nanometers
+  Metadata:
+    wavelength=496.825000
+    wavelength_units=Nanometers
+Band 46 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 499.223300 Nanometers
+  Metadata:
+    wavelength=499.223300
+    wavelength_units=Nanometers
+Band 47 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 501.621700 Nanometers
+  Metadata:
+    wavelength=501.621700
+    wavelength_units=Nanometers
+Band 48 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 504.020000 Nanometers
+  Metadata:
+    wavelength=504.020000
+    wavelength_units=Nanometers
+Band 49 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 506.418300 Nanometers
+  Metadata:
+    wavelength=506.418300
+    wavelength_units=Nanometers
+Band 50 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 508.816700 Nanometers
+  Metadata:
+    wavelength=508.816700
+    wavelength_units=Nanometers
+Band 51 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 511.215000 Nanometers
+  Metadata:
+    wavelength=511.215000
+    wavelength_units=Nanometers
+Band 52 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 513.613300 Nanometers
+  Metadata:
+    wavelength=513.613300
+    wavelength_units=Nanometers
+Band 53 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 516.011700 Nanometers
+  Metadata:
+    wavelength=516.011700
+    wavelength_units=Nanometers
+Band 54 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 518.410000 Nanometers
+  Metadata:
+    wavelength=518.410000
+    wavelength_units=Nanometers
+Band 55 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 520.808300 Nanometers
+  Metadata:
+    wavelength=520.808300
+    wavelength_units=Nanometers
+Band 56 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 523.206700 Nanometers
+  Metadata:
+    wavelength=523.206700
+    wavelength_units=Nanometers
+Band 57 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 525.605000 Nanometers
+  Metadata:
+    wavelength=525.605000
+    wavelength_units=Nanometers
+Band 58 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 528.003300 Nanometers
+  Metadata:
+    wavelength=528.003300
+    wavelength_units=Nanometers
+Band 59 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 530.401700 Nanometers
+  Metadata:
+    wavelength=530.401700
+    wavelength_units=Nanometers
+Band 60 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 532.800000 Nanometers
+  Metadata:
+    wavelength=532.800000
+    wavelength_units=Nanometers
+Band 61 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 535.198300 Nanometers
+  Metadata:
+    wavelength=535.198300
+    wavelength_units=Nanometers
+Band 62 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 537.596700 Nanometers
+  Metadata:
+    wavelength=537.596700
+    wavelength_units=Nanometers
+Band 63 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 539.995000 Nanometers
+  Metadata:
+    wavelength=539.995000
+    wavelength_units=Nanometers
+Band 64 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 542.393300 Nanometers
+  Metadata:
+    wavelength=542.393300
+    wavelength_units=Nanometers
+Band 65 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 544.791700 Nanometers
+  Metadata:
+    wavelength=544.791700
+    wavelength_units=Nanometers
+Band 66 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 547.190000 Nanometers
+  Metadata:
+    wavelength=547.190000
+    wavelength_units=Nanometers
+Band 67 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 549.588300 Nanometers
+  Metadata:
+    wavelength=549.588300
+    wavelength_units=Nanometers
+Band 68 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 551.986700 Nanometers
+  Metadata:
+    wavelength=551.986700
+    wavelength_units=Nanometers
+Band 69 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 554.385000 Nanometers
+  Metadata:
+    wavelength=554.385000
+    wavelength_units=Nanometers
+Band 70 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 556.783300 Nanometers
+  Metadata:
+    wavelength=556.783300
+    wavelength_units=Nanometers
+Band 71 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 559.181700 Nanometers
+  Metadata:
+    wavelength=559.181700
+    wavelength_units=Nanometers
+Band 72 Block=3750x1 Type=UInt16, ColorInterp=Green
+  Description = 561.580000 Nanometers
+  Metadata:
+    wavelength=561.580000
+    wavelength_units=Nanometers
+Band 73 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 563.978300 Nanometers
+  Metadata:
+    wavelength=563.978300
+    wavelength_units=Nanometers
+Band 74 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 566.376700 Nanometers
+  Metadata:
+    wavelength=566.376700
+    wavelength_units=Nanometers
+Band 75 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 568.775000 Nanometers
+  Metadata:
+    wavelength=568.775000
+    wavelength_units=Nanometers
+Band 76 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 571.173300 Nanometers
+  Metadata:
+    wavelength=571.173300
+    wavelength_units=Nanometers
+Band 77 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 573.571700 Nanometers
+  Metadata:
+    wavelength=573.571700
+    wavelength_units=Nanometers
+Band 78 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 575.970000 Nanometers
+  Metadata:
+    wavelength=575.970000
+    wavelength_units=Nanometers
+Band 79 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 578.368300 Nanometers
+  Metadata:
+    wavelength=578.368300
+    wavelength_units=Nanometers
+Band 80 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 580.766700 Nanometers
+  Metadata:
+    wavelength=580.766700
+    wavelength_units=Nanometers
+Band 81 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 583.165000 Nanometers
+  Metadata:
+    wavelength=583.165000
+    wavelength_units=Nanometers
+Band 82 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 585.563300 Nanometers
+  Metadata:
+    wavelength=585.563300
+    wavelength_units=Nanometers
+Band 83 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 587.961700 Nanometers
+  Metadata:
+    wavelength=587.961700
+    wavelength_units=Nanometers
+Band 84 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 590.360000 Nanometers
+  Metadata:
+    wavelength=590.360000
+    wavelength_units=Nanometers
+Band 85 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 592.758300 Nanometers
+  Metadata:
+    wavelength=592.758300
+    wavelength_units=Nanometers
+Band 86 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 595.156700 Nanometers
+  Metadata:
+    wavelength=595.156700
+    wavelength_units=Nanometers
+Band 87 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 597.555000 Nanometers
+  Metadata:
+    wavelength=597.555000
+    wavelength_units=Nanometers
+Band 88 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 599.953300 Nanometers
+  Metadata:
+    wavelength=599.953300
+    wavelength_units=Nanometers
+Band 89 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 602.351700 Nanometers
+  Metadata:
+    wavelength=602.351700
+    wavelength_units=Nanometers
+Band 90 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 604.750000 Nanometers
+  Metadata:
+    wavelength=604.750000
+    wavelength_units=Nanometers
+Band 91 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 607.148300 Nanometers
+  Metadata:
+    wavelength=607.148300
+    wavelength_units=Nanometers
+Band 92 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 609.546700 Nanometers
+  Metadata:
+    wavelength=609.546700
+    wavelength_units=Nanometers
+Band 93 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 611.945000 Nanometers
+  Metadata:
+    wavelength=611.945000
+    wavelength_units=Nanometers
+Band 94 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 614.343300 Nanometers
+  Metadata:
+    wavelength=614.343300
+    wavelength_units=Nanometers
+Band 95 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 616.741700 Nanometers
+  Metadata:
+    wavelength=616.741700
+    wavelength_units=Nanometers
+Band 96 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 619.140000 Nanometers
+  Metadata:
+    wavelength=619.140000
+    wavelength_units=Nanometers
+Band 97 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 621.538300 Nanometers
+  Metadata:
+    wavelength=621.538300
+    wavelength_units=Nanometers
+Band 98 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 623.936700 Nanometers
+  Metadata:
+    wavelength=623.936700
+    wavelength_units=Nanometers
+Band 99 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 626.335000 Nanometers
+  Metadata:
+    wavelength=626.335000
+    wavelength_units=Nanometers
+Band 100 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 628.733300 Nanometers
+  Metadata:
+    wavelength=628.733300
+    wavelength_units=Nanometers
+Band 101 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 631.131700 Nanometers
+  Metadata:
+    wavelength=631.131700
+    wavelength_units=Nanometers
+Band 102 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 633.530000 Nanometers
+  Metadata:
+    wavelength=633.530000
+    wavelength_units=Nanometers
+Band 103 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 635.928300 Nanometers
+  Metadata:
+    wavelength=635.928300
+    wavelength_units=Nanometers
+Band 104 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 638.326700 Nanometers
+  Metadata:
+    wavelength=638.326700
+    wavelength_units=Nanometers
+Band 105 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 640.725000 Nanometers
+  Metadata:
+    wavelength=640.725000
+    wavelength_units=Nanometers
+Band 106 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 643.123300 Nanometers
+  Metadata:
+    wavelength=643.123300
+    wavelength_units=Nanometers
+Band 107 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 645.521700 Nanometers
+  Metadata:
+    wavelength=645.521700
+    wavelength_units=Nanometers
+Band 108 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 647.920000 Nanometers
+  Metadata:
+    wavelength=647.920000
+    wavelength_units=Nanometers
+Band 109 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 650.318300 Nanometers
+  Metadata:
+    wavelength=650.318300
+    wavelength_units=Nanometers
+Band 110 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 652.716700 Nanometers
+  Metadata:
+    wavelength=652.716700
+    wavelength_units=Nanometers
+Band 111 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 655.115000 Nanometers
+  Metadata:
+    wavelength=655.115000
+    wavelength_units=Nanometers
+Band 112 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 657.513300 Nanometers
+  Metadata:
+    wavelength=657.513300
+    wavelength_units=Nanometers
+Band 113 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 659.911700 Nanometers
+  Metadata:
+    wavelength=659.911700
+    wavelength_units=Nanometers
+Band 114 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 662.310000 Nanometers
+  Metadata:
+    wavelength=662.310000
+    wavelength_units=Nanometers
+Band 115 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 664.708300 Nanometers
+  Metadata:
+    wavelength=664.708300
+    wavelength_units=Nanometers
+Band 116 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 667.106700 Nanometers
+  Metadata:
+    wavelength=667.106700
+    wavelength_units=Nanometers
+Band 117 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 669.505000 Nanometers
+  Metadata:
+    wavelength=669.505000
+    wavelength_units=Nanometers
+Band 118 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 671.903300 Nanometers
+  Metadata:
+    wavelength=671.903300
+    wavelength_units=Nanometers
+Band 119 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 674.301700 Nanometers
+  Metadata:
+    wavelength=674.301700
+    wavelength_units=Nanometers
+Band 120 Block=3750x1 Type=UInt16, ColorInterp=Red
+  Description = 676.700000 Nanometers
+  Metadata:
+    wavelength=676.700000
+    wavelength_units=Nanometers
+Band 121 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 679.098300 Nanometers
+  Metadata:
+    wavelength=679.098300
+    wavelength_units=Nanometers
+Band 122 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 681.496700 Nanometers
+  Metadata:
+    wavelength=681.496700
+    wavelength_units=Nanometers
+Band 123 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 683.895000 Nanometers
+  Metadata:
+    wavelength=683.895000
+    wavelength_units=Nanometers
+Band 124 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 686.293300 Nanometers
+  Metadata:
+    wavelength=686.293300
+    wavelength_units=Nanometers
+Band 125 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 688.691700 Nanometers
+  Metadata:
+    wavelength=688.691700
+    wavelength_units=Nanometers
+Band 126 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 691.090000 Nanometers
+  Metadata:
+    wavelength=691.090000
+    wavelength_units=Nanometers
+Band 127 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 693.488300 Nanometers
+  Metadata:
+    wavelength=693.488300
+    wavelength_units=Nanometers
+Band 128 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 695.886700 Nanometers
+  Metadata:
+    wavelength=695.886700
+    wavelength_units=Nanometers
+Band 129 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 698.285000 Nanometers
+  Metadata:
+    wavelength=698.285000
+    wavelength_units=Nanometers
+Band 130 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 700.683300 Nanometers
+  Metadata:
+    wavelength=700.683300
+    wavelength_units=Nanometers
+Band 131 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 703.081700 Nanometers
+  Metadata:
+    wavelength=703.081700
+    wavelength_units=Nanometers
+Band 132 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 705.480000 Nanometers
+  Metadata:
+    wavelength=705.480000
+    wavelength_units=Nanometers
+Band 133 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 707.878300 Nanometers
+  Metadata:
+    wavelength=707.878300
+    wavelength_units=Nanometers
+Band 134 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 710.276700 Nanometers
+  Metadata:
+    wavelength=710.276700
+    wavelength_units=Nanometers
+Band 135 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 712.675000 Nanometers
+  Metadata:
+    wavelength=712.675000
+    wavelength_units=Nanometers
+Band 136 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 715.073300 Nanometers
+  Metadata:
+    wavelength=715.073300
+    wavelength_units=Nanometers
+Band 137 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 717.471700 Nanometers
+  Metadata:
+    wavelength=717.471700
+    wavelength_units=Nanometers
+Band 138 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 719.870000 Nanometers
+  Metadata:
+    wavelength=719.870000
+    wavelength_units=Nanometers
+Band 139 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 722.268300 Nanometers
+  Metadata:
+    wavelength=722.268300
+    wavelength_units=Nanometers
+Band 140 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 724.666700 Nanometers
+  Metadata:
+    wavelength=724.666700
+    wavelength_units=Nanometers
+Band 141 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 727.065000 Nanometers
+  Metadata:
+    wavelength=727.065000
+    wavelength_units=Nanometers
+Band 142 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 729.463300 Nanometers
+  Metadata:
+    wavelength=729.463300
+    wavelength_units=Nanometers
+Band 143 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 731.861700 Nanometers
+  Metadata:
+    wavelength=731.861700
+    wavelength_units=Nanometers
+Band 144 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 734.260000 Nanometers
+  Metadata:
+    wavelength=734.260000
+    wavelength_units=Nanometers
+Band 145 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 736.658300 Nanometers
+  Metadata:
+    wavelength=736.658300
+    wavelength_units=Nanometers
+Band 146 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 739.056700 Nanometers
+  Metadata:
+    wavelength=739.056700
+    wavelength_units=Nanometers
+Band 147 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 741.455000 Nanometers
+  Metadata:
+    wavelength=741.455000
+    wavelength_units=Nanometers
+Band 148 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 743.853300 Nanometers
+  Metadata:
+    wavelength=743.853300
+    wavelength_units=Nanometers
+Band 149 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 746.251700 Nanometers
+  Metadata:
+    wavelength=746.251700
+    wavelength_units=Nanometers
+Band 150 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 748.650000 Nanometers
+  Metadata:
+    wavelength=748.650000
+    wavelength_units=Nanometers
+Band 151 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 751.048300 Nanometers
+  Metadata:
+    wavelength=751.048300
+    wavelength_units=Nanometers
+Band 152 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 753.446700 Nanometers
+  Metadata:
+    wavelength=753.446700
+    wavelength_units=Nanometers
+Band 153 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 755.845000 Nanometers
+  Metadata:
+    wavelength=755.845000
+    wavelength_units=Nanometers
+Band 154 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 758.243300 Nanometers
+  Metadata:
+    wavelength=758.243300
+    wavelength_units=Nanometers
+Band 155 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 760.641700 Nanometers
+  Metadata:
+    wavelength=760.641700
+    wavelength_units=Nanometers
+Band 156 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 763.040000 Nanometers
+  Metadata:
+    wavelength=763.040000
+    wavelength_units=Nanometers
+Band 157 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 765.438300 Nanometers
+  Metadata:
+    wavelength=765.438300
+    wavelength_units=Nanometers
+Band 158 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 767.836700 Nanometers
+  Metadata:
+    wavelength=767.836700
+    wavelength_units=Nanometers
+Band 159 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 770.235000 Nanometers
+  Metadata:
+    wavelength=770.235000
+    wavelength_units=Nanometers
+Band 160 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 772.633300 Nanometers
+  Metadata:
+    wavelength=772.633300
+    wavelength_units=Nanometers
+Band 161 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 775.031700 Nanometers
+  Metadata:
+    wavelength=775.031700
+    wavelength_units=Nanometers
+Band 162 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 777.430000 Nanometers
+  Metadata:
+    wavelength=777.430000
+    wavelength_units=Nanometers
+Band 163 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 779.828300 Nanometers
+  Metadata:
+    wavelength=779.828300
+    wavelength_units=Nanometers
+Band 164 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 782.226700 Nanometers
+  Metadata:
+    wavelength=782.226700
+    wavelength_units=Nanometers
+Band 165 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 784.625000 Nanometers
+  Metadata:
+    wavelength=784.625000
+    wavelength_units=Nanometers
+Band 166 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 787.023300 Nanometers
+  Metadata:
+    wavelength=787.023300
+    wavelength_units=Nanometers
+Band 167 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 789.421700 Nanometers
+  Metadata:
+    wavelength=789.421700
+    wavelength_units=Nanometers
+Band 168 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 791.820000 Nanometers
+  Metadata:
+    wavelength=791.820000
+    wavelength_units=Nanometers
+Band 169 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 794.218300 Nanometers
+  Metadata:
+    wavelength=794.218300
+    wavelength_units=Nanometers
+Band 170 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 796.616700 Nanometers
+  Metadata:
+    wavelength=796.616700
+    wavelength_units=Nanometers
+Band 171 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 799.015000 Nanometers
+  Metadata:
+    wavelength=799.015000
+    wavelength_units=Nanometers
+Band 172 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 801.413300 Nanometers
+  Metadata:
+    wavelength=801.413300
+    wavelength_units=Nanometers
+Band 173 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 803.811700 Nanometers
+  Metadata:
+    wavelength=803.811700
+    wavelength_units=Nanometers
+Band 174 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 806.210000 Nanometers
+  Metadata:
+    wavelength=806.210000
+    wavelength_units=Nanometers
+Band 175 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 808.608300 Nanometers
+  Metadata:
+    wavelength=808.608300
+    wavelength_units=Nanometers
+Band 176 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 811.006700 Nanometers
+  Metadata:
+    wavelength=811.006700
+    wavelength_units=Nanometers
+Band 177 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 813.405000 Nanometers
+  Metadata:
+    wavelength=813.405000
+    wavelength_units=Nanometers
+Band 178 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 815.803300 Nanometers
+  Metadata:
+    wavelength=815.803300
+    wavelength_units=Nanometers
+Band 179 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 818.201700 Nanometers
+  Metadata:
+    wavelength=818.201700
+    wavelength_units=Nanometers
+Band 180 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 820.600000 Nanometers
+  Metadata:
+    wavelength=820.600000
+    wavelength_units=Nanometers
+Band 181 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 822.998300 Nanometers
+  Metadata:
+    wavelength=822.998300
+    wavelength_units=Nanometers
+Band 182 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 825.396700 Nanometers
+  Metadata:
+    wavelength=825.396700
+    wavelength_units=Nanometers
+Band 183 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 827.795000 Nanometers
+  Metadata:
+    wavelength=827.795000
+    wavelength_units=Nanometers
+Band 184 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 830.193300 Nanometers
+  Metadata:
+    wavelength=830.193300
+    wavelength_units=Nanometers
+Band 185 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 832.591700 Nanometers
+  Metadata:
+    wavelength=832.591700
+    wavelength_units=Nanometers
+Band 186 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 834.990000 Nanometers
+  Metadata:
+    wavelength=834.990000
+    wavelength_units=Nanometers
+Band 187 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 837.388300 Nanometers
+  Metadata:
+    wavelength=837.388300
+    wavelength_units=Nanometers
+Band 188 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 839.786700 Nanometers
+  Metadata:
+    wavelength=839.786700
+    wavelength_units=Nanometers
+Band 189 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 842.185000 Nanometers
+  Metadata:
+    wavelength=842.185000
+    wavelength_units=Nanometers
+Band 190 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 844.583300 Nanometers
+  Metadata:
+    wavelength=844.583300
+    wavelength_units=Nanometers
+Band 191 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 846.981700 Nanometers
+  Metadata:
+    wavelength=846.981700
+    wavelength_units=Nanometers
+Band 192 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 849.380000 Nanometers
+  Metadata:
+    wavelength=849.380000
+    wavelength_units=Nanometers
+Band 193 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 851.778300 Nanometers
+  Metadata:
+    wavelength=851.778300
+    wavelength_units=Nanometers
+Band 194 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 854.176700 Nanometers
+  Metadata:
+    wavelength=854.176700
+    wavelength_units=Nanometers
+Band 195 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 856.575000 Nanometers
+  Metadata:
+    wavelength=856.575000
+    wavelength_units=Nanometers
+Band 196 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 858.973300 Nanometers
+  Metadata:
+    wavelength=858.973300
+    wavelength_units=Nanometers
+Band 197 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 861.371700 Nanometers
+  Metadata:
+    wavelength=861.371700
+    wavelength_units=Nanometers
+Band 198 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 863.770000 Nanometers
+  Metadata:
+    wavelength=863.770000
+    wavelength_units=Nanometers
+Band 199 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 866.168300 Nanometers
+  Metadata:
+    wavelength=866.168300
+    wavelength_units=Nanometers
+Band 200 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 868.566700 Nanometers
+  Metadata:
+    wavelength=868.566700
+    wavelength_units=Nanometers
+Band 201 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 870.965000 Nanometers
+  Metadata:
+    wavelength=870.965000
+    wavelength_units=Nanometers
+Band 202 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 873.363300 Nanometers
+  Metadata:
+    wavelength=873.363300
+    wavelength_units=Nanometers
+Band 203 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 875.761700 Nanometers
+  Metadata:
+    wavelength=875.761700
+    wavelength_units=Nanometers
+Band 204 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 878.160000 Nanometers
+  Metadata:
+    wavelength=878.160000
+    wavelength_units=Nanometers
+Band 205 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 880.558300 Nanometers
+  Metadata:
+    wavelength=880.558300
+    wavelength_units=Nanometers
+Band 206 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 882.956700 Nanometers
+  Metadata:
+    wavelength=882.956700
+    wavelength_units=Nanometers
+Band 207 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 885.355000 Nanometers
+  Metadata:
+    wavelength=885.355000
+    wavelength_units=Nanometers
+Band 208 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 887.753300 Nanometers
+  Metadata:
+    wavelength=887.753300
+    wavelength_units=Nanometers
+Band 209 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 890.151700 Nanometers
+  Metadata:
+    wavelength=890.151700
+    wavelength_units=Nanometers
+Band 210 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 892.550000 Nanometers
+  Metadata:
+    wavelength=892.550000
+    wavelength_units=Nanometers
+Band 211 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 894.948300 Nanometers
+  Metadata:
+    wavelength=894.948300
+    wavelength_units=Nanometers
+Band 212 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 897.346700 Nanometers
+  Metadata:
+    wavelength=897.346700
+    wavelength_units=Nanometers
+Band 213 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 899.745000 Nanometers
+  Metadata:
+    wavelength=899.745000
+    wavelength_units=Nanometers
+Band 214 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 902.143300 Nanometers
+  Metadata:
+    wavelength=902.143300
+    wavelength_units=Nanometers
+Band 215 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 904.541700 Nanometers
+  Metadata:
+    wavelength=904.541700
+    wavelength_units=Nanometers
+Band 216 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 906.940000 Nanometers
+  Metadata:
+    wavelength=906.940000
+    wavelength_units=Nanometers
+Band 217 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 909.338300 Nanometers
+  Metadata:
+    wavelength=909.338300
+    wavelength_units=Nanometers
+Band 218 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 911.736700 Nanometers
+  Metadata:
+    wavelength=911.736700
+    wavelength_units=Nanometers
+Band 219 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 914.135000 Nanometers
+  Metadata:
+    wavelength=914.135000
+    wavelength_units=Nanometers
+Band 220 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 916.533300 Nanometers
+  Metadata:
+    wavelength=916.533300
+    wavelength_units=Nanometers
+Band 221 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 918.931700 Nanometers
+  Metadata:
+    wavelength=918.931700
+    wavelength_units=Nanometers
+Band 222 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 921.330000 Nanometers
+  Metadata:
+    wavelength=921.330000
+    wavelength_units=Nanometers
+Band 223 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 923.728300 Nanometers
+  Metadata:
+    wavelength=923.728300
+    wavelength_units=Nanometers
+Band 224 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 926.126700 Nanometers
+  Metadata:
+    wavelength=926.126700
+    wavelength_units=Nanometers
+Band 225 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 928.525000 Nanometers
+  Metadata:
+    wavelength=928.525000
+    wavelength_units=Nanometers
+Band 226 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 930.923300 Nanometers
+  Metadata:
+    wavelength=930.923300
+    wavelength_units=Nanometers
+Band 227 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 933.321700 Nanometers
+  Metadata:
+    wavelength=933.321700
+    wavelength_units=Nanometers
+Band 228 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 935.720000 Nanometers
+  Metadata:
+    wavelength=935.720000
+    wavelength_units=Nanometers
+Band 229 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 938.118300 Nanometers
+  Metadata:
+    wavelength=938.118300
+    wavelength_units=Nanometers
+Band 230 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 940.516700 Nanometers
+  Metadata:
+    wavelength=940.516700
+    wavelength_units=Nanometers
+Band 231 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 942.915000 Nanometers
+  Metadata:
+    wavelength=942.915000
+    wavelength_units=Nanometers
+Band 232 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 945.313300 Nanometers
+  Metadata:
+    wavelength=945.313300
+    wavelength_units=Nanometers
+Band 233 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 947.711700 Nanometers
+  Metadata:
+    wavelength=947.711700
+    wavelength_units=Nanometers
+Band 234 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 950.110000 Nanometers
+  Metadata:
+    wavelength=950.110000
+    wavelength_units=Nanometers
+Band 235 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 952.508300 Nanometers
+  Metadata:
+    wavelength=952.508300
+    wavelength_units=Nanometers
+Band 236 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 954.906700 Nanometers
+  Metadata:
+    wavelength=954.906700
+    wavelength_units=Nanometers
+Band 237 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 957.305000 Nanometers
+  Metadata:
+    wavelength=957.305000
+    wavelength_units=Nanometers
+Band 238 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 959.703300 Nanometers
+  Metadata:
+    wavelength=959.703300
+    wavelength_units=Nanometers
+Band 239 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 962.101700 Nanometers
+  Metadata:
+    wavelength=962.101700
+    wavelength_units=Nanometers
+Band 240 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 964.500000 Nanometers
+  Metadata:
+    wavelength=964.500000
+    wavelength_units=Nanometers
+Band 241 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 966.898300 Nanometers
+  Metadata:
+    wavelength=966.898300
+    wavelength_units=Nanometers
+Band 242 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 969.296700 Nanometers
+  Metadata:
+    wavelength=969.296700
+    wavelength_units=Nanometers
+Band 243 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 971.695000 Nanometers
+  Metadata:
+    wavelength=971.695000
+    wavelength_units=Nanometers
+Band 244 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 974.093300 Nanometers
+  Metadata:
+    wavelength=974.093300
+    wavelength_units=Nanometers
+Band 245 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 976.491700 Nanometers
+  Metadata:
+    wavelength=976.491700
+    wavelength_units=Nanometers
+Band 246 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 978.890000 Nanometers
+  Metadata:
+    wavelength=978.890000
+    wavelength_units=Nanometers
+Band 247 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 981.288300 Nanometers
+  Metadata:
+    wavelength=981.288300
+    wavelength_units=Nanometers
+Band 248 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 983.686700 Nanometers
+  Metadata:
+    wavelength=983.686700
+    wavelength_units=Nanometers
+Band 249 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 986.085000 Nanometers
+  Metadata:
+    wavelength=986.085000
+    wavelength_units=Nanometers
+Band 250 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 988.483300 Nanometers
+  Metadata:
+    wavelength=988.483300
+    wavelength_units=Nanometers
+Band 251 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 990.881700 Nanometers
+  Metadata:
+    wavelength=990.881700
+    wavelength_units=Nanometers
+Band 252 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 993.280000 Nanometers
+  Metadata:
+    wavelength=993.280000
+    wavelength_units=Nanometers
+Band 253 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 995.678300 Nanometers
+  Metadata:
+    wavelength=995.678300
+    wavelength_units=Nanometers
+Band 254 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 998.076700 Nanometers
+  Metadata:
+    wavelength=998.076700
+    wavelength_units=Nanometers
+Band 255 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 1000.475000 Nanometers
+  Metadata:
+    wavelength=1000.475000
+    wavelength_units=Nanometers
+Band 256 Block=3750x1 Type=UInt16, ColorInterp=Undefined
+  Description = 1002.873000 Nanometers
+  Metadata:
+    wavelength=1002.873000
+    wavelength_units=Nanometers
