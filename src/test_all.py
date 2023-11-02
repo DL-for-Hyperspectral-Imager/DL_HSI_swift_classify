@@ -1,6 +1,7 @@
 # added by Mangp, to run test quickly in this py
 # 此文件将各次运行结果全部保存起来了，方便作图分析等
-model_list = ['svm', 'knn', 'nn', 'cnn1d', 'cnn2d']  # 'nn'
+# model_list = ['svm', 'knn', 'nn', 'cnn1d', 'cnn2d']  
+# preprocess_list = ['pca', 'lda', 'ica', 'tsne']
 
 import sys
 import matplotlib
@@ -19,11 +20,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
-model_list = ['svm', 'knn', 'nn', 'cnn1d', 'cnn2d']  # 'nn'
-# model_list = ['cnn2d']  # 'nn'
-preprocess_list = [ 'ica']
+model_list = ['svm', 'knn', 'nn', 'cnn1d', 'cnn2d']  
 preprocess_list = ['pca', 'lda', 'ica', 'tsne']
+
 n_bands_list_normal = [0, 25, 50, 75, 100, 125, 150, 175, 200]  # 0 代表不降维， 以比较不降维和降维的效果
+# n_bands_list_normal = list(np.arange(2, 25))
 n_bands_list_lda = list(np.arange(2, 17))
 res_folder = "result"
 print('model_list:', model_list)
@@ -31,9 +32,9 @@ print('preprocess_list:', preprocess_list)
 allcnts = len(model_list) * (len(preprocess_list)- 1) * len(n_bands_list_normal) + len(model_list) * len(n_bands_list_lda)
 cnt = 0
 Start = time.time()
-for model in model_list:
+for preprocess in preprocess_list:
     # 以不同的波段数和降维方法进行多次测试
-    for preprocess in preprocess_list:
+    for model in model_list:    
         preprocess_times = []
         train_times = []
         predict_times = []
@@ -47,7 +48,7 @@ for model in model_list:
             cnt = cnt + 1
             Curr = time.time()
             print("\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n")
-            print("No %d / %d, during %.1f min" % (cnt, allcnts, (Curr - Start) / 60))
+            print("No %d / %d, at %s, during %.1f min" % (cnt, allcnts, time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()),(Curr - Start) / 60))
             # run_results, Training_time, Predicting_time即为本次运行的结果
             # run_results中包含了accuracy, F1 score by class, confusion matrix,为字典
             hyperparams = {
