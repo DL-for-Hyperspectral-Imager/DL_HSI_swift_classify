@@ -106,7 +106,7 @@ def train(hyperparams, **kwargs):
     elif model_name == 'cnn2d':
         batch_size = hyperparams['batch_size']  # batch_size
         model = get_model(model_name, hyperparams)
-        
+
         datasets = Mydatasets(X_train, y_train)  # 加载数据集,这里定义了张量tensor
 
         batch_loader = DataLoader(datasets, batch_size = batch_size, shuffle = True)  # 放入dataloader
@@ -219,9 +219,9 @@ class CNN1D(nn.Module):
     def __init__(self, n_channels, n_classes, kernel_size = None, pool_size = None):
         super(CNN1D, self).__init__()
         if kernel_size is None:
-            kernel_size = math.ceil(n_channels / 9)  # 200/9 = 23
+            kernel_size = math.ceil(n_channels / 10)
         if pool_size is None:
-            pool_size = math.ceil(kernel_size / 5)  # 23/5 = 5
+            pool_size = math.ceil(kernel_size / 5)
         self.n_channels = n_channels
         self.conv = nn.Conv1d(
                             in_channels = 1,
@@ -258,17 +258,10 @@ class CNN2D(nn.Module):
         self.input_channels = input_channels
         self.patch_size = patch_size
         self.aux_loss_weight = 1
-
-        # "W1 is a 3x3xB1 kernel [...] B1 is the number of the output bands for the convolutional
-        # "and pooling layer" -> actually 3x3 2D convolutions with B1 outputs
-        # "the value of B1 is set to be 80"
         self.conv1 = nn.Conv2d(input_channels, 80, (3, 3))
         self.pool1 = nn.MaxPool2d((2, 2))
-
         self.features_sizes = self._get_sizes()
-
         self.fc_enc = nn.Linear(self.features_sizes[2], n_classes)
-
         self.apply(self.weight_init)
 
     def _get_sizes(self):
@@ -276,14 +269,11 @@ class CNN2D(nn.Module):
         x = F.relu(self.conv1(x))
         _, c, w, h = x.size()
         size0 = c * w * h
-
         x = self.pool1(x)
         _, c, w, h = x.size()
         size1 = c * w * h
-
         _, c, w, h = x.size()
         size2 = c * w * h
-
         return size0, size1, size2
 
     def forward(self, x):
