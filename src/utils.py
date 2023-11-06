@@ -16,31 +16,71 @@ top_dir = os.path.join(os.getcwd(), "..")
 datasets_dir = os.path.join(top_dir, "Datasets")
 
 
+
 # about dataset op
 def load_dataset(dataset_name, hyperparams):
     folder = "Datasets"
     if dataset_name == "IndianPines":
-        img_path = os.path.join(current_dir, "..", folder, dataset_name, "Indian_pines_corrected.mat")
-        gt_path = os.path.join(current_dir, "..", folder, dataset_name, "Indian_pines_gt.mat")
+        img_path = os.path.join(
+            current_dir, "..", folder, dataset_name, "Indian_pines_corrected.mat"
+        )
+        gt_path = os.path.join(
+            current_dir, "..", folder, dataset_name, "Indian_pines_gt.mat"
+        )
         # uint16
         hsi_img = io.loadmat(img_path)["indian_pines_corrected"]
         gt = io.loadmat(gt_path)["indian_pines_gt"]
-        labels = ["Undefined", "Alfalfa", "Corn-notill", "Corn-mintill",
-                  "Corn", "Grass-pasture", "Grass-trees",
-                  "Grass-pasture-mowed", "Hay-windrowed", "Oats",
-                  "Soybean-notill", "Soybean-mintill", "Soybean-clean",
-                  "Wheat", "Woods", "Buildings-Grass-Trees-Drives",
-                  "Stone-Steel-Towers"]
+        labels = [
+            "Undefined",
+            "Alfalfa",
+            "Corn-notill",
+            "Corn-mintill",
+            "Corn",
+            "Grass-pasture",
+            "Grass-trees",
+            "Grass-pasture-mowed",
+            "Hay-windrowed",
+            "Oats",
+            "Soybean-notill",
+            "Soybean-mintill",
+            "Soybean-clean",
+            "Wheat",
+            "Woods",
+            "Buildings-Grass-Trees-Drives",
+            "Stone-Steel-Towers",
+        ]
         ignored_labels = [0]
         rgb_bands = (43, 21, 11)
     elif dataset_name == "XiongAn":
         from osgeo import gdal
+
         img_path = "/mnt/d/HSI/Datasets/XiongAn/XiongAn.img"
         gt_path = "/mnt/d/HSI/Datasets/XiongAn/farm_roi.img"
         hsi_img = gdal.Open(img_path).ReadAsArray()
         gt = gdal.Open(gt_path).ReadAsArray()
-        labels = [ 'Unclassified', '复叶槭', '柳树', '榆树', '水稻', '国槐', '白蜡', '栾树', '水域', '裸地', 
- '水稻茬', '刺槐', '玉米', '梨树', '大豆', '杨树', '菜地', '稀疏林', '草地', '桃树', '房屋']
+        labels = [
+            "Unclassified",
+            "复叶槭",
+            "柳树",
+            "榆树",
+            "水稻",
+            "国槐",
+            "白蜡",
+            "栾树",
+            "水域",
+            "裸地",
+            "水稻茬",
+            "刺槐",
+            "玉米",
+            "梨树",
+            "大豆",
+            "杨树",
+            "菜地",
+            "稀疏林",
+            "草地",
+            "桃树",
+            "房屋",
+        ]
         ignored_labels = [0]
         rgb_bands = (109, 70, 26)
     else:
@@ -56,7 +96,7 @@ def load_dataset(dataset_name, hyperparams):
     if os.path.exists(real_rgb_path):
         print("--- real_rgb.png already exists")
     else:
-        real_rgb_IMG = hsi_to_rgbIMG(hsi_img, rgb_bands = rgb_bands)
+        real_rgb_IMG = hsi_to_rgbIMG(hsi_img, rgb_bands=rgb_bands)
         real_rgb_IMG.save(real_rgb_path)
     # gt rgb image
     gt_rgb_path = os.path.join(datasets_dir, dataset_name, "gt_rgb.png")
@@ -86,8 +126,8 @@ def split_train_test(gt, trainrate):
     # random sample
     # 使用train_test_split函数随机划分训练集和测试集，保持每个类别的比例相同。
     train_indices, test_indices = sklearn.model_selection.train_test_split(
-            X, train_size = trainrate, random_state = 0,
-            stratify = y)
+        X, train_size=trainrate, random_state=0, stratify=y
+    )
     # [(r0,c0)(r1,c1)(..)...] to [[r0, r1, ...], [c0, c1, ...]]
     train_indices = [list(t) for t in zip(*train_indices)]
     test_indices = [list(t) for t in zip(*test_indices)]
@@ -147,29 +187,29 @@ def get_window(img, img_length, indices, patch_size):
     X_get = []
     for posX, posY in zip(indices[0], indices[1]):
         # posX,posY = int(posX),int(posY)
-        X = np.zeros((patch_size, patch_size, img.shape[2]), dtype = np.float32)
-        if (posX - patch_size // 2 > -1):
+        X = np.zeros((patch_size, patch_size, img.shape[2]), dtype=np.float32)
+        if posX - patch_size // 2 > -1:
             left = posX - patch_size // 2
         else:
             left = 0
-        if (posX + patch_size // 2 < img_length):
+        if posX + patch_size // 2 < img_length:
             right = posX + patch_size // 2
         else:
             right = img_length
-        if (posY - patch_size // 2 > -1):
+        if posY - patch_size // 2 > -1:
             bottom = posY - patch_size // 2
         else:
             bottom = 0
-        if (posY + patch_size // 2 < img_length):
+        if posY + patch_size // 2 < img_length:
             top = posY + patch_size // 2
         else:
             top = img_length
-        X[0:right - left, 0:top - bottom] = img[left:right, bottom:top]
+        X[0 : right - left, 0 : top - bottom] = img[left:right, bottom:top]
         X_get.append(X)
     return X_get
 
 
-def hsi_to_rgbIMG(img, rgb_bands = None):
+def hsi_to_rgbIMG(img, rgb_bands=None):
     # 原图
     r = img[:, :, rgb_bands[0]] * 1.55 // 80
     g = img[:, :, rgb_bands[1]] * 1.55 // 80
@@ -185,7 +225,7 @@ def hsi_to_rgbIMG(img, rgb_bands = None):
     return rgb_IMG
 
 
-def label_to_color_IMG(arr_2d, palette = None, ignored_labels = [0]):
+def label_to_color_IMG(arr_2d, palette=None, ignored_labels=[0]):
     """从标签转换为颜色图像。
 
     Args:
@@ -197,10 +237,10 @@ def label_to_color_IMG(arr_2d, palette = None, ignored_labels = [0]):
     if palette is None:
         palette = {0: (0, 0, 0)}
         for k, color in enumerate(seaborn.color_palette("hls", 21)):
-            palette[k + 1] = tuple(np.asarray(255 * np.array(color), dtype = "uint8"))
+            palette[k + 1] = tuple(np.asarray(255 * np.array(color), dtype="uint8"))
 
     # 根据调色板创建颜色图像
-    arr_rgb = np.zeros((arr_2d.shape[0], arr_2d.shape[1], 3), dtype = "uint8")
+    arr_rgb = np.zeros((arr_2d.shape[0], arr_2d.shape[1], 3), dtype="uint8")
     for c, i in palette.items():
         m = arr_2d == c
         arr_rgb[m] = i
@@ -209,14 +249,16 @@ def label_to_color_IMG(arr_2d, palette = None, ignored_labels = [0]):
 
 
 def save_pred(
-        pred_img,
-        palette,  # 色彩板
-        res_folder = "result",  # 相对主目录的路径
-        name = "",
-        hyperparams = {},
-        accuracy = 0, ):
-
-    abs_res_folder = os.path.join(os.getcwd(), "..", res_folder, "{preprocess}_{model}".format(**hyperparams))
+    pred_img,
+    palette,  # 色彩板
+    res_folder="result",  # 相对主目录的路径
+    name="",
+    hyperparams={},
+    accuracy=0,
+):
+    abs_res_folder = os.path.join(
+        os.getcwd(), "..", res_folder, "{preprocess}_{model}".format(**hyperparams)
+    )
     if not os.path.exists(abs_res_folder):
         os.makedirs(abs_res_folder)
 
@@ -226,17 +268,17 @@ def save_pred(
 
 def get_vector_mask(vector_gt, ignored_labels):
     # vector_gt = gt.reshape(-1)
-    vector_mask = np.zeros(vector_gt.shape, dtype = np.bool_)
+    vector_mask = np.zeros(vector_gt.shape, dtype=np.bool_)
     for ig_label in ignored_labels:
         vector_mask[vector_gt == ig_label] = 1
     return vector_mask
 
 
 def metrics(
-        prediction,
-        target,
-        ignored_labels = [0],
-        n_classes = 0,
+    prediction,
+    target,
+    ignored_labels=[0],
+    n_classes=0,
 ):
     """Compute and print metrics (accuracy, confusion matrix and F1 scores).
 
@@ -248,7 +290,7 @@ def metrics(
     Returns:
         accuracy, F1 score by class, confusion matrix
     """
-    ignored_mask = ~ get_vector_mask(target, ignored_labels)
+    ignored_mask = ~get_vector_mask(target, ignored_labels)
     target = target[ignored_mask]
     prediction = prediction[ignored_mask]
 
@@ -256,7 +298,7 @@ def metrics(
 
     n_classes = np.max(target) + 1 if n_classes is None else n_classes
 
-    conf_matrix = confusion_matrix(target, prediction, labels = range(n_classes))
+    conf_matrix = confusion_matrix(target, prediction, labels=range(n_classes))
 
     results["confusion_matrix"] = conf_matrix
 
@@ -271,16 +313,22 @@ def metrics(
     F1scores = np.zeros(len(conf_matrix))
     for i in range(len(conf_matrix)):
         try:
-            F1 = 2. * conf_matrix[i, i] / (np.sum(conf_matrix[i, :]) + np.sum(conf_matrix[:, i]))
+            F1 = (
+                2.0
+                * conf_matrix[i, i]
+                / (np.sum(conf_matrix[i, :]) + np.sum(conf_matrix[:, i]))
+            )
         except ZeroDivisionError:
-            F1 = 0.
+            F1 = 0.0
         F1scores[i] = F1
 
     results["f1_scores"] = F1scores
 
     # Compute kappa coefficient
     pa = np.trace(conf_matrix) / float(total)
-    pe = np.sum(np.sum(conf_matrix, axis = 0) * np.sum(conf_matrix, axis = 1)) / float(total * total)
+    pe = np.sum(np.sum(conf_matrix, axis=0) * np.sum(conf_matrix, axis=1)) / float(
+        total * total
+    )
     kappa = (pa - pe) / (1 - pe)
     results["kappa"] = kappa
 
@@ -290,16 +338,19 @@ def metrics(
 def show_results(run_results, hyperparams):
     """Print results of a run."""
     print(
-            "\n\
+        "\n\
             * Dataset {dataset}, Training rate {training_rate}, \n\
             * Preprocess {preprocess}, N_Bands {n_bands}, \n\
-            * Model {model}, N_Runs {n_runs}, Patch_Size {patch_size}, Batch_Size {batch_size}".format(**hyperparams))
+            * Model {model}, N_Runs {n_runs}, Patch_Size {patch_size}, Batch_Size {batch_size}".format(
+            **hyperparams
+        )
+    )
 
     print("Confusion matrix:")
     for i in range(run_results["confusion_matrix"].shape[0]):
         for j in range(run_results["confusion_matrix"].shape[1]):
             # 设置对齐
-            print("{:4d}".format(run_results["confusion_matrix"][i][j]), end = " ")
+            print("{:4d}".format(run_results["confusion_matrix"][i][j]), end=" ")
         print()
 
     print("F1 scores:")
@@ -313,5 +364,5 @@ def show_results(run_results, hyperparams):
 def get_palette(n_classes):
     palette = {0: (0, 0, 0)}
     for k, color in enumerate(seaborn.color_palette("hls", n_classes - 1)):
-        palette[k + 1] = tuple(np.asarray(255 * np.array(color), dtype = "uint8"))
+        palette[k + 1] = tuple(np.asarray(255 * np.array(color), dtype="uint8"))
     return palette

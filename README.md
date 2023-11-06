@@ -29,6 +29,13 @@
 15. `tqdm==4.65.0`：一个快速、可扩展的Python进度条库，用于在命令行或其他环境中显示循环的进度。它可以轻松地与常见的Python循环结构（如for循环）集成。
 16. `typing_extensions==4.5.0`：一个库，提供了一些额外的类型提示和功能，用于支持Python的类型检查。这些类型提示和功能可能在将来的Python版本中成为标准，但目前可以通过`typing_extensions`库使用。
 
+```
+numpy
+torch torchvision
+scipy
+scikit-learn
+seaborn
+```
 
 注意：包版本视实际情况而定，一下包版本为测试机使用的版本，其他版本未经过测试。
 安装命令：

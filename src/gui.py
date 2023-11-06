@@ -1,5 +1,14 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QPushButton, QComboBox, QLineEdit, QWidget, \
-    QDesktopWidget
+from PyQt5.QtWidgets import (
+    QApplication,
+    QMainWindow,
+    QLabel,
+    QVBoxLayout,
+    QPushButton,
+    QComboBox,
+    QLineEdit,
+    QWidget,
+    QDesktopWidget,
+)
 from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import QThread, pyqtSignal
 import main
@@ -22,36 +31,43 @@ class Worker(QThread):
     def run(self):
         # Implement your func function here.
         # accuracy, image_path = func(self.n_runs, self.dataset, self.preprocess)
-        tmp_folder = 'temp'
+        tmp_folder = "temp"
         hyperparams = {
-                'dataset'      : self.dataset,
-                'training_rate': self.training_rate,
-                'preprocess'   : self.preprocess,
-                'n_bands'      : self.n_bands,
-                'model'        : self.model,
-                'n_runs'       : self.n_runs,
-                'res_folder'   : tmp_folder,
-                'load_model'   : False,
-                'patch_size'   : 0,
-                'batch_size'   : 0,
+            "dataset": self.dataset,
+            "training_rate": self.training_rate,
+            "preprocess": self.preprocess,
+            "n_bands": self.n_bands,
+            "model": self.model,
+            "n_runs": self.n_runs,
+            "res_folder": tmp_folder,
+            "load_model": False,
+            "patch_size": 0,
+            "batch_size": 0,
         }
-        if (self.model in ['nn', 'cnn1d', 'cnn2d']):
-            hyperparams['n_runs']       = 200
-            hyperparams['patch_size']   = 10
-            hyperparams['batch_size']   = 1000
+        if self.model in ["nn", "cnn1d", "cnn2d"]:
+            hyperparams["n_runs"] = 200
+            hyperparams["patch_size"] = 10
+            hyperparams["batch_size"] = 1000
         try:
-            run_results = main.main(
-                    show_results_switch = False,
-                    hyperparams = hyperparams)
+            run_results = main.main(show_results_switch=False, hyperparams=hyperparams)
 
-            accuracy = run_results['accuracy']
+            accuracy = run_results["accuracy"]
 
-            name = "pred-{dataset}_{training_rate}-{preprocess}_{n_bands_in}-{model}_runs{n_runs}_bsz{batch_size}_psz{patch_size}".format(**hyperparams)
+            name = "pred-{dataset}_{training_rate}-{preprocess}_{n_bands_in}-{model}_runs{n_runs}_bsz{batch_size}_psz{patch_size}".format(
+                **hyperparams
+            )
 
-            abs_res_folder = os.path.join(os.getcwd(), "..", tmp_folder, "{preprocess}_{model}".format(**hyperparams))
+            abs_res_folder = os.path.join(
+                os.getcwd(),
+                "..",
+                tmp_folder,
+                "{preprocess}_{model}".format(**hyperparams),
+            )
             if not os.path.exists(abs_res_folder):
                 os.makedirs(abs_res_folder)
-            self.finished.emit(accuracy, os.path.join(abs_res_folder, name + "_acy%.2f.png" % accuracy))
+            self.finished.emit(
+                accuracy, os.path.join(abs_res_folder, name + "_acy%.2f.png" % accuracy)
+            )
         except Exception as e:
             print(e)
             self.finished.emit(0, "error")
@@ -74,16 +90,16 @@ class Window(QMainWindow):
 
         self.accuracy_output = QLabel(self)
         self.image_output = QLabel(self)
-        self.submit_button = QPushButton('Submit', self)
+        self.submit_button = QPushButton("Submit", self)
         # self.save_path = QLineEdit(self)
 
         self.width, self.height = 400, 700
         self.resize(self.width, self.height)
 
         # Populate ComboBoxes
-        self.dataset_selector.addItems(['IndianPines'])
-        self.preprocess_selector.addItems(['pca', 'ica', 'lda', 'tsne'])
-        self.model_selector.addItems(['svm', 'knn', 'nn', 'cnn1d', 'cnn2d'])
+        self.dataset_selector.addItems(["IndianPines"])
+        self.preprocess_selector.addItems(["pca", "ica", "lda", "tsne"])
+        self.model_selector.addItems(["svm", "knn", "nn", "cnn1d", "cnn2d"])
 
         # Set up Layout
         layout = QVBoxLayout()
