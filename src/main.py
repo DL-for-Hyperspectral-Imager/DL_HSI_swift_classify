@@ -205,14 +205,14 @@ if __name__ == "__main__":
     seed_torch(42)
 
     hparams = {
-        "dataset": "IndianPines",
+        "dataset": "Botswana",
         "train_rate": 0.3,
         "preprocess": "PCA",
-        "t_bands": 50,
+        "t_bands": 30,
         "model": "NN",
-        "n_runs": 150,
+        "n_runs": 25,
         "res_folder": "result",
-        "batch_size": 1000,
+        "batch_size": 500,
         "patch_size": 10,
         "load_model": False,
     }

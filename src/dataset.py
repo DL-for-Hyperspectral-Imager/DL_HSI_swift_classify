@@ -65,7 +65,26 @@ def load_dataset(ds_name, dtype=np.float32) -> (np.ndarray, np.ndarray, dict):
         hsi_img = loadmat(img_path)["indian_pines_corrected"]
         hsi_img = hsi_img.astype(dtype)
         gt = loadmat(gt_path)["indian_pines_gt"]
-
+    elif ds_name == "PaviaC":
+        hsi_img = loadmat(img_path)["pavia"]
+        hsi_img = hsi_img.astype(dtype)
+        gt = loadmat(gt_path)["pavia_gt"]
+    elif ds_name == "PaviaU":
+        hsi_img = loadmat(img_path)["paviaU"]
+        hsi_img = hsi_img.astype(dtype)
+        gt = loadmat(gt_path)["paviaU_gt"]
+    elif ds_name == "KSC":
+        hsi_img = loadmat(img_path)["KSC"]
+        hsi_img = hsi_img.astype(dtype)
+        gt = loadmat(gt_path)["KSC_gt"]
+    elif ds_name == "Salinas":
+        hsi_img = loadmat(img_path)["salinas_corrected"]
+        hsi_img = hsi_img.astype(dtype)
+        gt = loadmat(gt_path)["salinas_gt"]
+    elif ds_name == "Botswana":
+        hsi_img = loadmat(img_path)["Botswana"]
+        hsi_img = hsi_img.astype(dtype)
+        gt = loadmat(gt_path)["Botswana_gt"]   
     elif ds_name == "XiongAn":
         from osgeo import gdal
 
