@@ -8,17 +8,14 @@
 """
 
 from utils import (
-    load_dataset,
-    split_train_test,
-    build_dataset_cnn2d,
-    build_dataset,
-    get_vector_mask,
-    metrics,
+    metrics_beta,
+    get_img_pred,
     save_pred,
-    show_results,
+    show_result,
 )
-from model import train, predict
+from train import train, predict
 from preprocess import preprocess
+from dataset import load_dataset, split_train_test, build_Xy
 
 import argparse
 import numpy as np
@@ -49,7 +46,7 @@ def seed_torch(seed=1029):
 # 则直接使用args中指定的值，同时方便使用其他python脚本进行测试。
 # 改动：将run_results, Training_time, Predicting_time作为返回值返回，方便使用脚本多次运行和保存结果
 # 改动：添加了一个输出开关选项，可以选择关闭输出
-def main(show_results_switch=True, hyperparams={}):
+def main(is_show=True, hparams={}):
     """
     Args:
         show_results_switch: if True, then print result, otherwise no print(usually for testing)
@@ -59,105 +56,102 @@ def main(show_results_switch=True, hyperparams={}):
         training_time
         predicting_time
     """
-    seed = int(time.time() * 397 % 2**32)
-    seed_torch(seed)
-    hyperparams["n_bands_in"] = hyperparams["n_bands"]
-    # 加载原始数据集
-    print("* Loading dataset %s..." % hyperparams["dataset"])
-    hsi_img, gt, palette = load_dataset(hyperparams["dataset"], hyperparams)
-    print("* Dataset %s loaded!" % hyperparams["dataset"])
-    print("--- Original dataset shape:", hsi_img.shape)
-    if hyperparams["preprocess"] != "":
-        print(
-            "* Start %s preprocessing..., from %d -> %d bands"
-            % (hyperparams["preprocess"], hsi_img.shape[2], hyperparams["n_bands"])
-        )
-    start_preprocess = time.time()
+
+    # >>> 加载原始数据集
+    hsi_img, gt, hparams["labels"], hparams["ignored_labels"] = load_dataset(
+        hparams["dataset"]
+    )
+    hparams["n_classes"] = len(hparams["labels"])
+
+    # >>> 数据预处理
+    START_preprocess = time.time()
     img = preprocess(
         hsi_img=hsi_img,
         gt=gt,
-        preprocess_name=hyperparams["preprocess"],
-        n_bands=hyperparams["n_bands"],
-    )  # 数据预处理
-    end_preprocess = time.time()
-    if hyperparams["preprocess"] != "nopre":
-        print("* Preprocessing finished!")
-        print("--- After preprocessing, dataset shape:", img.shape)
-    hyperparams["height"], hyperparams["width"], hyperparams["n_bands"] = img.shape
-    print(
-        "* Splitting train and test set..., training rate: %f"
-        % hyperparams["training_rate"]
+        name=hparams["preprocess"],
+        n_bands=hparams["t_bands"],
     )
-    train_gt, test_gt = split_train_test(
-        gt, hyperparams["training_rate"]
-    )  # 划分训练集和测试集
+    END_preprocess = time.time()
 
-    if hyperparams["model"] == "cnn2d":
-        X_train, y_train = build_dataset_cnn2d(
-            img, train_gt, hyperparams["patch_size"]
-        )  # 依据train_gt构建训练集
+    hparams["shape"] = img.shape # not used
+
+    # >>> Train
+
+    ## 划分训练集和测试集
+    train_gt, test_gt = split_train_test(gt, hparams["train_rate"])
+
+    ## 依据train_gt构建训练集
+    if hparams["model"] in ["CNN2D"]:
+        X_train, y_train, _ = build_Xy(img, train_gt, True, hparams["patch_size"])
+        X_test, y_test, _ = build_Xy(img, test_gt, True, hparams["patch_size"])
     else:
-        X_train, y_train = build_dataset(img, train_gt)  # 依据train_gt构建训练集
+        X_train, y_train, _ = build_Xy(img, train_gt)
+        X_test, y_test, _ = build_Xy(img, test_gt)
+
+
     print(
         "Model: {model}, n_runs: {n_runs}, batch_size: {batch_size}, patch_size: {patch_size}".format(
-            **hyperparams
+            **hparams
         )
     )
-    print("* Start training...")
-    start_train = time.time()
-    clf = train(hyperparams, X_train=X_train, y_train=y_train, device=try_gpu())  # 训练
-    end_train = time.time()
-    print("* Training finished!")
-    # 预测
-    vector_mask = get_vector_mask(
-        gt.reshape(-1), hyperparams["ignored_labels"]
-    )  # 获取测试集掩膜
-    print("* Start predicting...")
-    start_pred = time.time()
-    y_img_pred = predict(  # vector
-        model_name=hyperparams["model"],
-        clf=clf,
-        X_test=img.reshape(-1, hyperparams["n_bands"]),
-        patch_size=hyperparams["patch_size"],
-        vector_mask=vector_mask,
-    )
-    end_pred = time.time()
-    print("* Predicting finished!")
-    run_results = metrics(
-        prediction=y_img_pred,
-        target=gt.reshape(-1),
-        ignored_labels=hyperparams["ignored_labels"],
-        n_classes=hyperparams["n_classes"],
-    )
 
-    # 可视化与结果输出
+    START_train = time.time()
+    clf, record = train(
+        hparams,
+        X_train,
+        y_train,
+        X_test,
+        y_test,
+        device=try_gpu(),
+    )
+    END_train = time.time()
+
+    # >>> 预测
+    START_pred = time.time()
+
+    if hparams["model"] in ["CNN2D"]:
+        X_test_all, y_test_all, labels_indices = build_Xy(
+            img, gt, True, hparams["patch_size"]
+        )
+    else:
+        X_test_all, y_test_all, labels_indices = build_Xy(img, gt)
+
+    y_test_all_pred = predict(
+        model_name=hparams["model"], clf=clf, X_test=X_test_all, device=try_gpu()
+    )
+    END_pred = time.time()
+
+    # >>> evaluate
+    pred_img = get_img_pred(y_test_all_pred, labels_indices, gt.shape)
+
+    result = metrics_beta(y_test_all, y_test_all_pred, hparams["n_classes"])
+
+    # >>> save res
+    name = "pred-{dataset}_{train_rate}-{preprocess}_{t_bands}-".format(**hparams)
+    name += "{model}_runs{n_runs}_bsz{batch_size}_psz{patch_size}".format(**hparams)
+    name += f"_acy{result['accuracy']}.png"
+
+    res_path = os.path.join(
+        os.getcwd(),
+        "..",
+        hparams["res_folder"],
+        "{preprocess}_{model}".format(**hparams),
+    )
     save_pred(
-        pred_img=y_img_pred.reshape(hyperparams["height"], hyperparams["width"]),
-        palette=palette,
-        res_folder=hyperparams["res_folder"],
-        name="pred-{dataset}_{training_rate}-{preprocess}_{n_bands_in}-{model}_runs{n_runs}_bsz{batch_size}_psz{patch_size}".format(
-            **hyperparams
-        ),
-        hyperparams=hyperparams,
-        accuracy=run_results["accuracy"],
+        pred_img=pred_img,
+        res_path=res_path,
+        n_classes=hparams["n_classes"],
+        name=name,
     )
 
-    preprocess_time = end_preprocess - start_preprocess
-    training_time = end_train - start_train
-    predicting_time = end_pred - start_pred
+    result["preprocess_time"] = END_preprocess - START_preprocess
+    result["train_time"] = END_train - START_train
+    result["predict_time"] = END_pred - START_pred
 
-    run_results["preprocess_time"] = preprocess_time
-    run_results["training_time"] = training_time
-    run_results["predicting_time"] = predicting_time
-    # 下方修改，若输出开关关闭则关闭输出
-    if show_results_switch:
-        show_results(run_results=run_results, hyperparams=hyperparams)
-        print("Preprocessing time: %.5fs" % (preprocess_time))
-        print("Training time     : %.5fs" % (training_time))
-        print("Predicting time   : %.5fs" % (predicting_time))
+    if is_show:
+        show_result(result, hparams)
 
-    # 下方改动,将重要结果返回一个字典
-    return run_results
+    return result
 
 
 def args_init(**kwargs):
@@ -167,14 +161,14 @@ def args_init(**kwargs):
         "--dataset", "-data", type=str, default="IndianPines", help="dataset name"
     )
     parser.add_argument(
-        "--training_rate", "-rate", type=float, default=0.3, help="training rate"
+        "--train_rate", "-rate", type=float, default=0.3, help="training rate"
     )
-    # preprocess and n_bands
+    # preprocess and t_bands
     parser.add_argument(
         "--preprocess", "-pre", type=str, default="nopre", help="preprocess name"
     )
     parser.add_argument(
-        "--n_bands",
+        "--t_bands",
         "-nb",
         type=int,
         default=0,  # 0 表示不降维
@@ -206,6 +200,20 @@ def args_init(**kwargs):
 
 if __name__ == "__main__":
     # 获取args
-    args = args_init()
-    hyperparams = vars(args)
-    main(show_results_switch=True, hyperparams=hyperparams)
+    # args = args_init()
+    # hparams = vars(args)
+    seed_torch(42)
+
+    hparams = {
+        "dataset": "IndianPines",
+        "train_rate": 0.3,
+        "preprocess": "PCA",
+        "t_bands": 50,
+        "model": "NN",
+        "n_runs": 150,
+        "res_folder": "result",
+        "batch_size": 1000,
+        "patch_size": 10,
+        "load_model": False,
+    }
+    main(is_show=True, hparams=hparams)

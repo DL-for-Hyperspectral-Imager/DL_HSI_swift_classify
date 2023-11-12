@@ -6,3 +6,5 @@ classifier/
 result/
 *mytest.py/
 .idea/
+.VSCodeCounter/
+**/test/

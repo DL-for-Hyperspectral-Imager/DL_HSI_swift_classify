@@ -11,102 +11,90 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 # from cuml.manifold import LocallyLinearEmbedding
 # from sklearn.manifold import LocallyLinearEmbedding
 
+PREPROCESS = ["PCA", "ICA", "LDA", "LLE", "TSNE"]
 
-def preprocess(hsi_img, gt, preprocess_name, n_bands):
+
+def preprocess(
+    hsi_img: np.ndarray, gt: np.ndarray, name: str, n_bands: int
+) -> np.ndarray:
+    """
+    Return:
+        img: img after preprocessed, from original bands to n_bands
+            numpy.ndarray, shape:(h, w, n_bands)
+    """
     # 归一化
     img = np.asarray(hsi_img, dtype=np.float32)
     img = (img - np.min(img)) / (np.max(img) - np.min(img))
-    preprocess_name = preprocess_name.lower()
-    if n_bands == 0:
+    name = name.upper()
+
+    if (name not in PREPROCESS) or (n_bands == 0):
+        # n_bands == 0, no dims reduction
         return img
-    if preprocess_name == "pca":
+
+    print(
+        f"* Start {name} preprocessing..., from {hsi_img.shape[2]} -> {n_bands} bands"
+    )
+    if name == "PCA":
         img = pca_sklearn(img, n_bands)
-    elif preprocess_name == "ica":
+    elif name == "ICA":
         img = ica_sklearn(img, n_bands)
-    elif preprocess_name == "lda":
-        img = lda_sklearn(img, gt, n_bands)  ##
-    elif preprocess_name == "lle":
+    elif name == "LDA":
+        img = lda_sklearn(img, gt, n_bands)  
+    elif name == "LLE":
         # img = lle_gpu(img, n_bands)
         pass
-    elif preprocess_name == "tsne":
+    elif name == "TSNE":
         img = tsne_sklearn(img, n_bands)
+
+    print("* Preprocessing finished!")
+    print("--- After preprocessing, dataset shape:", img.shape)
     return img
 
 
-def pca_numpy(img, k):
-    # img: (H, W, C)
-    # k: 降维后的维度
-    # return: (H, W, k)
-    height, width, channel = img.shape
-    img = np.transpose(img, (2, 0, 1))
-    img = np.reshape(img, (img.shape[0], -1))
-    img = img - np.mean(img, axis=1, keepdims=True)
-    cov = np.dot(img, img.T)
-    eig_val, eig_vec = np.linalg.eig(cov)
-    eig_val = np.real(eig_val)
-    eig_vec = np.real(eig_vec)
-    eig_val = np.sort(eig_val)
-    eig_vec = eig_vec[:, np.argsort(eig_val)]
-    eig_vec = eig_vec[:, -k:]
-    img = np.dot(eig_vec.T, img)
-    img = np.reshape(img, (k, img.shape[1]))
-    img = np.transpose(img, (1, 0))
-    img = np.reshape(img, (img.shape[0], img.shape[1], 1))
-    return img
 
+def pca_sklearn(img, k):
+    h, w, b = img.shape
 
-import time
-
-
-def pca_sklearn(data, k):
-    # 原始数据的形状
-    m, n, p = data.shape
-    # 将数据reshape成(m*n,p)的形式
-    data_reshape = np.reshape(data, (m * n, p))
-    # 创建PCA对象
     pca = PCA(n_components=k)
-    # pca = PCA(0.95)
-    # 对数据进行降维
-    start = time.time()
-    data_pca = pca.fit_transform(data_reshape)
-    end = time.time()
-    print("PCA time: %.10f" % (end - start))
-    # 将数据reshape回原来的形状
-    data_pca_reshape = np.reshape(data_pca, (m, n, data_pca.shape[-1]))
-    # 返回降维后的数据
-    return data_pca_reshape
+    # PCA = PCA(0.95)
+
+    img_pca = pca.fit_transform(np.reshape(img, (h * w, b)))
+
+    # reshape回原来的形状
+    return np.reshape(img_pca, (h, w, -1))
 
 
 def ica_sklearn(img, k):
-    # 将三维图像数据reshape成N*(height*width*channel)的矩阵
-    X = np.reshape(img, (-1, img.shape[2]))
+    h, w, b = img.shape
 
     # ICA降维，保留前k个独立成分
     ica = FastICA(n_components=k, random_state=0, whiten="unit-variance")
-    X_ica = ica.fit_transform(X)
 
-    # 将降维后的数据reshape回原来的三维图像形状
-    img_ica = np.reshape(X_ica, (img.shape[0], img.shape[1], k))
+    img_ica = ica.fit_transform(np.reshape(img, (h * w, b)))
 
-    return img_ica
+    return np.reshape(img_ica, (h, w, -1))
 
 
 def lda_sklearn(img, gt, k):
-    # 原始数据的形状
-    m, n, p = img.shape
-    # 将数据reshape成(m*n,p)的形式,有监督降维算法,所以要提供gt.
-    X = np.reshape(img, (m * n, p))
-    y = gt.reshape(m * n)
-    # 创建lda对象,该算法要求 n_components不能大于原始数据维度和类别数
+    h, w, b = img.shape
+    # lda 要求 n_components不能大于原始数据维度和类别数
     # 经测试发现在kvm分类器下取13为最优
-    lda = LinearDiscriminantAnalysis(n_components=k)  ##
-    # 对数据进行降维
-    lda.fit(X, y)
-    X_lda = lda.transform(X)
-    # 将数据reshape回原来的形状
-    X_lda_reshape = np.reshape(X_lda, (m, n, X_lda.shape[-1]))
-    # 返回降维后的数据
-    return X_lda_reshape
+    lda = LinearDiscriminantAnalysis(n_components=k)
+
+    # reshape成(m*n,p)的形式,有监督降维算法,所以要提供gt.
+    img_lca = lda.fit_transform(np.reshape(img, (h * w, b)), gt.reshape(-1))
+
+    return np.reshape(img_lca, (h, w, -1))
+
+
+def tsne_sklearn(img, k):
+    h, w, b = img.shape
+
+    lle = TSNE(n_components=3, method="barnes_hut", random_state=0)
+
+    img_tsne = lle.fit_transform(np.reshape(img, (h * w, b)))
+
+    return np.reshape(img_tsne, (h, w, -1))
 
 
 # def lle_sklearn(img, k):
@@ -146,19 +134,37 @@ def lda_sklearn(img, gt, k):
 #     # 返回降维后的数据
 #     return X_lle_reshape
 
+# def get_decomposition_model(process):
+#     if process == "PCA":
+#         pass
+#     elif process == "ICA":
+#         img = ica_sklearn(img, n_bands)
+#     elif process == "LDA":
+#         img = lda_sklearn(img, gt, n_bands)  ##
+#     elif process == "LLE":
+#         # img = lle_gpu(img, n_bands)
+#         pass
+#     elif process == "TSNE":
+#         pass
 
-def tsne_sklearn(data, k):
-    # 原始数据的形状.
-    m, n, p = data.shape
-    # 将数据reshape成(m*n,p)的形式
-    data_reshape = np.reshape(data, (m * n, p))
-    # pca = PCA(n_components=50)
-    # data_pca = pca.fit_transform(data_reshape)
-    # 创建tsne对象
-    tsne = TSNE(n_components=3, method="barnes_hut", random_state=0)
-    # 对数据进行降维
-    data_tsne = tsne.fit_transform(data_reshape)
-    # 将数据reshape回原来的形状
-    data_tsne_reshape = np.reshape(data_tsne, (m, n, data_tsne.shape[-1]))
-    # 返回降维后的数据
-    return data_tsne_reshape
+
+def pca_numpy(img, k):
+    # img: (H, W, C)
+    # k: 降维后的维度
+    # return: (H, W, k)
+    height, width, channel = img.shape
+    img = np.transpose(img, (2, 0, 1))
+    img = np.reshape(img, (img.shape[0], -1))
+    img = img - np.mean(img, axis=1, keepdims=True)
+    cov = np.dot(img, img.T)
+    eig_val, eig_vec = np.linalg.eig(cov)
+    eig_val = np.real(eig_val)
+    eig_vec = np.real(eig_vec)
+    eig_val = np.sort(eig_val)
+    eig_vec = eig_vec[:, np.argsort(eig_val)]
+    eig_vec = eig_vec[:, -k:]
+    img = np.dot(eig_vec.T, img)
+    img = np.reshape(img, (k, img.shape[1]))
+    img = np.transpose(img, (1, 0))
+    img = np.reshape(img, (img.shape[0], img.shape[1], 1))
+    return img
